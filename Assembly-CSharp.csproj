@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{32C05950-2FC4-7AAB-9901-70094A97ABBE}</ProjectGuid>
+    <ProjectGuid>{F90722D3-9203-D9AC-4F8D-97ECC59F0AC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -57,31 +57,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Shopping.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Temp\TheCherry.cs" />
-    <Compile Include="Assets\Scripts\Bullet.cs" />
-    <Compile Include="Assets\Temp\UltraBullet.cs" />
-    <Compile Include="Assets\Temp\Jump.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\Sensor_HeroKnight.cs" />
-    <Compile Include="Assets\Scripts\Monster.cs" />
-    <Compile Include="Assets\Temp\Test.cs" />
-    <Compile Include="Assets\Scripts\Scene.cs" />
+    <Compile Include="Assets\Scripts\SceneManager.cs" />
     <Compile Include="Assets\Scripts\Shop.cs" />
-    <Compile Include="Assets\Scripts\car2.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\RainController.cs" />
-    <Compile Include="Assets\Scripts\flower.cs" />
     <Compile Include="Assets\Scripts\Chest.cs" />
-    <Compile Include="Assets\Temp\StageManager.cs" />
     <Compile Include="Assets\Scripts\HeroKnight.cs" />
-    <Compile Include="Assets\Scripts\car.cs" />
-    <Compile Include="Assets\Scripts\Cherry.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\ColorSwap\ColorSwap_HeroKnight.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\DestroyEvent_HeroKnight.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Temp\TheMon.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\StoneFloat.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\UIController.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\SnowController.cs" />
+    <Compile Include="Assets\Scripts\Monster.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PixelWeatherAsset\Materials\SnowDiffuse.shader" />

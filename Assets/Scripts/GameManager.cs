@@ -6,16 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    /*
-    public GameObject key;
-    public float playTime = 0f;
-    public bool fiveSecAfterHide = false;
-    public float keyTime = 0f;
-    public float hideKey = 0f;
-    public bool hide = true;
-    int n = 1;
-    public static bool keyGet = false;
-    */
     public GameObject Shop;
     public GameObject Set;
     public GameObject SetInside;
@@ -60,44 +50,6 @@ public class GameManager : MonoBehaviour
         healthBar.value = (float)hp / MaxHp;
         manaBar.value = (float)mana / MaxMp;
         skillCool.value = (float)nowSkill / skillMaxTime;
-
-        /*
-        playTime += Time.deltaTime;
-        keyTime += Time.deltaTime;
-
-        //Ver. keyTime
-        if (keyTime >= 5f * n && key.activeSelf == false && fiveSecAfterHide == true && keyGet == false)
-        {
-            float x = Random.Range(-5f, 5f);
-            float y = Random.Range(-2f, 2f);
-            key.transform.position = new Vector3(x, y);
-            key.SetActive(true);
-            hide = false;
-        }
-
-        if(hide == false)
-        {
-            hideKey += Time.deltaTime;
-        }
-
-        if(hideKey >= 2f)
-        {
-            key.SetActive(false);
-            hideKey = 0f;
-            hide = true;
-            keyTime = 0f;
-        }
-
-        //Ver.playTime
-        if(playTime >= 5f * n && key.activeSelf == false && fiveSecAfterHide == false && keyGet == false)
-        {
-            n++;
-            float x = Random.Range(-5f, 5f);
-            float y = Random.Range(-2f, 2f);
-            key.transform.position = new Vector3(x, y);
-            key.SetActive(true);
-            hide = false;
-        }*/
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {

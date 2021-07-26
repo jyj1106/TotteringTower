@@ -198,4 +198,26 @@ public class HeroKnight : MonoBehaviour {
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("EAttack"))
+        {
+            GameManager.hp--;
+            if(!(GameManager.hp <= 0) && !m_rolling)
+            {
+                m_animator.SetTrigger("Hurt");
+            }
+            else if(GameManager.hp <= 0 && !m_rolling)
+            {
+                m_animator.SetTrigger("Death");
+            }
+        }
+
+        else if(collision.gameObject.CompareTag("EAttack") && GameManager.hp <= 1 && !m_rolling)
+        {
+            GameManager.hp--;
+            m_animator.SetTrigger("Death");
+        }
+    }
 }
