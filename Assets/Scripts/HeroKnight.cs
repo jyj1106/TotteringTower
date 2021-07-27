@@ -208,7 +208,7 @@ public class HeroKnight : MonoBehaviour {
             {
                 m_animator.SetTrigger("Hurt");
             }
-            else if(GameManager.hp <= 0 && !m_rolling)
+            else if(GameManager.hp <= 0)
             {
                 m_animator.SetTrigger("Death");
             }
