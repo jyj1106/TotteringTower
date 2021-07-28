@@ -6,6 +6,8 @@ public class Monster : MonoBehaviour
 {
     public Transform playerPos;
     public GameObject EAttack;
+    public float hp = 5f;
+
     private Animator anim;
     private bool active = false;
 
@@ -23,6 +25,11 @@ public class Monster : MonoBehaviour
     {
         posx = this.gameObject.transform.position.x;
         posy = this.gameObject.transform.position.y;
+
+        if(hp <=0)
+        {
+            Destroy(this.gameObject);
+        }
 
     }
 

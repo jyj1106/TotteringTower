@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Shopping.cs" />
+    <Compile Include="Assets\Scripts\Monster.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\Sensor_HeroKnight.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
     <Compile Include="Assets\Scripts\Shop.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Assets\PixelWeatherAsset\Scripts\StoneFloat.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\UIController.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\SnowController.cs" />
-    <Compile Include="Assets\Scripts\Monster.cs" />
+    <Compile Include="Assets\Scripts\PAttack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PixelWeatherAsset\Materials\SnowDiffuse.shader" />

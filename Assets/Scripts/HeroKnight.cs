@@ -24,6 +24,9 @@ public class HeroKnight : MonoBehaviour {
     private float               m_timeSinceAttack = 0.0f;
     private float               m_delayToIdle = 0.0f;
 
+    private bool                disPAttack1, disPAttack2 = false;
+
+    public GameObject PAttack1, PAttack2;
 
     // Use this for initialization
     void Start ()
@@ -41,7 +44,7 @@ public class HeroKnight : MonoBehaviour {
     void Update ()
     {
 
-        // Increase timer that controls attack combo
+        // Increase timer that controls attack combo and invincible time
         m_timeSinceAttack += Time.deltaTime;
 
         //Check if character just landed on the ground
@@ -199,25 +202,51 @@ public class HeroKnight : MonoBehaviour {
         }
     }
 
+    //"Death and Hurt" Animation & System
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("EAttack"))
         {
             GameManager.hp--;
-            if(!(GameManager.hp <= 0) && !m_rolling)
+            if (!(GameManager.hp <= 0) && !m_rolling)
             {
                 m_animator.SetTrigger("Hurt");
+                PAttack1.SetActive(false);
+                PAttack2.SetActive(false);
             }
-            else if(GameManager.hp <= 0)
+            else if (GameManager.hp <= 0)
             {
                 m_animator.SetTrigger("Death");
+                PAttack1.SetActive(false);
+                PAttack2.SetActive(false);
             }
         }
-
-        else if(collision.gameObject.CompareTag("EAttack") && GameManager.hp <= 1 && !m_rolling)
+    }
+    
+    void PAttack_Active()
+    {
+        if (GetComponent<SpriteRenderer>().flipX == true)
         {
-            GameManager.hp--;
-            m_animator.SetTrigger("Death");
+            PAttack2.SetActive(true);
+            disPAttack2 = true;
+        }
+        else if (GetComponent<SpriteRenderer>().flipX == false)
+        {
+            PAttack1.SetActive(true);
+            disPAttack1 = true;
+        }
+    }
+    void PAttack_Hide()
+    {
+        if (disPAttack2 == true)
+        {
+            disPAttack2 = false;
+            PAttack2.SetActive(false);
+        }
+        else if (disPAttack1 == true)
+        {
+            disPAttack1 = false;
+            PAttack1.SetActive(false);
         }
     }
 }
