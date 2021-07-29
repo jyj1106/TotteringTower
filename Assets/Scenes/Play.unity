@@ -7869,11 +7869,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2117420338 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2117420338, guid: 05530335aaa211849940c30bfba03943, type: 3}
-  m_PrefabInstance: {fileID: 7614621484362352310}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2146274465
 GameObject:
   m_ObjectHideFlags: 0
@@ -7957,22 +7952,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2117420338, guid: 05530335aaa211849940c30bfba03943, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2117420340, guid: 05530335aaa211849940c30bfba03943, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2117420341, guid: 05530335aaa211849940c30bfba03943, type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7614621484426951702, guid: 05530335aaa211849940c30bfba03943, type: 3}
-      propertyPath: EAttack
-      value: 
-      objectReference: {fileID: 2117420338}
     - target: {fileID: 7614621484426951702, guid: 05530335aaa211849940c30bfba03943, type: 3}
       propertyPath: playerPos
       value: 
