@@ -126,7 +126,7 @@ public class Shop : MonoBehaviour
     public void ShopMinus3()
     {
         num3--;
-        shop3.text = "배리어\n\n\n무적시간\n\n\nLV : " + num3;
+        shop3.text = "물약\n\n\n최대 마나\n\n\nLV : " + num3;
         EP++;
     }
 

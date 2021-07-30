@@ -6,21 +6,30 @@ public class Monster : MonoBehaviour
 {
     public Transform playerPos;
     public GameObject EAttack;
+    public GameObject MSpawner;
     public float hp = 5f;
     public float spd = 2f;
+    public float range = 2f;
+    public float reAttackTime = 2f;
+    public bool isFlying = false;
 
+    private float posy;
     private Animator anim;
-    private bool active = false;
+    private float atkTimer;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        posy = this.transform.position.y;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //To calculating reAttackTime
+        atkTimer += Time.deltaTime;
+
         //Dead
         if(hp <=0)
         {
@@ -28,20 +37,34 @@ public class Monster : MonoBehaviour
         }
 
         //Tracking Player
-        Vector2 tracking = Vector2.MoveTowards(this.transform.position, playerPos.position, spd * Time.deltaTime);
-        this.transform.position = tracking;
+        float dis = Vector2.Distance(this.transform.position, playerPos.position);
+
+        if(dis >= range)
+        {
+            Vector2 tracking = Vector2.MoveTowards(this.transform.position, playerPos.position, spd * Time.deltaTime);
+            this.transform.position = tracking;
+        }
+        else
+        {
+            //Stop Tracking
+        }
+ 
+        //Make non-Flying Monster
+        if(isFlying == false)
+        {
+            this.transform.position = new Vector2(this.transform.position.x, posy);
+        }
     }
 
+    //Attack Player
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && active == false)
+        if (collision.gameObject.CompareTag("Player") && atkTimer >= reAttackTime)
         {
+            atkTimer = 0f;
             anim.SetTrigger("Attack");
             EAttack.gameObject.SetActive(true);
-            active = true;
         }
-        Vector2 difference = (transform.position - collision.transform.position).normalized;
-        GetComponent<Rigidbody2D>().AddForce(difference, ForceMode2D.Impulse);
     }
     void EAttack_Active()
     {
@@ -50,6 +73,5 @@ public class Monster : MonoBehaviour
     void EAttack_Hide()
     {
         EAttack.gameObject.SetActive(false);
-        active = false;
     }
 }
