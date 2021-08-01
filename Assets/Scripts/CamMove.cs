@@ -8,6 +8,7 @@ public class CamMove : MonoBehaviour
     public float pLimitX, pLimitY, mLimitX, mLimitY;
 
     private float posx, posy, Pposx, Pposy;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,23 +22,63 @@ public class CamMove : MonoBehaviour
         posy = this.transform.position.y;
         Pposx = playerPos.position.x;
         Pposy = playerPos.position.y;
-        
+
+        /*
         //Setting Cam Move Distance Limit
-        if(posx >= pLimitX)
+        if (Pposx >= pLimitX)
         {
-            if(posy < pLimitY)
+            if(Pposy <= pLimitY && Pposy >= mLimitY)
             {
-                this.transform.position = new Vector3(this.transform.position.x, playerPos.position.y, -10f);
+                this.transform.position = new Vector3(pLimitX, playerPos.position.y, -10f);
+            }
+            else if (Pposy <= pLimitY && Pposy <= mLimitY)
+            {
+                this.transform.position = new Vector3(pLimitX, mLimitY, -10f);
+            }
+            else
+            {
+                this.transform.position = new Vector3(pLimitX, pLimitY, -10f);
             }
         }
-        else if (playerPos.position.x > mLimitX && playerPos.position.x < pLimitX && playerPos.position.y > mLimitY && playerPos.position.y < pLimitX)
+        else if (Pposx <= mLimitX)
         {
-            this.transform.position = playerPos.position;
+            if (Pposy <= mLimitY)
+            {
+                this.transform.position = new Vector3(mLimitX, mLimitY, -10f);
+            }
+            else
+            {
+                this.transform.position = new Vector3(mLimitX, playerPos.position.y, -10f);
+            }
+        }
+        else if (Pposy <= mLimitY)
+        {
+            this.transform.position = new Vector3(playerPos.position.x, mLimitY, -10f);
         }
         else
         {
-            //Following Player
             this.transform.position = playerPos.position;
+        }*/
+        float px = playerPos.position.x;
+        float py = playerPos.position.y;
+
+
+        if (Pposx >= pLimitX)
+        {
+            px = pLimitX;
         }
+        if (Pposx <= mLimitX)
+        {
+            px = mLimitX;
+        }
+        if (Pposy >= pLimitY)
+        {
+            py = pLimitY;
+        }
+        if (Pposy <= mLimitY)
+        {
+            py = mLimitY;
+        }
+        this.transform.position = new Vector3(px, py, -10f);
     }
 }

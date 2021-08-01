@@ -2856,8 +2856,8 @@ MonoBehaviour:
   playerPos: {fileID: 1177492388}
   pLimitX: 5
   pLimitY: 5
-  mLimitX: -3
-  mLimitY: -5
+  mLimitX: -5
+  mLimitY: 0
 --- !u!1 &827697570
 GameObject:
   m_ObjectHideFlags: 0
