@@ -94,13 +94,13 @@ public class Shop : MonoBehaviour
     public void ShopPlus1()
     {
         num1++;
-        shop1.text = "사과\n\n\n최대 체력\n\n\nLV : " + num1;
+        shop1.text = "사과\n\n\nHP MP\n\n\nLV : " + num1;
         EP--;
     }
     public void ShopMinus1()
     {
         num1--;
-        shop1.text = "사과\n\n\n최대 체력\n\n\nLV : " + num1;
+        shop1.text = "사과\n\n\nHP MP\n\n\nLV : " + num1;
         EP++;
     }
 
@@ -120,13 +120,13 @@ public class Shop : MonoBehaviour
     public void ShopPlus3()
     {
         num3++;
-        shop3.text = "배리어\n\n\n무적시간\n\n\nLV : " + num3;
+        shop3.text = "방패\n\n\n반격기\n\n\nLV : " + num3;
         EP--;
     }
     public void ShopMinus3()
     {
         num3--;
-        shop3.text = "물약\n\n\n최대 마나\n\n\nLV : " + num3;
+        shop3.text = "방패\n\n\n반격기\n\n\nLV : " + num3;
         EP++;
     }
 

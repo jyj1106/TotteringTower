@@ -18,6 +18,8 @@ public class HeroKnight : MonoBehaviour {
     private Sensor_HeroKnight   m_wallSensorL2;
     private bool                m_grounded = false;
     private bool                m_rolling = false;
+    private bool                m_blocking = false;
+    private bool                m_blockOn = false;
     private bool                m_doublejump = true;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
@@ -101,7 +103,7 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetTrigger("Hurt");
 
         //Attack
-        else if (Input.GetKeyDown(KeyCode.Z) && m_timeSinceAttack > 0.25f && !m_rolling)
+        else if (Input.GetKeyDown(KeyCode.Z) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn)
         {
             m_currentAttack++;
 
@@ -121,7 +123,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Block
-        else if (Input.GetKeyDown(KeyCode.V) && !m_rolling)
+        else if (Input.GetKeyDown(KeyCode.V) && !m_rolling && !m_blocking && !m_blockOn)
         {
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", false);
@@ -131,7 +133,7 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetBool("IdleBlock", false);
 
         // Roll
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && !m_rolling && GameManager.mana > 0)
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && !m_rolling && GameManager.mana > 0 && !m_blocking && !m_blockOn)
         {
             m_rolling = true;
             m_animator.SetTrigger("Roll");
@@ -141,7 +143,7 @@ public class HeroKnight : MonoBehaviour {
             
 
         //Jump
-        else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling)
+        else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling && !m_blocking && !m_blockOn)
         {
             m_animator.SetTrigger("Jump");
             m_grounded = false;
@@ -151,7 +153,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         //Double Jump
-        else if (Input.GetKeyDown(KeyCode.C) && m_doublejump && !m_rolling)
+        else if (Input.GetKeyDown(KeyCode.C) && m_doublejump && !m_rolling && !m_blocking && !m_blockOn)
         {
             m_animator.SetTrigger("DoubleJump");
             m_doublejump = false;
@@ -207,18 +209,27 @@ public class HeroKnight : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("EAttack"))
         {
-            GameManager.hp--;
-            if (!(GameManager.hp <= 0) && !m_rolling)
+            if(m_blocking == true)
             {
-                m_animator.SetTrigger("Hurt");
-                PAttack1.SetActive(false);
-                PAttack2.SetActive(false);
+                m_animator.SetTrigger("BlockingOn");
+                m_blocking = false;
+                m_blockOn = true;
             }
-            else if (GameManager.hp <= 0)
+            else
             {
-                m_animator.SetTrigger("Death");
-                PAttack1.SetActive(false);
-                PAttack2.SetActive(false);
+                GameManager.hp--;
+                if (!(GameManager.hp <= 0) && !m_rolling)
+                {
+                    m_animator.SetTrigger("Hurt");
+                    PAttack1.SetActive(false);
+                    PAttack2.SetActive(false);
+                }
+                else if (GameManager.hp <= 0)
+                {
+                    m_animator.SetTrigger("Death");
+                    PAttack1.SetActive(false);
+                    PAttack2.SetActive(false);
+                }
             }
         }
     }
@@ -248,5 +259,24 @@ public class HeroKnight : MonoBehaviour {
             disPAttack1 = false;
             PAttack1.SetActive(false);
         }
+    }
+
+    void Block_Start()
+    {
+        m_blocking = true;
+    }
+    void Block_End()
+    {
+        m_blocking = false;
+    }
+
+    void BlockOn_Start()
+    {
+        m_blockOn = true;
+        m_blocking = false;
+    }
+    void BlockOn_End()
+    {
+        m_blockOn = false;
     }
 }
