@@ -71,6 +71,7 @@
     <Compile Include="Assets\PixelWeatherAsset\Scripts\StoneFloat.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\UIController.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\SnowController.cs" />
+    <Compile Include="Assets\Scripts\EffectManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PixelWeatherAsset\Materials\SnowDiffuse.shader" />

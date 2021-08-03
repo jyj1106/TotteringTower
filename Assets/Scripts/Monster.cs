@@ -22,6 +22,7 @@ public class Monster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.gameObject.tag = "Monster";
         anim = GetComponent<Animator>();
         posy = this.transform.position.y;
         //attackable is not same as reAttackTime. This makes monster stop
@@ -39,7 +40,8 @@ public class Monster : MonoBehaviour
         //Dead
         if(hp <=0)
         {
-            Destroy(this.gameObject);
+            this.gameObject.tag = "Untagged";
+            anim.SetTrigger("Dead");
         }
 
         //Tracking Player
@@ -108,5 +110,10 @@ public class Monster : MonoBehaviour
     void Attackable()
     {
         attackable = true;
+    }
+
+    void MonDead()
+    {
+        this.gameObject.SetActive(false);
     }
 }

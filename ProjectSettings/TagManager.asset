@@ -8,10 +8,9 @@ TagManager:
   - Wall
   - Enemy
   - Chest
-  - Key
   - Ground
-  - Bullet
   - EAttack
+  - Monster
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,6 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_speed = 4.0f;
     [SerializeField] float      m_jumpForce = 7.5f;
     [SerializeField] float      m_rollForce = 6.0f;
-    [SerializeField] bool       m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
 
     private Animator            m_animator;
@@ -24,6 +23,7 @@ public class HeroKnight : MonoBehaviour {
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
     private float               m_timeSinceAttack = 0.0f;
+    private float               m_timeSinceBlock = 2.0f;
     private float               m_delayToIdle = 0.0f;
 
     private bool                disPAttack1, disPAttack2 = false;
@@ -46,8 +46,9 @@ public class HeroKnight : MonoBehaviour {
     void Update ()
     {
 
-        // Increase timer that controls attack combo and invincible time
+        // Increase timer that controls attack combo and static time
         m_timeSinceAttack += Time.deltaTime;
+        m_timeSinceBlock += Time.deltaTime;
 
         //Check if character just landed on the ground
         if (!m_grounded && m_groundSensor.State())
@@ -68,21 +69,26 @@ public class HeroKnight : MonoBehaviour {
         float inputX = Input.GetAxis("Horizontal");
 
         // Swap direction of sprite depending on walk direction
-        if (inputX > 0)
+        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
-            GetComponent<SpriteRenderer>().flipX = false;
-            m_facingDirection = 1;
-        }
-            
-        else if (inputX < 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-            m_facingDirection = -1;
+            if (inputX > 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+                m_facingDirection = 1;
+            }
+
+            else if (inputX < 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+                m_facingDirection = -1;
+            }
         }
 
         // Move
-        if (!m_rolling )
+        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        {
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+        }
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
@@ -91,19 +97,8 @@ public class HeroKnight : MonoBehaviour {
         //Wall Slide
         m_animator.SetBool("WallSlide", (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State()));
 
-        //Death
-        if (Input.GetKeyDown("p") && !m_rolling)
-        {
-            m_animator.SetBool("noBlood", m_noBlood);
-            m_animator.SetTrigger("Death");
-        }
-
-        //Hurt
-        else if (Input.GetKeyDown("q") && !m_rolling)
-            m_animator.SetTrigger("Hurt");
-
         //Attack
-        else if (Input.GetKeyDown(KeyCode.Z) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn)
+        if (Input.GetKeyDown(KeyCode.Z) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
             m_currentAttack++;
 
@@ -123,27 +118,29 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Block
-        else if (Input.GetKeyDown(KeyCode.V) && !m_rolling && !m_blocking && !m_blockOn)
+        else if (Input.GetKeyDown(KeyCode.V) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", false);
+            GameManager.mana--;
         }
 
         else if (Input.GetKeyDown(KeyCode.V))
             m_animator.SetBool("IdleBlock", false);
 
         // Roll
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && !m_rolling && GameManager.mana > 0 && !m_blocking && !m_blockOn)
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && !m_rolling && GameManager.mana > 0 && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
             m_rolling = true;
             m_animator.SetTrigger("Roll");
             m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
             GameManager.mana--;
+            this.gameObject.tag = "Untagged";
         }
             
 
         //Jump
-        else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling && !m_blocking && !m_blockOn)
+        else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
             m_animator.SetTrigger("Jump");
             m_grounded = false;
@@ -153,7 +150,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         //Double Jump
-        else if (Input.GetKeyDown(KeyCode.C) && m_doublejump && !m_rolling && !m_blocking && !m_blockOn)
+        else if (Input.GetKeyDown(KeyCode.C) && m_doublejump && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
             m_animator.SetTrigger("DoubleJump");
             m_doublejump = false;
@@ -183,6 +180,7 @@ public class HeroKnight : MonoBehaviour {
     void AE_ResetRoll()
     {
         m_rolling = false;
+        this.gameObject.tag = "Player";
     }
 
     // Called in slide animation.
@@ -204,7 +202,7 @@ public class HeroKnight : MonoBehaviour {
         }
     }
 
-    //"Death and Hurt" Animation & System
+    //"Death and Hurt" Animation & System + Blocking System and Animation
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("EAttack"))
@@ -213,7 +211,7 @@ public class HeroKnight : MonoBehaviour {
             {
                 m_animator.SetTrigger("BlockingOn");
                 m_blocking = false;
-                m_blockOn = true;
+                collision.gameObject.transform.parent.GetComponent<Monster>().hp--;
             }
             else
             {
@@ -223,6 +221,8 @@ public class HeroKnight : MonoBehaviour {
                     m_animator.SetTrigger("Hurt");
                     PAttack1.SetActive(false);
                     PAttack2.SetActive(false);
+                    m_blocking = false;
+                    m_blockOn = false;
                 }
                 else if (GameManager.hp <= 0)
                 {
@@ -272,6 +272,7 @@ public class HeroKnight : MonoBehaviour {
 
     void BlockOn_Start()
     {
+        m_timeSinceBlock = 0f;
         m_blockOn = true;
         m_blocking = false;
     }
