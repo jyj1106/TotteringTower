@@ -25,11 +25,17 @@ public class GameManager : MonoBehaviour
     public Slider manaBar;
     public Slider skillCool;
 
+    public float hpPer;
+    public float car;
+    public float fs;
+
 
     void Awake()
     {
         mana = MaxMp;
         hp = MaxHp;
+        hpPer = ((float)hp / MaxHp) * 100;
+        fs = (1 / Time.deltaTime);
     }
 
     // Start is called before the first frame update
@@ -45,7 +51,7 @@ public class GameManager : MonoBehaviour
         skillTime += Time.deltaTime;
 
         //Slider(Health/Mana Bar / SkillCool)
-        healthBar.value = (float)hp / MaxHp;
+        //healthBar.value = (float)hp / MaxHp;
         manaBar.value = (float)mana / MaxMp;
         skillCool.value = (float)nowSkill / skillMaxTime;
 
@@ -54,8 +60,20 @@ public class GameManager : MonoBehaviour
             Set.gameObject.SetActive(true);
         }
 
+        //hp effect
+        if ((float)hp / MaxHp * 100 < hpPer)
+        {
+            car = ((healthBar.value - ((float)hp / MaxHp)) / fs);
+            hpPer = (float)hp / MaxHp * 100;
+        }
+        if (hpPer < healthBar.value * 100)
+        {
+            healthBar.value -= car;
+        }
+
+
         //Mana
-        if(!(mana >= MaxMp))
+        if (!(mana >= MaxMp))
         {
             mana += (Time.deltaTime / 3);
         }
