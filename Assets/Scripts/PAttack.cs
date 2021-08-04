@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PAttack : MonoBehaviour
 {
-    [SerializeField] GameObject Slash1, Slash2, Slash3;
+    [SerializeField] GameObject Slash1, Slash2;
 
     public static bool attackable = true;
+    public static bool isHit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,13 +18,14 @@ public class PAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Monster"))
         {
+            isHit = true;
             collision.gameObject.GetComponent<Monster>().hp--;
 
             if(attackable == false)

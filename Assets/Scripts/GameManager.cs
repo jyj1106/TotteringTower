@@ -13,10 +13,8 @@ public class GameManager : MonoBehaviour
     public int MaxHp = 5;
     public int MaxMp = 2;
     public static int hp;
-    public static int mana;
+    public static float mana;
     public float manaTime = 0f;
-    bool manaHeal = false;
-    bool healing = false;
 
     public float skillTime;
     public float nowSkill = 0f;
@@ -57,28 +55,17 @@ public class GameManager : MonoBehaviour
         }
 
         //Mana
-        if (!(MaxMp == mana))
+        if(!(mana >= MaxMp))
         {
-            manaHeal = true;
+            mana += (Time.deltaTime / 3);
         }
-        if (manaHeal == true && healing == false)
+        else
         {
-            manaTime = 0f;
-            healing = true;
-        }
-        if (healing == true && manaTime >= 3f && !(mana == MaxMp))
-        {
-            mana++;
-            healing = false;
-        }
-        if (mana == MaxMp)
-        {
-            healing = false;
-            manaHeal = false;
+            mana = MaxMp;
         }
 
         //Skill CoolTime
-        if(Input.GetKeyDown(KeyCode.X) && skillUse == true)
+        if(Input.GetKeyDown(KeyCode.X) && skillUse == true && mana > 1)
         {
             nowSkill = skillMaxTime;
             skillTime = 0f;

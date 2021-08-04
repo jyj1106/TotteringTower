@@ -122,7 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59db24539e4773947941a8db2564168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slash: {fileID: 505279272561491132, guid: 5eabd5a02c3e7fa46a9c231bf6365465, type: 3}
+  Slash1: {fileID: 0}
+  Slash2: {fileID: 0}
+  Slash3: {fileID: 0}
 --- !u!1 &1177492387
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59db24539e4773947941a8db2564168b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slash: {fileID: 505279272561491132, guid: 5eabd5a02c3e7fa46a9c231bf6365465, type: 3}
+  Slash1: {fileID: 0}
+  Slash2: {fileID: 0}
+  Slash3: {fileID: 0}
 --- !u!1 &111755813442870902
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,8 +397,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_speed: 4
   m_jumpForce: 7.5
-  m_rollForce: 6
+  m_rollForce: 10
   m_slideDust: {fileID: 1038168246061390451, guid: 8b8c8cc6774fb074cb9139cc631b108e, type: 3}
+  m_blocking: 0
+  Inputtable: 1
   PAttack1: {fileID: 515978811}
   PAttack2: {fileID: 1361554999}
 --- !u!95 &2655505060201611074
@@ -455,7 +461,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

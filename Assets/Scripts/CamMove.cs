@@ -23,45 +23,9 @@ public class CamMove : MonoBehaviour
         Pposx = playerPos.position.x;
         Pposy = playerPos.position.y;
 
-        /*
         //Setting Cam Move Distance Limit
-        if (Pposx >= pLimitX)
-        {
-            if(Pposy <= pLimitY && Pposy >= mLimitY)
-            {
-                this.transform.position = new Vector3(pLimitX, playerPos.position.y, -10f);
-            }
-            else if (Pposy <= pLimitY && Pposy <= mLimitY)
-            {
-                this.transform.position = new Vector3(pLimitX, mLimitY, -10f);
-            }
-            else
-            {
-                this.transform.position = new Vector3(pLimitX, pLimitY, -10f);
-            }
-        }
-        else if (Pposx <= mLimitX)
-        {
-            if (Pposy <= mLimitY)
-            {
-                this.transform.position = new Vector3(mLimitX, mLimitY, -10f);
-            }
-            else
-            {
-                this.transform.position = new Vector3(mLimitX, playerPos.position.y, -10f);
-            }
-        }
-        else if (Pposy <= mLimitY)
-        {
-            this.transform.position = new Vector3(playerPos.position.x, mLimitY, -10f);
-        }
-        else
-        {
-            this.transform.position = playerPos.position;
-        }*/
         float px = playerPos.position.x;
         float py = playerPos.position.y;
-
 
         if (Pposx >= pLimitX)
         {

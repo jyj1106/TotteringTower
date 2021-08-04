@@ -17,18 +17,20 @@ public class HeroKnight : MonoBehaviour {
     private Sensor_HeroKnight   m_wallSensorL2;
     private bool                m_grounded = false;
     private bool                m_rolling = false;
-    private bool                m_blocking = false;
+    public bool                m_blocking = false;
     private bool                m_blockOn = false;
     private bool                m_doublejump = true;
+    public bool                Inputtable = true;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
     private float               m_timeSinceAttack = 0.0f;
+    private float               m_blockingCool = 0f;
     private float               m_timeSinceBlock = 2.0f;
     private float               m_delayToIdle = 0.0f;
-
     private bool                disPAttack1, disPAttack2 = false;
 
     public GameObject PAttack1, PAttack2;
+    public static bool isSlash = false;
 
     // Use this for initialization
     void Start ()
@@ -45,10 +47,10 @@ public class HeroKnight : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-
         // Increase timer that controls attack combo and static time
         m_timeSinceAttack += Time.deltaTime;
         m_timeSinceBlock += Time.deltaTime;
+        m_blockingCool += Time.deltaTime;
 
         //Check if character just landed on the ground
         if (!m_grounded && m_groundSensor.State())
@@ -85,7 +87,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Move
-        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f && Inputtable == true)
         {
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
         }
@@ -100,6 +102,7 @@ public class HeroKnight : MonoBehaviour {
         //Attack
         if (Input.GetKeyDown(KeyCode.Z) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
+            m_blocking = false;
             m_currentAttack++;
 
             // Loop back to one after third attack
@@ -118,8 +121,10 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Block
-        else if (Input.GetKeyDown(KeyCode.V) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        else if (Input.GetKeyDown(KeyCode.V) && !m_rolling && GameManager.mana > 1  && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && m_blockingCool >= 1f)
         {
+            PAttack1.SetActive(false);
+            PAttack2.SetActive(false);
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", false);
             GameManager.mana--;
@@ -129,8 +134,9 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetBool("IdleBlock", false);
 
         // Roll
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && !m_rolling && GameManager.mana > 0 && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && !m_rolling && GameManager.mana > 1 && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
+            Inputtable = true;
             m_rolling = true;
             m_animator.SetTrigger("Roll");
             m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
@@ -142,6 +148,7 @@ public class HeroKnight : MonoBehaviour {
         //Jump
         else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
+            Inputtable = true;
             m_animator.SetTrigger("Jump");
             m_grounded = false;
             m_animator.SetBool("Grounded", m_grounded);
@@ -152,6 +159,7 @@ public class HeroKnight : MonoBehaviour {
         //Double Jump
         else if (Input.GetKeyDown(KeyCode.C) && m_doublejump && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
         {
+            Inputtable = true;
             m_animator.SetTrigger("DoubleJump");
             m_doublejump = false;
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
@@ -263,11 +271,19 @@ public class HeroKnight : MonoBehaviour {
 
     void Block_Start()
     {
-        m_blocking = true;
+        if(m_blockingCool >= 1f)
+        {
+            Inputtable = false;
+            m_blocking = true;
+            Debug.Log("true");
+        }
     }
     void Block_End()
     {
         m_blocking = false;
+        Inputtable = true;
+        m_blockingCool = 0f;
+        m_animator.SetTrigger("BlockingEnd");
     }
 
     void BlockOn_Start()
@@ -279,5 +295,12 @@ public class HeroKnight : MonoBehaviour {
     void BlockOn_End()
     {
         m_blockOn = false;
+        Inputtable = true;
+    }
+
+    void SoundPlay()
+    {
+        isSlash = true;
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().SlashSnd();
     }
 }
