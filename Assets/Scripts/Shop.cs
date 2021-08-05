@@ -7,10 +7,10 @@ public class Shop : MonoBehaviour
 {
     public int EP = 5;
 
-    int num1 = 0;
-    int num2 = 0;
-    int num3 = 0;
-    int num4 = 0;
+    public static int num1 = 0;
+    public static int num2 = 0;
+    public static int num3 = 0;
+    public static int num4 = 0;
 
 
     public Text point;
@@ -28,7 +28,7 @@ public class Shop : MonoBehaviour
     public GameObject mbtn3;
     public GameObject mbtn4;
 
-
+    public static bool shopBtn_snd = false;
 
 
     // Start is called before the first frame update
@@ -93,12 +93,14 @@ public class Shop : MonoBehaviour
 
     public void ShopPlus1()
     {
+        shopBtn_snd = true;
         num1++;
         shop1.text = "사과\n\n\nHP MP\n\n\nLV : " + num1;
         EP--;
     }
     public void ShopMinus1()
     {
+        shopBtn_snd = true;
         num1--;
         shop1.text = "사과\n\n\nHP MP\n\n\nLV : " + num1;
         EP++;
@@ -106,12 +108,14 @@ public class Shop : MonoBehaviour
 
     public void ShopPlus2()
     {
+        shopBtn_snd = true;
         num2++;
         shop2.text = "황금코인\n\n\n쿨타임\n\n\nLV : " + num2;
         EP--;
     }
     public void ShopMinus2()
     {
+        shopBtn_snd = true;
         num2--;
         shop2.text = "황금코인\n\n\n쿨타임\n\n\nLV : " + num2;
         EP++;
@@ -119,12 +123,14 @@ public class Shop : MonoBehaviour
 
     public void ShopPlus3()
     {
+        shopBtn_snd = true;
         num3++;
         shop3.text = "방패\n\n\n반격기\n\n\nLV : " + num3;
         EP--;
     }
     public void ShopMinus3()
     {
+        shopBtn_snd = true;
         num3--;
         shop3.text = "방패\n\n\n반격기\n\n\nLV : " + num3;
         EP++;
@@ -132,12 +138,14 @@ public class Shop : MonoBehaviour
 
     public void ShopPlus4()
     {
+        shopBtn_snd = true;
         num4++;
         shop4.text = "마력석\n\n\n타워\n\n\nLV : " + num4;
         EP--;
     }
     public void ShopMinus4()
     {
+        shopBtn_snd = true;
         num4--;
         shop4.text = "마력석\n\n\n타워\n\n\nLV : " + num4;
         EP++;

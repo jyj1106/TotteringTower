@@ -6,6 +6,7 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_speed = 4.0f;
     [SerializeField] float      m_jumpForce = 7.5f;
     [SerializeField] float      m_rollForce = 6.0f;
+    [SerializeField] float      m_plimitX, m_mlimitX;
     [SerializeField] GameObject m_slideDust;
 
     private Animator            m_animator;
@@ -17,24 +18,29 @@ public class HeroKnight : MonoBehaviour {
     private Sensor_HeroKnight   m_wallSensorL2;
     private bool                m_grounded = false;
     private bool                m_rolling = false;
-    public bool                m_blocking = false;
+    private bool                m_blocking = false;
     private bool                m_blockOn = false;
     private bool                m_doublejump = true;
-    public bool                Inputtable = true;
+    private bool                Inputtable = true;
+    private bool                m_dead;
+    private bool                disPAttack1, disPAttack2 = false;
+    private bool                rollable;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
     private float               m_timeSinceAttack = 0.0f;
     private float               m_blockingCool = 0f;
     private float               m_timeSinceBlock = 2.0f;
     private float               m_delayToIdle = 0.0f;
-    private bool                disPAttack1, disPAttack2 = false;
+    private float               m_positionX;
 
-    public GameObject PAttack1, PAttack2;
-    public static bool isSlash = false;
+
+    public GameObject PAttack1, PAttack2, PAttack1_Range, PAttack2_Range;
+    public static bool isSlash, isHit, isblock= false;
 
     // Use this for initialization
     void Start ()
     {
+        m_dead = false;
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
@@ -51,6 +57,9 @@ public class HeroKnight : MonoBehaviour {
         m_timeSinceAttack += Time.deltaTime;
         m_timeSinceBlock += Time.deltaTime;
         m_blockingCool += Time.deltaTime;
+
+        //Check character's position for limit it's movable distance
+        m_positionX = this.gameObject.transform.position.x;
 
         //Check if character just landed on the ground
         if (!m_grounded && m_groundSensor.State())
@@ -71,15 +80,15 @@ public class HeroKnight : MonoBehaviour {
         float inputX = Input.GetAxis("Horizontal");
 
         // Swap direction of sprite depending on walk direction
-        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
-            if (inputX > 0)
+            if (inputX > 0 && !(m_positionX <= m_mlimitX))
             {
                 GetComponent<SpriteRenderer>().flipX = false;
                 m_facingDirection = 1;
             }
 
-            else if (inputX < 0)
+            else if (inputX < 0 && !(m_positionX >= m_plimitX))
             {
                 GetComponent<SpriteRenderer>().flipX = true;
                 m_facingDirection = -1;
@@ -87,9 +96,24 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Move
-        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f && Inputtable == true)
+        if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f && Inputtable == true && !m_dead)
         {
-            m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+            if(m_positionX <= m_mlimitX && inputX < 0)
+            {
+                //Don't move
+                m_body2d.velocity = new Vector2(0f, m_body2d.velocity.y);
+
+            }
+            else if (m_positionX >= m_plimitX && inputX >0)
+            {
+                //Don't move
+                m_body2d.velocity = new Vector2(0f, m_body2d.velocity.y);
+            }
+            else
+            {
+                m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+            }
+
         }
 
         //Set AirSpeed in animator
@@ -100,7 +124,7 @@ public class HeroKnight : MonoBehaviour {
         m_animator.SetBool("WallSlide", (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State()));
 
         //Attack
-        if (Input.GetKeyDown(KeyCode.Z) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        if (Input.GetKeyDown(KeyCode.Z) && m_timeSinceAttack > 0.25f && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
             m_blocking = false;
             m_currentAttack++;
@@ -121,7 +145,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Block
-        else if (Input.GetKeyDown(KeyCode.V) && !m_rolling && GameManager.mana > 1  && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && m_blockingCool >= 1f)
+        else if (Input.GetKeyDown(KeyCode.V) && !m_rolling && GameManager.mana > 1  && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && m_blockingCool >= 1f && !m_dead)
         {
             PAttack1.SetActive(false);
             PAttack2.SetActive(false);
@@ -134,19 +158,19 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetBool("IdleBlock", false);
 
         // Roll
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && !m_rolling && GameManager.mana > 1 && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && m_timeSinceAttack > 0.25f && !m_rolling && GameManager.mana > 1 && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
-            Inputtable = true;
-            m_rolling = true;
-            m_animator.SetTrigger("Roll");
-            m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
-            GameManager.mana--;
-            this.gameObject.tag = "Untagged";
+                Inputtable = true;
+                m_rolling = true;
+                m_animator.SetTrigger("Roll");
+                m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
+                GameManager.mana--;
+                this.gameObject.tag = "Untagged";
         }
             
 
         //Jump
-        else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
             Inputtable = true;
             m_animator.SetTrigger("Jump");
@@ -157,7 +181,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         //Double Jump
-        else if (Input.GetKeyDown(KeyCode.C) && m_doublejump && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f)
+        else if (Input.GetKeyDown(KeyCode.C) && m_doublejump && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
             Inputtable = true;
             m_animator.SetTrigger("DoubleJump");
@@ -165,8 +189,13 @@ public class HeroKnight : MonoBehaviour {
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
         }
 
+        else if (Input.GetKeyDown(KeyCode.Backspace) && m_dead)
+        {
+            GameManager.hp = 5;
+        }
+
         //Run
-        else if (Mathf.Abs(inputX) > Mathf.Epsilon)
+        else if (Mathf.Abs(inputX) > Mathf.Epsilon && !(m_positionX >= m_plimitX) && !(m_positionX <= m_mlimitX) && !m_dead)
         {
             // Reset timer
             m_delayToIdle = 0.05f;
@@ -180,6 +209,14 @@ public class HeroKnight : MonoBehaviour {
             m_delayToIdle -= Time.deltaTime;
                 if(m_delayToIdle < 0)
                     m_animator.SetInteger("AnimState", 0);
+        }
+
+        if(m_rolling == true)
+        {
+            if (m_positionX >= m_plimitX || m_positionX <= m_mlimitX)
+            {
+                m_body2d.velocity = new Vector2(0f, m_body2d.velocity.y);
+            }
         }
     }
 
@@ -224,7 +261,7 @@ public class HeroKnight : MonoBehaviour {
             else
             {
                 GameManager.hp--;
-                if (!(GameManager.hp <= 0) && !m_rolling)
+                if (!(GameManager.hp <= 0) && !m_rolling && !m_blockOn)
                 {
                     m_animator.SetTrigger("Hurt");
                     PAttack1.SetActive(false);
@@ -237,11 +274,20 @@ public class HeroKnight : MonoBehaviour {
                     m_animator.SetTrigger("Death");
                     PAttack1.SetActive(false);
                     PAttack2.SetActive(false);
+                    m_dead = true;
                 }
             }
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            isHit = true;
+        }
+    }
+
     void PAttack_Active()
     {
         if (GetComponent<SpriteRenderer>().flipX == true)
@@ -275,7 +321,6 @@ public class HeroKnight : MonoBehaviour {
         {
             Inputtable = false;
             m_blocking = true;
-            Debug.Log("true");
         }
     }
     void Block_End()
@@ -288,12 +333,15 @@ public class HeroKnight : MonoBehaviour {
 
     void BlockOn_Start()
     {
+        this.tag = "Untagged";
         m_timeSinceBlock = 0f;
         m_blockOn = true;
         m_blocking = false;
+        isblock = true;
     }
     void BlockOn_End()
     {
+        this.tag = "Player";
         m_blockOn = false;
         Inputtable = true;
     }
@@ -302,5 +350,23 @@ public class HeroKnight : MonoBehaviour {
     {
         isSlash = true;
         GameObject.Find("SoundManager").GetComponent<SoundManager>().SlashSnd();
+    }
+
+    void SoundCheckOn()
+    {
+        if(GetComponent<SpriteRenderer>().flipX == true)
+        {
+            PAttack2_Range.SetActive(true);
+        }
+        else
+        {
+            PAttack1_Range.SetActive(true);
+        }
+    }
+
+    void SoundCheckOff()
+    {
+        PAttack1_Range.SetActive(false);
+        PAttack2_Range.SetActive(false);
     }
 }

@@ -7,7 +7,6 @@ public class PAttack : MonoBehaviour
     [SerializeField] GameObject Slash1, Slash2;
 
     public static bool attackable = true;
-    public static bool isHit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,9 +24,8 @@ public class PAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Monster"))
         {
-            isHit = true;
             collision.gameObject.GetComponent<Monster>().hp--;
-
+            collision.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
             if(attackable == false)
             {
                 Slash2.transform.position = collision.transform.position;
@@ -39,6 +37,7 @@ public class PAttack : MonoBehaviour
                 Slash1.SetActive(true);
                 attackable = false;
             }
+            Monster.colorChange = true;
         }
     }
 }
