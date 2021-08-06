@@ -40,7 +40,7 @@ public class Shop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        point.text = "사용가능 EP : " + EP;
+        point.text = "강화포인트: " + EP;
         if(EP <=0)
         {
             pbtn1.gameObject.SetActive(false);

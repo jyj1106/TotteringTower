@@ -6,29 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject Shop;
+    public GameObject Shopping;
     public GameObject Set;
     public GameObject SetInside;
-
-    public int MaxHp = 5;
-    public int MaxMp = 2;
-    public static int hp;
-    public static float mana;
-    public float manaTime = 0f;
-
-    public float skillTime;
-    public float nowSkill = 0f;
-    public float skillMaxTime = 1f;
-    bool skillUse = false;
 
     public Slider healthBar;
     public Slider manaBar;
     public Slider skillCool;
 
-    public float hpPer;
-    public float car;
-    public float fs;
+    public int MaxHp = 5;
+    public int MaxMp = 2;
+    public float skillMaxTime = 1f;
+    public static int hp;
+    public static int lvUp = 1;
+    public static float mana;
+    public static bool coinSound, coinUse, coinEnd = false;
 
+    float skillTime, coinTime, nowSkill, hpPer, car, fs;
+    bool skillUsable, coolStart, coolActive = false;
+
+    int zero, stack = 0;
 
     void Awake()
     {
@@ -41,17 +38,16 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        skillUsable = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        manaTime += Time.deltaTime;
         skillTime += Time.deltaTime;
+        coinTime += Time.deltaTime;
 
         //Slider(Health/Mana Bar / SkillCool)
-        //healthBar.value = (float)hp / MaxHp;
         manaBar.value = (float)mana / MaxMp;
         skillCool.value = (float)nowSkill / skillMaxTime;
 
@@ -70,6 +66,10 @@ public class GameManager : MonoBehaviour
         {
             healthBar.value -= car;
         }
+        if(hpPer >= healthBar.value * 100)
+        {
+            healthBar.value = hpPer / 100;
+        }
 
 
         //Mana
@@ -82,29 +82,75 @@ public class GameManager : MonoBehaviour
             mana = MaxMp;
         }
 
-        //Skill CoolTime
-        if(Input.GetKeyDown(KeyCode.X) && skillUse == true && mana > 1)
+        //Coin Skill
+        if (Input.GetKey(KeyCode.X) && skillUsable == true && mana > 1 && coolActive == false)
         {
-            nowSkill = skillMaxTime;
-            skillTime = 0f;
-            skillUse = false;
-            mana--;
+            coinUse = true;
+            if (zero == 0)
+            {
+                coinSound = true;
+                coinTime = 0f;
+            }
+            zero++;
+            if ((int)coinTime == 1f * stack && mana >= 1)
+            {
+                mana--;
+                stack++;
+                if(stack == 10)
+                {
+                    lvUp++;
+                    coinEnd = true;
+                }
+            }
+            else if((int)coinTime == 1f * stack && mana < 1)
+            {
+                coinEnd = true;
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.X) && coinEnd == false && coolActive == false)
+        {
+            hp++;
+            if (hp >= MaxHp)
+            {
+                hp = MaxHp;
+            }
+            coinUse = false;
+            SkillCool();
+            coolActive = true;
+            zero = 0;
+            stack = 0;
+        }
+        else if (coinEnd == true && coolActive == false)
+        {
+            coinUse = false;
+            SkillCool();
+            coolActive = true;
+            zero = 0;
+            stack = 0;
         }
 
-        if (skillUse == false)
+        //CoolTime
+        if(coolActive == true)
         {
-            nowSkill = (skillMaxTime - skillTime);
+            if (skillUsable == false)
+            {
+                nowSkill = (skillMaxTime - skillTime);
+            }
+            if (nowSkill <= 0)
+            {
+                skillUsable = true;
+                coolActive = false;
+            }
         }
-        if (nowSkill <= 0)
-        {
-            skillUse = true;
-        }
+
+        //Max HP & MP Up
+        
     }
 
     //SceneManagement
     public void ShoppingEnd()
     {
-        Shop.gameObject.SetActive(false);
+        Shopping.gameObject.SetActive(false);
     }
 
     public void SettingEnd()
@@ -124,5 +170,14 @@ public class GameManager : MonoBehaviour
     public void GoTitle()
     {
         SceneManager.LoadScene("Title");
+    }
+    
+    //Skill CoolTime
+    public void SkillCool()
+    {
+        nowSkill = skillMaxTime;
+        skillTime = 0f;
+        skillUsable = false;
+        coolActive = true;
     }
 }

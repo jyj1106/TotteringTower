@@ -68,7 +68,12 @@ public class Monster : MonoBehaviour
         //Now It's White Monsters!         Now It's White Monsters!
         else if (W_Mon[0] == true)
         {
-
+            trackP = true; trackC = false;
+            hp = 3f;
+            spd = 2f;
+            rangeP = 2f;
+            reAttackTime = 2f;
+            isFlying = true;
         }
         else if (W_Mon[1] == true)
         {
@@ -108,7 +113,7 @@ public class Monster : MonoBehaviour
         }
 
 
-        this.gameObject.tag = "Monster";
+        this.gameObject.layer = 3;
         anim = GetComponent<Animator>();
         posy = this.transform.position.y;
         //attackable is not same as reAttackTime. This makes monster stop
@@ -123,13 +128,6 @@ public class Monster : MonoBehaviour
         //To calculating reAttackTime
         atkTimer += Time.deltaTime;
 
-        //Dead
-        if(hp <=0)
-        {
-            this.gameObject.tag = "Untagged";
-            anim.SetTrigger("Dead");
-        }
-
         //Tracking Player
         if(attackable == true && trackP == true)
         {
@@ -140,6 +138,12 @@ public class Monster : MonoBehaviour
                 Vector2 tracking = Vector2.MoveTowards(this.transform.position, playerPos.position, spd * Time.deltaTime);
                 this.transform.position = tracking;
                 pos1 = this.transform.position.x;
+            }
+            else if (dis < rangeP && attackable == true && atkTimer >= reAttackTime)
+            {
+                atkTimer = 0f;
+                anim.SetTrigger("Attack");
+                EAttack.gameObject.SetActive(true);
             }
             else
             {
@@ -175,7 +179,16 @@ public class Monster : MonoBehaviour
         //ColorChange(Transparent)
         if(colorChange == true)
         {
-            Invoke("Color", 0.5f);
+            Invoke("Color", 0.1f);
+        }
+
+        //Dead
+        if (hp <= 0)
+        {
+            attackable = false;
+            this.gameObject.layer = 7;
+            this.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1f);
+            anim.SetTrigger("Dead");
         }
     }
 

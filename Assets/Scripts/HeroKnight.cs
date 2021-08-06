@@ -21,7 +21,7 @@ public class HeroKnight : MonoBehaviour {
     private bool                m_blocking = false;
     private bool                m_blockOn = false;
     private bool                m_doublejump = true;
-    private bool                Inputtable = true;
+    private bool                m_triplejump = true;
     private bool                m_dead;
     private bool                disPAttack1, disPAttack2 = false;
     private bool                rollable;
@@ -33,6 +33,7 @@ public class HeroKnight : MonoBehaviour {
     private float               m_delayToIdle = 0.0f;
     private float               m_positionX;
 
+    public bool Inputtable = true;
 
     public GameObject PAttack1, PAttack2, PAttack1_Range, PAttack2_Range;
     public static bool isSlash, isHit, isblock= false;
@@ -67,6 +68,7 @@ public class HeroKnight : MonoBehaviour {
             m_grounded = true;
             m_animator.SetBool("Grounded", m_grounded);
             m_doublejump = true;
+            m_triplejump = true;
         }
 
         //Check if character just started falling
@@ -165,12 +167,12 @@ public class HeroKnight : MonoBehaviour {
                 m_animator.SetTrigger("Roll");
                 m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
                 GameManager.mana--;
-                this.gameObject.tag = "Untagged";
+                this.gameObject.layer = 7;
         }
             
 
         //Jump
-        else if (Input.GetKeyDown(KeyCode.C) && m_grounded && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
+        else if (Input.GetKeyDown(KeyCode.C) && m_timeSinceAttack > 0.25f && m_grounded && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
             Inputtable = true;
             m_animator.SetTrigger("Jump");
@@ -187,6 +189,18 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetTrigger("DoubleJump");
             m_doublejump = false;
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+        }
+
+        //Triple Jump
+        else if(Input.GetKeyDown(KeyCode.C) && !m_doublejump && m_triplejump && !m_rolling && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && GameManager.coinUse)
+        {
+            Inputtable = true;
+            m_animator.SetTrigger("TripleJump");
+            m_triplejump = false;
+            m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+            GameManager.coinEnd = true;
+            GameManager.coinUse = false;
+            GameManager.mana--;
         }
 
         else if (Input.GetKeyDown(KeyCode.Backspace) && m_dead)
@@ -225,7 +239,7 @@ public class HeroKnight : MonoBehaviour {
     void AE_ResetRoll()
     {
         m_rolling = false;
-        this.gameObject.tag = "Player";
+        this.gameObject.layer = 6;
     }
 
     // Called in slide animation.
@@ -248,29 +262,36 @@ public class HeroKnight : MonoBehaviour {
     }
 
     //"Death and Hurt" Animation & System + Blocking System and Animation
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("EAttack"))
         {
-            if(m_blocking == true)
+            if (m_blocking == true)
             {
                 m_animator.SetTrigger("BlockingOn");
                 m_blocking = false;
                 collision.gameObject.transform.parent.GetComponent<Monster>().hp--;
+                collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
+                Monster.colorChange = true;
             }
             else
             {
                 GameManager.hp--;
                 if (!(GameManager.hp <= 0) && !m_rolling && !m_blockOn)
                 {
+                    Debug.Log("a");
                     m_animator.SetTrigger("Hurt");
                     PAttack1.SetActive(false);
                     PAttack2.SetActive(false);
                     m_blocking = false;
                     m_blockOn = false;
+                    this.gameObject.layer = 7;
+                    Invoke("InvincibleOff", 1f);
                 }
                 else if (GameManager.hp <= 0)
                 {
+                    m_blocking = false;
+                    m_blockOn = false;
                     m_animator.SetTrigger("Death");
                     PAttack1.SetActive(false);
                     PAttack2.SetActive(false);
@@ -278,10 +299,6 @@ public class HeroKnight : MonoBehaviour {
                 }
             }
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
         if (collision.gameObject.CompareTag("Monster"))
         {
             isHit = true;
@@ -333,7 +350,7 @@ public class HeroKnight : MonoBehaviour {
 
     void BlockOn_Start()
     {
-        this.tag = "Untagged";
+        this.gameObject.layer = 7;
         m_timeSinceBlock = 0f;
         m_blockOn = true;
         m_blocking = false;
@@ -341,7 +358,7 @@ public class HeroKnight : MonoBehaviour {
     }
     void BlockOn_End()
     {
-        this.tag = "Player";
+        this.gameObject.layer = 6;
         m_blockOn = false;
         Inputtable = true;
     }
@@ -368,5 +385,10 @@ public class HeroKnight : MonoBehaviour {
     {
         PAttack1_Range.SetActive(false);
         PAttack2_Range.SetActive(false);
+    }
+
+    void InvincibleOff()
+    {
+        this.gameObject.layer = 6;
     }
 }

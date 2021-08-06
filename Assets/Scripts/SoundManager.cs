@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip bgm1;
     public AudioClip slash_snd, slashHit_snd;
     public AudioClip block1_snd, block2_snd, block3_snd, block4_snd;
+    public AudioClip coin_snd;
     public AudioClip shop_btn;
 
 
@@ -44,7 +45,12 @@ public class SoundManager : MonoBehaviour
             {
                 sndManager.PlayOneShot(block4_snd);
             }
-            HeroKnight.isblock = false;
+            HeroKnight.isblock = false;            
+        }
+        if (GameManager.coinSound == true)
+        {
+            sndManager.PlayOneShot(coin_snd);
+            GameManager.coinSound = false;
         }
     }
 
