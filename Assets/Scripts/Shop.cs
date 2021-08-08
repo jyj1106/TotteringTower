@@ -88,6 +88,38 @@ public class Shop : MonoBehaviour
         {
             mbtn4.gameObject.SetActive(true);
         }
+        if(num1 == 20)
+        {
+            pbtn1.gameObject.SetActive(false);
+        }
+        else
+        {
+            pbtn1.gameObject.SetActive(true);
+        }
+        if (num2 == 20)
+        {
+            pbtn1.gameObject.SetActive(false);
+        }
+        else
+        {
+            pbtn1.gameObject.SetActive(true);
+        }
+        if (num3 == 20)
+        {
+            pbtn1.gameObject.SetActive(false);
+        }
+        else
+        {
+            pbtn1.gameObject.SetActive(true);
+        }
+        if (num4 == 20)
+        {
+            pbtn1.gameObject.SetActive(false);
+        }
+        else
+        {
+            pbtn1.gameObject.SetActive(true);
+        }
 
     }
 
@@ -97,6 +129,11 @@ public class Shop : MonoBehaviour
         num1++;
         shop1.text = "사과\n\n\nHP MP\n\n\nLV : " + num1;
         EP--;
+        GameObject.Find("GameManager").GetComponent<GameManager>().MaxHp += 0.5f;
+        if(num1 == 5 || num1 == 10 || num1 == 15 || num1 == 20)
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().MaxMp += 1f;
+        }
     }
     public void ShopMinus1()
     {
@@ -104,6 +141,7 @@ public class Shop : MonoBehaviour
         num1--;
         shop1.text = "사과\n\n\nHP MP\n\n\nLV : " + num1;
         EP++;
+        GameObject.Find("GameManager").GetComponent<GameManager>().MaxHp -= 0.5f;
     }
 
     public void ShopPlus2()

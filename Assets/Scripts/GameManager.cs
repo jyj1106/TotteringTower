@@ -14,10 +14,10 @@ public class GameManager : MonoBehaviour
     public Slider manaBar;
     public Slider skillCool;
 
-    public int MaxHp = 5;
-    public int MaxMp = 2;
+    public float MaxHp = 5;
+    public float MaxMp = 5;
     public float skillMaxTime = 1f;
-    public static int hp;
+    public static float hp;
     public static int lvUp = 1;
     public static float mana;
     public static bool coinSound, coinUse, coinEnd = false;
@@ -94,9 +94,10 @@ public class GameManager : MonoBehaviour
             zero++;
             if ((int)coinTime == 1f * stack && mana >= 1)
             {
+                Debug.Log(mana);
                 mana--;
                 stack++;
-                if(stack == 10)
+                if (stack == 10)
                 {
                     lvUp++;
                     coinEnd = true;
@@ -142,9 +143,6 @@ public class GameManager : MonoBehaviour
                 coolActive = false;
             }
         }
-
-        //Max HP & MP Up
-        
     }
 
     //SceneManagement

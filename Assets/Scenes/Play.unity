@@ -4267,7 +4267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d74f8019f9b624bb58dd316f22b6ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EP: 20
+  EP: 40
   point: {fileID: 1340147026}
   shop1: {fileID: 2038101159}
   shop2: {fileID: 2052912719}
@@ -9290,6 +9290,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2117420338, guid: 05530335aaa211849940c30bfba03943, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2117420338, guid: 05530335aaa211849940c30bfba03943, type: 3}
       propertyPath: m_IsActive
       value: 1

@@ -41,6 +41,7 @@ public class HeroKnight : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        this.gameObject.layer = 6;
         m_dead = false;
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
@@ -286,7 +287,7 @@ public class HeroKnight : MonoBehaviour {
                     m_blocking = false;
                     m_blockOn = false;
                     this.gameObject.layer = 7;
-                    Invoke("InvincibleOff", 1f);
+                    Invoke("InvincibleOff", 0.25f);
                 }
                 else if (GameManager.hp <= 0)
                 {
@@ -296,6 +297,7 @@ public class HeroKnight : MonoBehaviour {
                     PAttack1.SetActive(false);
                     PAttack2.SetActive(false);
                     m_dead = true;
+                    this.gameObject.layer = 7;
                 }
             }
         }
@@ -355,6 +357,7 @@ public class HeroKnight : MonoBehaviour {
         m_blockOn = true;
         m_blocking = false;
         isblock = true;
+        m_body2d.velocity = new Vector2(0f, 0f);
     }
     void BlockOn_End()
     {
