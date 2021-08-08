@@ -94,7 +94,6 @@ public class GameManager : MonoBehaviour
             zero++;
             if ((int)coinTime == 1f * stack && mana >= 1)
             {
-                Debug.Log(mana);
                 mana--;
                 stack++;
                 if (stack == 10)

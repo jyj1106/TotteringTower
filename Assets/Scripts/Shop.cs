@@ -50,10 +50,38 @@ public class Shop : MonoBehaviour
         }
         else
         {
-            pbtn1.gameObject.SetActive(true);
-            pbtn2.gameObject.SetActive(true);
-            pbtn3.gameObject.SetActive(true);
-            pbtn4.gameObject.SetActive(true);
+            if (num1 == 20)
+            {
+                pbtn1.gameObject.SetActive(false);
+            }
+            else
+            {
+                pbtn1.gameObject.SetActive(true);
+            }
+            if (num2 == 20)
+            {
+                pbtn2.gameObject.SetActive(false);
+            }
+            else
+            {
+                pbtn2.gameObject.SetActive(true);
+            }
+            if (num3 == 20)
+            {
+                pbtn3.gameObject.SetActive(false);
+            }
+            else
+            {
+                pbtn3.gameObject.SetActive(true);
+            }
+            if (num4 == 20)
+            {
+                pbtn4.gameObject.SetActive(false);
+            }
+            else if (!(EP == 0))
+            {
+                pbtn4.gameObject.SetActive(true);
+            }
         }
 
         if (num1 == 0)
@@ -88,39 +116,6 @@ public class Shop : MonoBehaviour
         {
             mbtn4.gameObject.SetActive(true);
         }
-        if(num1 == 20)
-        {
-            pbtn1.gameObject.SetActive(false);
-        }
-        else
-        {
-            pbtn1.gameObject.SetActive(true);
-        }
-        if (num2 == 20)
-        {
-            pbtn1.gameObject.SetActive(false);
-        }
-        else
-        {
-            pbtn1.gameObject.SetActive(true);
-        }
-        if (num3 == 20)
-        {
-            pbtn1.gameObject.SetActive(false);
-        }
-        else
-        {
-            pbtn1.gameObject.SetActive(true);
-        }
-        if (num4 == 20)
-        {
-            pbtn1.gameObject.SetActive(false);
-        }
-        else
-        {
-            pbtn1.gameObject.SetActive(true);
-        }
-
     }
 
     public void ShopPlus1()

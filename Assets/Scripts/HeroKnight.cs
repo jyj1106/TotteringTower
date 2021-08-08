@@ -280,7 +280,6 @@ public class HeroKnight : MonoBehaviour {
                 GameManager.hp--;
                 if (!(GameManager.hp <= 0) && !m_rolling && !m_blockOn)
                 {
-                    Debug.Log("a");
                     m_animator.SetTrigger("Hurt");
                     PAttack1.SetActive(false);
                     PAttack2.SetActive(false);
