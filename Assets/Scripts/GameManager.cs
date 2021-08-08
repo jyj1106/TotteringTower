@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public static float mana;
     public static bool coinSound, coinUse, coinEnd = false;
 
-    float skillTime, coinTime, nowSkill, hpPer, car, fs;
+    public float skillTime, coinTime, nowSkill, hpPer, car, fs;
     bool skillUsable, coolStart, coolActive = false;
 
     int zero, stack = 0;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         mana = MaxMp;
         hp = MaxHp;
-        hpPer = ((float)hp / MaxHp) * 100;
+        hpPer = (hp / MaxHp) * 100;
         fs = (1 / Time.deltaTime);
     }
 
@@ -46,10 +46,10 @@ public class GameManager : MonoBehaviour
     {
         skillTime += Time.deltaTime;
         coinTime += Time.deltaTime;
-
+        
         //Slider(Health/Mana Bar / SkillCool)
-        manaBar.value = (float)mana / MaxMp;
-        skillCool.value = (float)nowSkill / skillMaxTime;
+        manaBar.value = mana / MaxMp;
+        skillCool.value = nowSkill / skillMaxTime;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -57,20 +57,25 @@ public class GameManager : MonoBehaviour
         }
 
         //hp effect
-        if ((float)hp / MaxHp * 100 < hpPer)
+
+        if (hp / MaxHp * 100 < hpPer)
         {
-            car = ((healthBar.value - ((float)hp / MaxHp)) / fs);
-            hpPer = (float)hp / MaxHp * 100;
+            car = ((healthBar.value - (hp / MaxHp)) / fs);
+            hpPer = hp / MaxHp * 100;
         }
         if (hpPer < healthBar.value * 100)
         {
             healthBar.value -= car;
         }
-        if(hpPer >= healthBar.value * 100)
+        if (hpPer >= healthBar.value * 100)
         {
             healthBar.value = hpPer / 100;
         }
-
+        if (hp / MaxHp * 100 > hpPer)
+        {
+            hpPer = hp / MaxHp * 100;
+            healthBar.value = hpPer / 100;
+        }
 
         //Mana
         if (!(mana >= MaxMp))
