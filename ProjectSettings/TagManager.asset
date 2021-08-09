@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Floor
   - Wall
   - Enemy
   - Chest
@@ -12,6 +11,10 @@ TagManager:
   - EAttack
   - Monster
   - PRange
+  - EHit
+  - PAttack
+  - Tower
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -23,8 +26,8 @@ TagManager:
   - Invincible
   - PAttack
   - EAttack
-  - 
-  - 
+  - EHit
+  - Tower
   - 
   - 
   - 

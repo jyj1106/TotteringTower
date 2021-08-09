@@ -9,7 +9,7 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_plimitX, m_mlimitX;
     [SerializeField] GameObject m_slideDust;
 
-    private Animator            m_animator;
+    public Animator            m_animator;
     private Rigidbody2D         m_body2d;
     private Sensor_HeroKnight   m_groundSensor;
     private Sensor_HeroKnight   m_wallSensorR1;
@@ -17,12 +17,12 @@ public class HeroKnight : MonoBehaviour {
     private Sensor_HeroKnight   m_wallSensorL1;
     private Sensor_HeroKnight   m_wallSensorL2;
     private bool                m_grounded = false;
-    private bool                m_rolling = false;
-    private bool                m_blocking = false;
-    private bool                m_blockOn = false;
+    public bool                m_rolling = false;
+    public bool                m_blocking = false;
+    public bool                m_blockOn = false;
     private bool                m_doublejump = true;
     private bool                m_triplejump = true;
-    private bool                m_dead;
+    public bool                m_dead;
     private bool                disPAttack1, disPAttack2 = false;
     private bool                rollable;
     private int                 m_facingDirection = 1;
@@ -300,7 +300,7 @@ public class HeroKnight : MonoBehaviour {
                 }
             }
         }
-        if (collision.gameObject.CompareTag("Monster"))
+        if (collision.gameObject.CompareTag("EHit"))
         {
             isHit = true;
         }

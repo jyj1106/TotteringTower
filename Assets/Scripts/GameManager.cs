@@ -9,11 +9,13 @@ public class GameManager : MonoBehaviour
     public GameObject Shopping;
     public GameObject Set;
     public GameObject SetInside;
+    public GameObject health;
 
     public Slider healthBar;
     public Slider manaBar;
     public Slider skillCool;
 
+    public int maxStack = 10;
     public float MaxHp = 5;
     public float MaxMp = 5;
     public float skillMaxTime = 1f;
@@ -75,6 +77,8 @@ public class GameManager : MonoBehaviour
         {
             hpPer = hp / MaxHp * 100;
             healthBar.value = hpPer / 100;
+            health.GetComponent<Image>().material.color = new Color(255f, 255f, 255f);
+            Invoke("OriColor", 0.1f);
         }
 
         //Mana
@@ -88,7 +92,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Coin Skill
-        if (Input.GetKey(KeyCode.X) && skillUsable == true && mana > 1 && coolActive == false)
+        if (Input.GetKey(KeyCode.X) && skillUsable == true && mana >= 1 && coolActive == false)
         {
             coinUse = true;
             if (zero == 0)
@@ -101,10 +105,11 @@ public class GameManager : MonoBehaviour
             {
                 mana--;
                 stack++;
-                if (stack == 10)
+                if (stack == maxStack)
                 {
                     lvUp++;
                     coinEnd = true;
+                    stack = 0;
                 }
             }
             else if((int)coinTime == 1f * stack && mana < 1)
@@ -145,6 +150,7 @@ public class GameManager : MonoBehaviour
             {
                 skillUsable = true;
                 coolActive = false;
+                coinEnd = false;
             }
         }
     }
@@ -181,5 +187,10 @@ public class GameManager : MonoBehaviour
         skillTime = 0f;
         skillUsable = false;
         coolActive = true;
+    }
+
+    void OriColor()
+    {
+        health.GetComponent<Image>().material.color = new Color(1f, 1f, 1f, 1f);
     }
 }

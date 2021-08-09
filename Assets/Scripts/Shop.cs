@@ -30,11 +30,17 @@ public class Shop : MonoBehaviour
 
     public static bool shopBtn_snd = false;
 
+    private int upgrade1, upgrade2;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        num1 = 0;
+        num2 = 0;
+        num3 = 0;
+        num4 = 0;
+        upgrade1 = 0;
+        upgrade2 = 0;
     }
 
     // Update is called once per frame
@@ -127,7 +133,11 @@ public class Shop : MonoBehaviour
         GameObject.Find("GameManager").GetComponent<GameManager>().MaxHp += 0.5f;
         if(num1 == 5 || num1 == 10 || num1 == 15 || num1 == 20)
         {
-            GameObject.Find("GameManager").GetComponent<GameManager>().MaxMp += 1f;
+            upgrade1++;
+            if( 5 * upgrade1 == num1)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().MaxMp += 1f;
+            }
         }
     }
     public void ShopMinus1()
@@ -137,6 +147,14 @@ public class Shop : MonoBehaviour
         shop1.text = "사과\n\n\nHP MP\n\n\nLV : " + num1;
         EP++;
         GameObject.Find("GameManager").GetComponent<GameManager>().MaxHp -= 0.5f;
+        if (num1 == 4 || num1 == 9 || num1 == 14 || num1 == 19)
+        {
+            if(5 * upgrade1 > num1)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().MaxMp -= 1f;
+                upgrade1--;
+            }
+        }
     }
 
     public void ShopPlus2()
@@ -145,6 +163,29 @@ public class Shop : MonoBehaviour
         num2++;
         shop2.text = "황금코인\n\n\n쿨타임\n\n\nLV : " + num2;
         EP--;
+        GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime -= 0.1f;
+        if(num2 == 5 || num2 == 10 || num2 == 15 || num2 == 20)
+        {
+            upgrade2++;
+            if (upgrade2 == 1)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime -= 0.5f;
+            }
+            if (upgrade2 == 2)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime -= 0.5f;
+                //"회복 이 외의 코인 효과 추가"로 생각중. 예로 3단점프, 2단구르기, 추가타, 강화반격 등
+            }
+            if (upgrade2 == 3)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime -= 1f;
+            }
+            if (upgrade2 == 4)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime -= 1f;
+                GameObject.Find("GameManager").GetComponent<GameManager>().maxStack = 5;
+            }
+        }
     }
     public void ShopMinus2()
     {
@@ -152,6 +193,27 @@ public class Shop : MonoBehaviour
         num2--;
         shop2.text = "황금코인\n\n\n쿨타임\n\n\nLV : " + num2;
         EP++;
+        GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime += 0.1f;
+        if(num2 == 4 || num2 == 9 || num2 == 14 || num2 == 19)
+        {
+            if(upgrade2 == 1)
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime += 0.5f;
+            }
+            if(upgrade2 == 2)
+            {
+
+            }
+            if(upgrade2 == 3)
+            {
+
+            }
+            if(upgrade2 == 4)
+            {
+
+            }
+            upgrade2--;
+        }
     }
 
     public void ShopPlus3()

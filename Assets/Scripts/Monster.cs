@@ -11,7 +11,7 @@ public class Monster : MonoBehaviour
     public float spd = 2f;
     public float rangeP = 2f;
     public float reAttackTime = 2f;
-    public bool isFlying = false;
+    public bool isFlying, isAttack = false;
     public bool[] B_Mon = new bool[5];
     public bool[] W_Mon = new bool[10];
     public static bool colorChange = false;
@@ -19,7 +19,7 @@ public class Monster : MonoBehaviour
     private Animator anim;
     private float posy;
     private float pos1, pos2;
-    private float atkTimer;
+    private float atkTimer, deathTimer, dTime;
     private bool trackP, attackable = true;
     private bool trackC = false;
 
@@ -38,6 +38,7 @@ public class Monster : MonoBehaviour
             rangeP = 2f;
             reAttackTime = 2f;
             isFlying = false;
+            isAttack = true;
         }
         else if (B_Mon[1] == true)
         {
@@ -47,6 +48,7 @@ public class Monster : MonoBehaviour
             rangeP = 2f;
             reAttackTime = 2f;
             isFlying = false;
+            isAttack = true;
         }
         else if (B_Mon[2] == true)
         {
@@ -56,6 +58,7 @@ public class Monster : MonoBehaviour
             rangeP = 2f;
             reAttackTime = 2f;
             isFlying = false;
+            isAttack = true;
         }
         else if (B_Mon[3] == true)
         {
@@ -74,6 +77,7 @@ public class Monster : MonoBehaviour
             rangeP = 2f;
             reAttackTime = 2f;
             isFlying = true;
+            isAttack = true;
         }
         else if (W_Mon[1] == true)
         {
@@ -105,7 +109,14 @@ public class Monster : MonoBehaviour
         }
         else if (W_Mon[8] == true)
         {
-
+            //Dabe
+            trackP = true; trackC = false;
+            hp = 10f;
+            spd = 2f;
+            rangeP = 2f;
+            reAttackTime = 0f;
+            isFlying = true;
+            isAttack = false;
         }
         else if (W_Mon[9] == true)
         {
@@ -116,6 +127,9 @@ public class Monster : MonoBehaviour
         this.gameObject.layer = 3;
         anim = GetComponent<Animator>();
         posy = this.transform.position.y;
+        atkTimer = 0f;
+        deathTimer = 0f;
+        dTime = 1f;
         //attackable is not same as reAttackTime. This makes monster stop
         attackable = true;
         //pos2 is not same as posy. pos2 is used in Flip
@@ -125,8 +139,9 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //To calculating reAttackTime
+        //To calculating reAttackTime and deadTime
         atkTimer += Time.deltaTime;
+        deathTimer += Time.deltaTime;
 
         //Tracking Player
         if(attackable == true && trackP == true)
@@ -139,7 +154,7 @@ public class Monster : MonoBehaviour
                 this.transform.position = tracking;
                 pos1 = this.transform.position.x;
             }
-            else if (dis < rangeP && attackable == true && atkTimer >= reAttackTime)
+            else if (dis < rangeP && attackable == true && atkTimer >= reAttackTime && isAttack == true)
             {
                 atkTimer = 0f;
                 anim.SetTrigger("Attack");
@@ -155,10 +170,22 @@ public class Monster : MonoBehaviour
             //Idle or Waiting reAttackTime
         }
  
-        //Make non-Flying Monster
+        //Make non-Flying Monsters
         if(isFlying == false)
         {
             this.transform.position = new Vector2(this.transform.position.x, posy);
+        }
+
+        //Make non-Attack Monsters get dmg
+        if(isAttack == false)
+        {
+            if(deathTimer >= 2 * dTime)
+            {
+                hp--;
+                dTime++;
+                this.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
+                colorChange = true;
+            }
         }
 
         //FlipX
@@ -195,7 +222,7 @@ public class Monster : MonoBehaviour
     //Attack Player
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && atkTimer >= reAttackTime)
+        if (collision.gameObject.CompareTag("Player") && atkTimer >= reAttackTime && isAttack == true)
         {
             atkTimer = 0f;
             anim.SetTrigger("Attack");

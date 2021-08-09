@@ -22,10 +22,10 @@ public class PAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Monster"))
+        if (collision.gameObject.CompareTag("EHit") && collision.transform.parent.GetComponent<Monster>().isAttack == true)
         {
-            collision.gameObject.GetComponent<Monster>().hp--;
-            collision.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
+            collision.gameObject.transform.parent.GetComponent<Monster>().hp--;
+            collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
             if(attackable == false)
             {
                 Slash2.transform.position = collision.transform.position;
@@ -38,6 +38,20 @@ public class PAttack : MonoBehaviour
                 attackable = false;
             }
             Monster.colorChange = true;
+        }
+        else if (collision.gameObject.CompareTag("EHit") && collision.transform.parent.GetComponent<Monster>().isAttack == false)
+        {
+            if (attackable == false)
+            {
+                Slash2.transform.position = collision.transform.position;
+                Slash2.SetActive(true);
+            }
+            else if (attackable == true)
+            {
+                Slash1.transform.position = collision.transform.position;
+                Slash1.SetActive(true);
+                attackable = false;
+            }
         }
     }
 }

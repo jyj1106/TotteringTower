@@ -589,7 +589,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 953394199}
-        m_TargetAssemblyTypeName: Scene, Assembly-CSharp
+        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
         m_MethodName: SettingOn
         m_Mode: 1
         m_Arguments:
@@ -743,7 +743,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 953394198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09ffee1145d7b7948b08ff6adf4441e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 14306525e2fbd1045a93b20dd76cf01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   set: {fileID: 1736603666}
@@ -1003,7 +1003,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 953394199}
-        m_TargetAssemblyTypeName: Scene, Assembly-CSharp
+        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
         m_MethodName: GoPlay
         m_Mode: 1
         m_Arguments:
