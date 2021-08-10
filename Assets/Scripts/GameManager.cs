@@ -77,8 +77,6 @@ public class GameManager : MonoBehaviour
         {
             hpPer = hp / MaxHp * 100;
             healthBar.value = hpPer / 100;
-            health.GetComponent<Image>().material.color = new Color(255f, 255f, 255f);
-            Invoke("OriColor", 0.1f);
         }
 
         //Mana
@@ -187,10 +185,5 @@ public class GameManager : MonoBehaviour
         skillTime = 0f;
         skillUsable = false;
         coolActive = true;
-    }
-
-    void OriColor()
-    {
-        health.GetComponent<Image>().material.color = new Color(1f, 1f, 1f, 1f);
     }
 }

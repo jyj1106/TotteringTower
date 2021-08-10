@@ -14,7 +14,7 @@ public class Monster : MonoBehaviour
     public bool isFlying, isAttack = false;
     public bool[] B_Mon = new bool[5];
     public bool[] W_Mon = new bool[10];
-    public static bool colorChange = false;
+    public bool colorChange = false;
 
     private Animator anim;
     private float posy;
@@ -213,7 +213,7 @@ public class Monster : MonoBehaviour
         if (hp <= 0)
         {
             attackable = false;
-            this.gameObject.layer = 7;
+            this.transform.Find("EHit").gameObject.layer = 7;
             this.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1f);
             anim.SetTrigger("Dead");
         }

@@ -37,7 +37,6 @@ public class PAttack : MonoBehaviour
                 Slash1.SetActive(true);
                 attackable = false;
             }
-            Monster.colorChange = true;
         }
         else if (collision.gameObject.CompareTag("EHit") && collision.transform.parent.GetComponent<Monster>().isAttack == false)
         {

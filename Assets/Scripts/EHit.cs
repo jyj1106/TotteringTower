@@ -5,6 +5,7 @@ using UnityEngine;
 public class EHit : MonoBehaviour
 {
     Animator anim;
+    public bool isHit;
 
     // Start is called before the first frame update
     void Start()
@@ -15,17 +16,11 @@ public class EHit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("PAttack") && transform.parent.GetComponent<Monster>().isAttack == false)
+        if(isHit == true && this.transform.parent.GetComponent<Monster>().isAttack == false)
         {
+            this.transform.parent.GetComponent<Monster>().hp++;
             GameManager.hp--;
             anim.SetTrigger("Attack");
-            GameObject.Find("HeroKnight").GetComponent<HeroKnight>().PAttack1.SetActive(false);
-            GameObject.Find("HeroKnight").GetComponent<HeroKnight>().PAttack2.SetActive(false);
 
             if(GameManager.hp == 0)
             {
@@ -37,11 +32,14 @@ public class EHit : MonoBehaviour
             {
                 if (!GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_blocking
                     && !GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_blockOn
-                    && !GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_rolling)
+                    && !GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_rolling
+                    && !GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_attack
+                    && !GameObject.Find("HeroKnight").GetComponent<HeroKnight>().isAttack)
                 {
                     GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_animator.SetTrigger("Hurt");
                 }
             }
+            isHit = false;
         }
     }
 }

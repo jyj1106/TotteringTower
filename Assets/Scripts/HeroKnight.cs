@@ -7,36 +7,43 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_jumpForce = 7.5f;
     [SerializeField] float      m_rollForce = 6.0f;
     [SerializeField] float      m_plimitX, m_mlimitX;
+    [SerializeField] LayerMask Mon_layer;
     [SerializeField] GameObject m_slideDust;
+    [SerializeField] GameObject[] Slash1 = new GameObject[10];
 
     public Animator            m_animator;
     private Rigidbody2D         m_body2d;
+    private Collider2D[]          PAttack;
     private Sensor_HeroKnight   m_groundSensor;
     private Sensor_HeroKnight   m_wallSensorR1;
     private Sensor_HeroKnight   m_wallSensorR2;
     private Sensor_HeroKnight   m_wallSensorL1;
     private Sensor_HeroKnight   m_wallSensorL2;
     private bool                m_grounded = false;
+    public bool                m_attack, isAttack = false;
     public bool                m_rolling = false;
     public bool                m_blocking = false;
     public bool                m_blockOn = false;
-    private bool                m_doublejump = true;
-    private bool                m_triplejump = true;
+    private bool                m_doublejump, m_triplejump = true;
+    public bool                attackable = true;
     public bool                m_dead;
-    private bool                disPAttack1, disPAttack2 = false;
-    private bool                rollable;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
     private float               m_timeSinceAttack = 0.0f;
     private float               m_blockingCool = 0f;
     private float               m_timeSinceBlock = 2.0f;
     private float               m_delayToIdle = 0.0f;
-    private float               m_positionX;
+    private float               m_positionX, inputX;
 
+    public Vector2 PAttackSize;
     public bool Inputtable = true;
 
-    public GameObject PAttack1, PAttack2, PAttack1_Range, PAttack2_Range;
     public static bool isSlash, isHit, isblock= false;
+
+    private void Awake()
+    {
+        PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
+    }
 
     // Use this for initialization
     void Start ()
@@ -80,22 +87,32 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // -- Handle input and movement --
-        float inputX = Input.GetAxis("Horizontal");
+        inputX = Input.GetAxis("Horizontal");
 
         // Swap direction of sprite depending on walk direction
         if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
             if (inputX > 0 && !(m_positionX <= m_mlimitX))
             {
-                GetComponent<SpriteRenderer>().flipX = false;
+                this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 m_facingDirection = 1;
             }
 
             else if (inputX < 0 && !(m_positionX >= m_plimitX))
             {
-                GetComponent<SpriteRenderer>().flipX = true;
+                this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 m_facingDirection = -1;
             }
+        }
+
+        //Setting PAttack
+        if (inputX > 0)
+        {
+            PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
+        }
+        else if(inputX < 0)
+        {
+            PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
         }
 
         // Move
@@ -147,11 +164,69 @@ public class HeroKnight : MonoBehaviour {
             m_timeSinceAttack = 0.0f;
         }
 
+        //OverlapBoxAll(Attack Monster)
+        if(!m_rolling && m_attack && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
+        {
+            if(GameManager.lvUp == 1)
+            {
+                PAttack[0].transform.parent.GetComponent<Monster>().hp--;
+                PAttack[0].transform.parent.GetComponent<Monster>().colorChange = true;
+                PAttack[0].GetComponent<EHit>().isHit = true;
+                if(attackable == false)
+                {
+                    Slash1[0].transform.position = PAttack[0].transform.position;
+                    Slash1[0].SetActive(true);
+                    attackable = false;
+                }
+                else
+                {
+                    Slash1[1].transform.position = PAttack[0].transform.position;
+                    Slash1[1].SetActive(true);
+                }
+            }
+            else if(GameManager.lvUp == 2)
+            {
+                PAttack[0].transform.parent.GetComponent<Monster>().hp--;
+                PAttack[0].transform.parent.GetComponent<Monster>().colorChange = true;
+                PAttack[0].GetComponent<EHit>().isHit = true;
+                if(PAttack.Length > 1)
+                {
+                    PAttack[1].transform.parent.GetComponent<Monster>().hp--;
+                    PAttack[1].transform.parent.GetComponent<Monster>().colorChange = true;
+                    PAttack[1].GetComponent<EHit>().isHit = true;
+                }
+                if (attackable == false)
+                {
+                    Slash1[0].transform.position = PAttack[0].transform.position;
+                    Slash1[0].SetActive(true);
+                    attackable = false;
+                }
+                else
+                {
+                    Slash1[1].transform.position = PAttack[0].transform.position;
+                    Slash1[1].SetActive(true);
+                }
+                if(PAttack.Length > 1)
+                {
+                    if (attackable == false)
+                    {
+                        Slash1[0].transform.position = PAttack[1].transform.position;
+                        Slash1[0].SetActive(true);
+                        attackable = false;
+                    }
+                    else
+                    {
+                        Slash1[1].transform.position = PAttack[1].transform.position;
+                        Slash1[1].SetActive(true);
+                    }
+                }
+            }
+            isAttack = false;
+        }
+
         // Block
         else if (Input.GetKeyDown(KeyCode.V) && !m_rolling && GameManager.mana > 1  && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && m_blockingCool >= 1f && !m_dead)
         {
-            PAttack1.SetActive(false);
-            PAttack2.SetActive(false);
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", false);
             GameManager.mana--;
@@ -273,7 +348,7 @@ public class HeroKnight : MonoBehaviour {
                 m_blocking = false;
                 collision.gameObject.transform.parent.GetComponent<Monster>().hp--;
                 collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
-                Monster.colorChange = true;
+                PAttack[0].transform.parent.GetComponent<Monster>().colorChange = true;
             }
             else
             {
@@ -281,8 +356,6 @@ public class HeroKnight : MonoBehaviour {
                 if (!(GameManager.hp <= 0) && !m_rolling && !m_blockOn)
                 {
                     m_animator.SetTrigger("Hurt");
-                    PAttack1.SetActive(false);
-                    PAttack2.SetActive(false);
                     m_blocking = false;
                     m_blockOn = false;
                     this.gameObject.layer = 7;
@@ -293,44 +366,23 @@ public class HeroKnight : MonoBehaviour {
                     m_blocking = false;
                     m_blockOn = false;
                     m_animator.SetTrigger("Death");
-                    PAttack1.SetActive(false);
-                    PAttack2.SetActive(false);
                     m_dead = true;
                     this.gameObject.layer = 7;
                 }
             }
         }
-        if (collision.gameObject.CompareTag("EHit"))
-        {
-            isHit = true;
-        }
     }
 
-    void PAttack_Active()
+    void PAttack_Start()
     {
-        if (GetComponent<SpriteRenderer>().flipX == true)
-        {
-            PAttack2.SetActive(true);
-            disPAttack2 = true;
-        }
-        else if (GetComponent<SpriteRenderer>().flipX == false)
-        {
-            PAttack1.SetActive(true);
-            disPAttack1 = true;
-        }
+        m_attack = true;
+        isAttack = true;
     }
-    void PAttack_Hide()
+
+    void PAttack_End()
     {
-        if (disPAttack2 == true)
-        {
-            disPAttack2 = false;
-            PAttack2.SetActive(false);
-        }
-        else if (disPAttack1 == true)
-        {
-            disPAttack1 = false;
-            PAttack1.SetActive(false);
-        }
+        m_attack = false;
+        isAttack = false;
     }
 
     void Block_Start()
@@ -339,13 +391,13 @@ public class HeroKnight : MonoBehaviour {
         {
             Inputtable = false;
             m_blocking = true;
+            m_blockingCool = 0f;
         }
     }
     void Block_End()
     {
         m_blocking = false;
         Inputtable = true;
-        m_blockingCool = 0f;
         m_animator.SetTrigger("BlockingEnd");
     }
 
@@ -373,24 +425,32 @@ public class HeroKnight : MonoBehaviour {
 
     void SoundCheckOn()
     {
-        if(GetComponent<SpriteRenderer>().flipX == true)
+        if(PAttack.Length > 0)
         {
-            PAttack2_Range.SetActive(true);
+            isHit = true;
         }
         else
         {
-            PAttack1_Range.SetActive(true);
+            isHit = false;
         }
-    }
-
-    void SoundCheckOff()
-    {
-        PAttack1_Range.SetActive(false);
-        PAttack2_Range.SetActive(false);
     }
 
     void InvincibleOff()
     {
         this.gameObject.layer = 6;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(inputX > 0)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(new Vector2(transform.position.x + 0.75f, transform.position.y + 0.75f), PAttackSize);
+        }
+        else if (inputX < 0)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(new Vector2(transform.position.x - 0.75f, transform.position.y + 0.75f), PAttackSize);
+        }
     }
 }

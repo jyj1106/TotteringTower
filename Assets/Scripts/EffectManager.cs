@@ -19,6 +19,6 @@ public class EffectManager : MonoBehaviour
     void EffectEnd()
     {
         this.gameObject.SetActive(false);
-        PAttack.attackable = true;
+        GameObject.Find("HeroKnight").GetComponent<HeroKnight>().attackable = true;
     }
 }

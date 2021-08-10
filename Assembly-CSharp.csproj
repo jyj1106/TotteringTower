@@ -61,10 +61,13 @@
     <Compile Include="Assets\Scripts\Monster.cs" />
     <Compile Include="Assets\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\Sensor_HeroKnight.cs" />
+    <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\PAttack.cs" />
     <Compile Include="Assets\Scripts\Shop.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\RainController.cs" />
     <Compile Include="Assets\Scripts\HeroKnight.cs" />
+    <Compile Include="Assets\Scripts\TitleManager.cs" />
+    <Compile Include="Assets\Scripts\EHit.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\ColorSwap\ColorSwap_HeroKnight.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\DestroyEvent_HeroKnight.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
@@ -72,15 +75,13 @@
     <Compile Include="Assets\PixelWeatherAsset\Scripts\StoneFloat.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\UIController.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\SnowController.cs" />
-    <Compile Include="Assets\Scripts\EHit.cs" />
-    <Compile Include="Assets\Scripts\TitleManager.cs" />
-    <Compile Include="Assets\Scripts\Tower.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PixelWeatherAsset\Materials\SnowDiffuse.shader" />
     <None Include="Assets\lmages\Pixel2DCastleTileset\about.txt" />
     <None Include="Assets\PixelWeatherAsset\Materials\SnowUnlit.shader" />
     <None Include="Assets\lmages\Dark_Forest\about.txt" />
+    <None Include="Assets\hit_animations_3\license.txt" />
     <None Include="Assets\Hero Knight - Pixel Art\ColorSwap\Sprites-ColorSwap.shader" />
   </ItemGroup>
   <ItemGroup>

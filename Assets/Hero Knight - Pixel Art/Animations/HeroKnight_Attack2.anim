@@ -89,7 +89,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.071428575
-    functionName: PAttack_Active
+    functionName: PAttack_Start
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -102,15 +102,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.071428575
-    functionName: SoundCheckOff
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.14285715
-    functionName: PAttack_Hide
+  - time: 0.21428572
+    functionName: PAttack_End
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
