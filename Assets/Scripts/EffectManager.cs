@@ -15,10 +15,17 @@ public class EffectManager : MonoBehaviour
     {
 
     }
-
+    void CoinSpin()
+    {
+        GameObject.Find("HeroKnight").transform.Find("Coin").GetComponent<Animator>().SetTrigger("Spinning");
+    }
+    void CoinHide()
+    {
+        GameObject.Find("HeroKnight").transform.Find("Coin").gameObject.SetActive(false);
+    }
     void EffectEnd()
     {
-        this.gameObject.SetActive(false);
         GameObject.Find("HeroKnight").GetComponent<HeroKnight>().attackable = true;
+        Destroy(this.gameObject);
     }
 }

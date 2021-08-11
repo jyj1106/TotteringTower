@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
     public static bool coinSound, coinUse, coinEnd = false;
 
     public float skillTime, coinTime, nowSkill, hpPer, car, fs;
-    bool skillUsable, coolStart, coolActive = false;
 
-    int zero, stack = 0;
+    private bool skillUsable, coolActive, coinAnim1, coinAnim2 = false;
+    private int zero, stack = 0;
 
     void Awake()
     {
@@ -97,9 +97,10 @@ public class GameManager : MonoBehaviour
             {
                 coinSound = true;
                 coinTime = 0f;
+                coinAnim1 = true;
             }
             zero++;
-            if ((int)coinTime == 1f * stack && mana >= 1)
+            if ((int)coinTime == 1f * stack && mana >= 1 && lvUp == 1)
             {
                 mana--;
                 stack++;
@@ -140,6 +141,7 @@ public class GameManager : MonoBehaviour
         //CoolTime
         if(coolActive == true)
         {
+            coinAnim2 = true;
             if (skillUsable == false)
             {
                 nowSkill = (skillMaxTime - skillTime);
@@ -150,6 +152,18 @@ public class GameManager : MonoBehaviour
                 coolActive = false;
                 coinEnd = false;
             }
+        }
+
+        //Coin Anime
+        if(coinAnim1 == true)
+        {
+            coinAnim1 = false;
+            GameObject.Find("HeroKnight").transform.Find("Coin").gameObject.SetActive(true);
+        }
+        if(coinAnim2 == true)
+        {
+            coinAnim2 = false;
+            GameObject.Find("HeroKnight").transform.Find("Coin").GetComponent<Animator>().SetTrigger("Falling");
         }
     }
 

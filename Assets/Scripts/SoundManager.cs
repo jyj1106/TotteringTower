@@ -5,18 +5,21 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     private AudioSource sndManager;
+    private AudioSource sndManager2;
 
     public AudioClip bgm1;
     public AudioClip slash_snd, slashHit_snd;
     public AudioClip block1_snd, block2_snd, block3_snd, block4_snd;
     public AudioClip coin_snd;
     public AudioClip shop_btn;
+    public AudioClip ShieldHit_snd;
 
 
     // Start is called before the first frame update
     void Start()
     {
         sndManager = this.GetComponent<AudioSource>();
+        sndManager2 = transform.Find("Audio0.5x").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -45,6 +48,7 @@ public class SoundManager : MonoBehaviour
             {
                 sndManager.PlayOneShot(block4_snd);
             }
+            sndManager2.PlayOneShot(ShieldHit_snd);
             HeroKnight.isblock = false;            
         }
         if (GameManager.coinSound == true)

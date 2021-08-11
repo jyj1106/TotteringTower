@@ -9,7 +9,7 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_plimitX, m_mlimitX;
     [SerializeField] LayerMask Mon_layer;
     [SerializeField] GameObject m_slideDust;
-    [SerializeField] GameObject[] Slash1 = new GameObject[10];
+    [SerializeField] GameObject[] Slash = new GameObject[10];
 
     public Animator            m_animator;
     private Rigidbody2D         m_body2d;
@@ -33,22 +33,18 @@ public class HeroKnight : MonoBehaviour {
     private float               m_blockingCool = 0f;
     private float               m_timeSinceBlock = 2.0f;
     private float               m_delayToIdle = 0.0f;
-    private float               m_positionX, inputX;
+    private float               m_positionX, inputX, min;
+    private int                 target;
 
     public Vector2 PAttackSize;
     public bool Inputtable = true;
 
     public static bool isSlash, isHit, isblock= false;
 
-    private void Awake()
-    {
-        PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
-    }
-
     // Use this for initialization
     void Start ()
     {
-        this.gameObject.layer = 6;
+        this.transform.Find("PHit").gameObject.layer = 11;
         m_dead = false;
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
@@ -57,6 +53,7 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+        PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
     }
 
     // Update is called once per frame
@@ -97,7 +94,6 @@ public class HeroKnight : MonoBehaviour {
                 this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 m_facingDirection = 1;
             }
-
             else if (inputX < 0 && !(m_positionX >= m_plimitX))
             {
                 this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -106,14 +102,24 @@ public class HeroKnight : MonoBehaviour {
         }
 
         //Setting PAttack
-        if (inputX > 0)
-        {
-            PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
-        }
-        else if(inputX < 0)
-        {
-            PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
-        }
+
+            if (inputX > 0)
+            {
+                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
+            }
+            else if (inputX < 0)
+            {
+                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
+            }
+            else if (inputX == 0 && this.transform.rotation.y == 0)
+            {
+                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
+            }
+            else if (inputX == 0 && this.transform.rotation.y == -180)
+            {
+                Debug.Log("x02");
+                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
+            }
 
         // Move
         if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f && Inputtable == true && !m_dead)
@@ -163,62 +169,48 @@ public class HeroKnight : MonoBehaviour {
             // Reset timer
             m_timeSinceAttack = 0.0f;
         }
+        
+
+        //Checking Target
+        if(PAttack.Length > 0)
+        {
+            float[] dis = new float[PAttack.Length];
+            for (int i = 0; i < PAttack.Length; i++)
+            {
+                dis[i] = Vector2.Distance(this.transform.position, PAttack[i].transform.position);
+            }
+            for (int i = 0; i < PAttack.Length; i++)
+            {
+                if (min > dis[i])
+                {
+                    min = dis[i];
+                    target = i;
+                }
+            }
+        }
 
         //OverlapBoxAll(Attack Monster)
-        if(!m_rolling && m_attack && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
+        if(!m_rolling && m_attack && m_timeSinceAttack > 0.25f && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
         {
             if(GameManager.lvUp == 1)
             {
-                PAttack[0].transform.parent.GetComponent<Monster>().hp--;
-                PAttack[0].transform.parent.GetComponent<Monster>().colorChange = true;
-                PAttack[0].GetComponent<EHit>().isHit = true;
-                if(attackable == false)
-                {
-                    Slash1[0].transform.position = PAttack[0].transform.position;
-                    Slash1[0].SetActive(true);
-                    attackable = false;
-                }
-                else
-                {
-                    Slash1[1].transform.position = PAttack[0].transform.position;
-                    Slash1[1].SetActive(true);
-                }
+                PAttack[target].transform.parent.GetComponent<Monster>().hp--;
+                PAttack[target].transform.parent.GetComponent<Monster>().colorChange = true;
+                PAttack[target].GetComponent<EHit>().isHit = true;
+                GameObject effect0 = Instantiate(Slash[0]);
+                effect0.transform.parent = null;
+                effect0.transform.position = PAttack[target].transform.position;
             }
             else if(GameManager.lvUp == 2)
             {
-                PAttack[0].transform.parent.GetComponent<Monster>().hp--;
-                PAttack[0].transform.parent.GetComponent<Monster>().colorChange = true;
-                PAttack[0].GetComponent<EHit>().isHit = true;
-                if(PAttack.Length > 1)
+                for(int i = 0; i < PAttack.Length; i++)
                 {
-                    PAttack[1].transform.parent.GetComponent<Monster>().hp--;
-                    PAttack[1].transform.parent.GetComponent<Monster>().colorChange = true;
-                    PAttack[1].GetComponent<EHit>().isHit = true;
-                }
-                if (attackable == false)
-                {
-                    Slash1[0].transform.position = PAttack[0].transform.position;
-                    Slash1[0].SetActive(true);
-                    attackable = false;
-                }
-                else
-                {
-                    Slash1[1].transform.position = PAttack[0].transform.position;
-                    Slash1[1].SetActive(true);
-                }
-                if(PAttack.Length > 1)
-                {
-                    if (attackable == false)
-                    {
-                        Slash1[0].transform.position = PAttack[1].transform.position;
-                        Slash1[0].SetActive(true);
-                        attackable = false;
-                    }
-                    else
-                    {
-                        Slash1[1].transform.position = PAttack[1].transform.position;
-                        Slash1[1].SetActive(true);
-                    }
+                    PAttack[i].transform.parent.GetComponent<Monster>().hp--;
+                    PAttack[i].transform.parent.GetComponent<Monster>().colorChange = true;
+                    PAttack[i].GetComponent<EHit>().isHit = true;
+                    GameObject effect0 = Instantiate(Slash[0]);
+                    effect0.transform.parent = null;
+                    effect0.transform.position = PAttack[i].transform.position;
                 }
             }
             isAttack = false;
@@ -243,7 +235,7 @@ public class HeroKnight : MonoBehaviour {
                 m_animator.SetTrigger("Roll");
                 m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
                 GameManager.mana--;
-                this.gameObject.layer = 7;
+                this.transform.Find("PHit").gameObject.layer = 7;
         }
             
 
@@ -315,7 +307,7 @@ public class HeroKnight : MonoBehaviour {
     void AE_ResetRoll()
     {
         m_rolling = false;
-        this.gameObject.layer = 6;
+        this.transform.Find("PHit").gameObject.layer = 11;
     }
 
     // Called in slide animation.
@@ -345,10 +337,14 @@ public class HeroKnight : MonoBehaviour {
             if (m_blocking == true)
             {
                 m_animator.SetTrigger("BlockingOn");
+                this.transform.Find("PHit").gameObject.layer = 7;
                 m_blocking = false;
                 collision.gameObject.transform.parent.GetComponent<Monster>().hp--;
                 collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
-                PAttack[0].transform.parent.GetComponent<Monster>().colorChange = true;
+                collision.transform.parent.GetComponent<Monster>().colorChange = true;
+                GameObject effect1 = Instantiate(Slash[1]);
+                effect1.transform.parent = null;
+                effect1.transform.position = collision.transform.parent.position;
             }
             else
             {
@@ -358,7 +354,7 @@ public class HeroKnight : MonoBehaviour {
                     m_animator.SetTrigger("Hurt");
                     m_blocking = false;
                     m_blockOn = false;
-                    this.gameObject.layer = 7;
+                    this.transform.Find("PHit").gameObject.layer = 7;
                     Invoke("InvincibleOff", 0.25f);
                 }
                 else if (GameManager.hp <= 0)
@@ -367,7 +363,7 @@ public class HeroKnight : MonoBehaviour {
                     m_blockOn = false;
                     m_animator.SetTrigger("Death");
                     m_dead = true;
-                    this.gameObject.layer = 7;
+                    this.transform.Find("PHit").gameObject.layer = 7;
                 }
             }
         }
@@ -403,7 +399,6 @@ public class HeroKnight : MonoBehaviour {
 
     void BlockOn_Start()
     {
-        this.gameObject.layer = 7;
         m_timeSinceBlock = 0f;
         m_blockOn = true;
         m_blocking = false;
@@ -412,7 +407,7 @@ public class HeroKnight : MonoBehaviour {
     }
     void BlockOn_End()
     {
-        this.gameObject.layer = 6;
+        this.transform.Find("PHit").gameObject.layer = 11;
         m_blockOn = false;
         Inputtable = true;
     }
@@ -437,7 +432,7 @@ public class HeroKnight : MonoBehaviour {
 
     void InvincibleOff()
     {
-        this.gameObject.layer = 6;
+        this.transform.Find("PHit").gameObject.layer = 11;
     }
 
     private void OnDrawGizmos()
