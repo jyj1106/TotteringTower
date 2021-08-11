@@ -28,4 +28,13 @@ public class EffectManager : MonoBehaviour
         GameObject.Find("HeroKnight").GetComponent<HeroKnight>().attackable = true;
         Destroy(this.gameObject);
     }
+    
+    void LightOn()
+    {
+        transform.Find("Point Light 2D").GetComponent<UnityEngine.Experimental.Rendering.Universal.Light2D>().intensity = 15;
+    }
+    void LightOff()
+    {
+        transform.Find("Point Light 2D").GetComponent<UnityEngine.Experimental.Rendering.Universal.Light2D>().intensity = 1;
+    }
 }

@@ -13,6 +13,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip coin_snd;
     public AudioClip shop_btn;
     public AudioClip ShieldHit_snd;
+    public AudioClip playerHit_snd;
 
 
     // Start is called before the first frame update
@@ -55,6 +56,11 @@ public class SoundManager : MonoBehaviour
         {
             sndManager.PlayOneShot(coin_snd);
             GameManager.coinSound = false;
+        }
+        if(GameObject.Find("HeroKnight").GetComponent<HeroKnight>().hurt_snd == true)
+        {
+            GameObject.Find("HeroKnight").GetComponent<HeroKnight>().hurt_snd = false;
+            sndManager.PlayOneShot(playerHit_snd);
         }
     }
 

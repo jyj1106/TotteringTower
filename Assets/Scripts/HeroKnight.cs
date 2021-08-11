@@ -10,6 +10,7 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] LayerMask Mon_layer;
     [SerializeField] GameObject m_slideDust;
     [SerializeField] GameObject[] Slash = new GameObject[10];
+    [SerializeField] GameObject[] MEffects = new GameObject[10];
 
     public Animator            m_animator;
     private Rigidbody2D         m_body2d;
@@ -22,8 +23,8 @@ public class HeroKnight : MonoBehaviour {
     private bool                m_grounded = false;
     public bool                m_attack, isAttack = false;
     public bool                m_rolling = false;
-    public bool                m_blocking = false;
-    public bool                m_blockOn = false;
+    public bool                m_blocking, m_blockOn = false;
+    public bool                hurt_snd = false;
     private bool                m_doublejump, m_triplejump = true;
     public bool                attackable = true;
     public bool                m_dead;
@@ -117,7 +118,6 @@ public class HeroKnight : MonoBehaviour {
             }
             else if (inputX == 0 && this.transform.rotation.y == -180)
             {
-                Debug.Log("x02");
                 PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
             }
 
@@ -190,7 +190,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         //OverlapBoxAll(Attack Monster)
-        if(!m_rolling && m_attack && m_timeSinceAttack > 0.25f && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
+        if(!m_rolling && m_attack && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
         {
             if(GameManager.lvUp == 1)
             {
@@ -334,6 +334,10 @@ public class HeroKnight : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("EAttack"))
         {
+            GameObject Mefc0 = Instantiate(MEffects[0]);
+            Mefc0.transform.parent = null;
+            Mefc0.transform.position = this.transform.Find("Pos").transform.Find("HitEffect_pos").transform.position;
+
             if (m_blocking == true)
             {
                 m_animator.SetTrigger("BlockingOn");
@@ -356,6 +360,7 @@ public class HeroKnight : MonoBehaviour {
                     m_blockOn = false;
                     this.transform.Find("PHit").gameObject.layer = 7;
                     Invoke("InvincibleOff", 0.25f);
+                    hurt_snd = true;
                 }
                 else if (GameManager.hp <= 0)
                 {
