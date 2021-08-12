@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 5845229327644180286}
   - component: {fileID: 5845229327644180287}
   - component: {fileID: 4085605987524082058}
+  - component: {fileID: 7614621484377618136}
   m_Layer: 3
   m_Name: WhiteFire
   m_TagString: Monster
@@ -228,7 +229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5845229327644180226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.28, y: -2.88, z: 0}
+  m_LocalPosition: {x: 0, y: -2.88, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4085605987087222299}
@@ -276,13 +277,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 4553912464026911583, guid: ae13e6df0aa9ad044b11ee2879fa2bf2, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -6668357352781831903, guid: 204a571946129ab4c9739e1ddcb58609, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.28}
+  m_Size: {x: 0.21, y: 0.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -304,12 +305,12 @@ MonoBehaviour:
   EAttack: {fileID: 4085605987087222298}
   MSpawner: {fileID: 0}
   hp: 5
-  spd: 2
+  spd: 1
   rangeP: 2
   reAttackTime: 2
   isFlying: 0
   isAttack: 0
-  B_Mon: 0100000000
+  B_Mon: 0000010000
   W_Mon: 00000000000000000000
   colorChange: 0
 --- !u!61 &5845229327644180287
@@ -329,8 +330,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.23}
-    oldSize: {x: 1.05, y: 2.9}
-    newSize: {x: 1.28, y: 1.28}
+    oldSize: {x: 0.95, y: 2.9}
+    newSize: {x: 0.21, y: 0.58}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -357,3 +358,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7614621484377618136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5845229327644180226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9175c43a23b513c4eb64db48a85abeaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

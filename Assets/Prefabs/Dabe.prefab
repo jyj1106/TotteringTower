@@ -100,7 +100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117723263500154185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.16, y: 4.38, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7498120963744058448}
@@ -148,7 +148,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 7bc115c989594d14a976bc09c5af264e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -177,12 +177,12 @@ MonoBehaviour:
   MSpawner: {fileID: 0}
   hp: 5
   spd: 2
-  rangeP: 1.5
+  rangeP: 1
   reAttackTime: 2
   isFlying: 0
   isAttack: 0
   B_Mon: 0000000000
-  W_Mon: 00000000000000000100
+  W_Mon: 00000000000000010000
   colorChange: 0
 --- !u!61 &117723263500154228
 BoxCollider2D:

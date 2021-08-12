@@ -1,0 +1,576 @@
+fileFormatVersion: 2
+guid: 204a571946129ab4c9739e1ddcb58609
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2766466797868496571
+    second: WhiteSpirit_0
+  - first:
+      213: -6668357352781831903
+    second: WhiteSpirit_1
+  - first:
+      213: -8666789490073301761
+    second: WhiteSpirit_2
+  - first:
+      213: 385431880928196619
+    second: WhiteSpirit_3
+  - first:
+      213: 3057534925397094491
+    second: WhiteSpirit_4
+  - first:
+      213: -4737687329793782712
+    second: WhiteSpirit_5
+  - first:
+      213: -7669994743886157162
+    second: WhiteSpirit_6
+  - first:
+      213: -24870795633509757
+    second: WhiteSpirit_7
+  - first:
+      213: -98947311075514821
+    second: WhiteSpirit_8
+  - first:
+      213: -9026034285077774050
+    second: WhiteSpirit_9
+  - first:
+      213: 663624738465120211
+    second: WhiteSpirit_10
+  - first:
+      213: -7739662716637088804
+    second: WhiteSpirit_11
+  - first:
+      213: -106625354974822416
+    second: WhiteSpirit_12
+  - first:
+      213: -8731958366700325996
+    second: WhiteSpirit_13
+  - first:
+      213: 2905109164990835655
+    second: WhiteSpirit_15
+  - first:
+      213: -1093413653001658351
+    second: WhiteSpirit_18
+  - first:
+      213: -7091393645528511394
+    second: WhiteSpirit_14
+  - first:
+      213: 7496336575242404110
+    second: WhiteSpirit_16
+  - first:
+      213: 4441574415790767113
+    second: WhiteSpirit_17
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 20
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WhiteSpirit_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 194
+        width: 21
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 549c22eca198b99d0800000000000000
+      internalID: -2766466797868496571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 194
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1212310715c3573a0800000000000000
+      internalID: -6668357352781831903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_2
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 194
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffc871d90e069b780800000000000000
+      internalID: -8666789490073301761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_3
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 194
+        width: 21
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b08f5dbe044595500800000000000000
+      internalID: 385431880928196619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_4
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 194
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b50f4aca0db8e6a20800000000000000
+      internalID: 3057534925397094491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_5
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 194
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84cc5c2997a504eb0800000000000000
+      internalID: -4737687329793782712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_6
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 194
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69a6d85fa64be8590800000000000000
+      internalID: -7669994743886157162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_7
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 194
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38abbf4a424a7aff0800000000000000
+      internalID: -24870795633509757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_8
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 93
+        width: 21
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b362ddfd1f770aef0800000000000000
+      internalID: -98947311075514821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_9
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 93
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e114173c3a51db280800000000000000
+      internalID: -9026034285077774050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_10
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 93
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dfff500f2ba53900800000000000000
+      internalID: 663624738465120211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_11
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 93
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd3f28504c1379490800000000000000
+      internalID: -7739662716637088804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_12
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 93
+        width: 21
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fffca8fdc0358ef0800000000000000
+      internalID: -106625354974822416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_13
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 93
+        width: 27
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 493b35f112ad1d680800000000000000
+      internalID: -8731958366700325996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_15
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 4
+        width: 39
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cba205c465015820800000000000000
+      internalID: 2905109164990835655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_18
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 4
+        width: 43
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1102644631a63d0f0800000000000000
+      internalID: -1093413653001658351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_14
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 4
+        width: 37
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5c8fcb1d0f469d90800000000000000
+      internalID: -7091393645528511394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_16
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 4
+        width: 41
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e01871cd566580860800000000000000
+      internalID: 7496336575242404110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiteSpirit_17
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 4
+        width: 43
+        height: 58
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90cfba01664a3ad30800000000000000
+      internalID: 4441574415790767113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
