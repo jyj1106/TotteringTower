@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    [SerializeField] GameObject MPos;
+
     public Transform playerPos, towerPos;
-    public Vector2 size;
     public GameObject EAttack;
-    public GameObject MSpawner;
     public float hp = 5f;
     public float spd = 2f;
     public float rangeP = 2f;
@@ -18,8 +18,6 @@ public class Monster : MonoBehaviour
     public bool colorChange = false;
 
     private Animator anim;
-    private Collider2D[] player, tower;
-    public LayerMask layer;
     private float posy;
     private float pos1, pos2;
     private float atkTimer, deathTimer, dTime;
@@ -42,7 +40,6 @@ public class Monster : MonoBehaviour
             reAttackTime = 2f;
             isFlying = false;
             isAttack = true;
-            layer = 11;
         }
         else if (B_Mon[1] == true)
         {
@@ -53,18 +50,17 @@ public class Monster : MonoBehaviour
             reAttackTime = 2f;
             isFlying = false;
             isAttack = true;
-            layer = 11;
         }
         else if (B_Mon[2] == true)
         {
+            //DarkFire
             trackP = true; trackT = false;
             hp = 3f;
             spd = 1f;
-            rangeP = 2f;
+            rangeP = 1.5f;
             reAttackTime = 2f;
             isFlying = false;
             isAttack = true;
-            layer = 11;
         }
         else if (B_Mon[3] == true)
         {
@@ -74,7 +70,7 @@ public class Monster : MonoBehaviour
         {
 
         }
-        //Now It's White Monsters!         Now It's White Monsters!
+        //White Monsters
         else if (W_Mon[0] == true)
         {
             trackP = false; trackT = true;
@@ -84,7 +80,6 @@ public class Monster : MonoBehaviour
             reAttackTime = 2f;
             isFlying = true;
             isAttack = true;
-            layer = 8;
         }
         else if (W_Mon[1] == true)
         {
@@ -120,18 +115,17 @@ public class Monster : MonoBehaviour
             reAttackTime = 0f;
             isFlying = true;
             isAttack = false;
-            layer = 11;
         }
         else if (W_Mon[8] == true)
         {
+            //WhiteFire
             trackP = false; trackT = true;
             hp = 3f;
             spd = 1f;
-            rangeP = 2f;
+            rangeP = 1.5f;
             reAttackTime = 2f;
             isFlying = false;
             isAttack = true;
-            layer = 8;
         }
         else if (W_Mon[9] == true)
         {
@@ -159,7 +153,7 @@ public class Monster : MonoBehaviour
         deathTimer += Time.deltaTime;
 
         //Tracking Player
-        if(attackable == true && trackP == true)
+        if (attackable == true && trackP == true)
         {
             float dis = Vector2.Distance(this.transform.position, playerPos.position);
 
@@ -201,12 +195,6 @@ public class Monster : MonoBehaviour
                 //Stop Tracking
             }
         }
-        else
-        {
-            //Idle or Waiting reAttackTime
-        }
-
-
  
         //Make non-Flying Monsters
         if(isFlying == false)
@@ -230,31 +218,14 @@ public class Monster : MonoBehaviour
         if(pos1 > pos2)
         {
             this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            if(trackP == true && trackT == false)
-            {
-                player = Physics2D.OverlapBoxAll(this.transform.position, size, 0, layer);
-            }
-            else if(trackP == false && trackT == true)
-            {
-                tower = Physics2D.OverlapBoxAll(this.transform.position, size, 0, layer);
-            }
         }
         else if(pos1 == pos2)
         {
-            //Do not Flip
-            
+            //Do not Flip            
         }
         else if(pos1 < pos2)
         {
             this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-            if (trackP == true && trackT == false)
-            {
-                player = Physics2D.OverlapBoxAll(this.transform.position, size, 0, layer);
-            }
-            else if (trackP == false && trackT == true)
-            {
-                tower = Physics2D.OverlapBoxAll(this.transform.position, size, 0, layer);
-            }
         }
         pos2 = this.transform.position.x;
 
@@ -274,15 +245,21 @@ public class Monster : MonoBehaviour
         }
     }
 
-    //Attack Player
+    //Attack Player or Tower
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && atkTimer >= reAttackTime && isAttack == true)
+        if (collision.gameObject.CompareTag("Player") && atkTimer >= reAttackTime && isAttack == true && trackP == true)
+        {
+            atkTimer = 0f;
+            anim.SetTrigger("Attack");
+        }
+        else if (collision.gameObject.CompareTag("Tower") && atkTimer >= reAttackTime && isAttack == true && trackT == true)
         {
             atkTimer = 0f;
             anim.SetTrigger("Attack");
         }
     }
+
     void EAttack_Active()
     {
         EAttack.gameObject.SetActive(true);
@@ -301,17 +278,12 @@ public class Monster : MonoBehaviour
     void MonDead()
     {
         this.gameObject.SetActive(false);
+        this.transform.position = MPos.transform.position;
     }
 
     void ColorSet()
     {
         this.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1f);
         colorChange = false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector2(this.transform.position.x, this.transform.position.y), size);
     }
 }

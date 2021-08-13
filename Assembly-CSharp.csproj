@@ -63,6 +63,7 @@
     <Compile Include="Assets\PixelWeatherAsset\Scripts\SnowController.cs" />
     <Compile Include="Assets\Scripts\Managements\EffectManager.cs" />
     <Compile Include="Assets\Scripts\Shopping.cs" />
+    <Compile Include="Assets\Scripts\Clouds.cs" />
     <Compile Include="Assets\Scripts\Monster.cs" />
     <Compile Include="Assets\Scripts\Managements\SoundManager.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\Sensor_HeroKnight.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\DestroyEvent_HeroKnight.cs" />
     <Compile Include="Assets\Scripts\CamMove.cs" />
     <Compile Include="Assets\PixelWeatherAsset\Scripts\StoneFloat.cs" />
-    <Compile Include="Assets\Scripts\Clouds.cs" />
+    <Compile Include="Assets\Scripts\Managements\StageManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PixelWeatherAsset\Materials\SnowDiffuse.shader" />

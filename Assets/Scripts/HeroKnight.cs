@@ -302,33 +302,6 @@ public class HeroKnight : MonoBehaviour {
         }
     }
 
-    // Animation Events
-    // Called in end of roll animation.
-    void AE_ResetRoll()
-    {
-        m_rolling = false;
-        this.transform.Find("PHit").gameObject.layer = 11;
-    }
-
-    // Called in slide animation.
-    void AE_SlideDust()
-    {
-        Vector3 spawnPosition;
-
-        if (m_facingDirection == 1)
-            spawnPosition = m_wallSensorR2.transform.position;
-        else
-            spawnPosition = m_wallSensorL2.transform.position;
-
-        if (m_slideDust != null)
-        {
-            // Set correct arrow spawn position
-            GameObject dust = Instantiate(m_slideDust, spawnPosition, gameObject.transform.localRotation) as GameObject;
-            // Turn arrow in correct direction
-            dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
-        }
-    }
-
     //"Death and Hurt" Animation & System + Blocking System and Animation
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -371,6 +344,33 @@ public class HeroKnight : MonoBehaviour {
                     this.transform.Find("PHit").gameObject.layer = 7;
                 }
             }
+        }
+    }
+
+    // Animation Events
+    // Called in end of roll animation.
+    void AE_ResetRoll()
+    {
+        m_rolling = false;
+        this.transform.Find("PHit").gameObject.layer = 11;
+    }
+
+    // Called in slide animation.
+    void AE_SlideDust()
+    {
+        Vector3 spawnPosition;
+
+        if (m_facingDirection == 1)
+            spawnPosition = m_wallSensorR2.transform.position;
+        else
+            spawnPosition = m_wallSensorL2.transform.position;
+
+        if (m_slideDust != null)
+        {
+            // Set correct arrow spawn position
+            GameObject dust = Instantiate(m_slideDust, spawnPosition, gameObject.transform.localRotation) as GameObject;
+            // Turn arrow in correct direction
+            dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
     }
 
@@ -435,7 +435,7 @@ public class HeroKnight : MonoBehaviour {
         }
     }
 
-    void InvincibleOff()
+    public void InvincibleOff()
     {
         this.transform.Find("PHit").gameObject.layer = 11;
     }
