@@ -21,11 +21,10 @@ public class Monster : MonoBehaviour
     private float posy;
     private float pos1, pos2;
     private float atkTimer, deathTimer, dTime;
-    private bool trackP, attackable = true;
+    private bool trackP, attackable, activeonce = true;
     private bool trackT = false;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         //This is Initializing process of Monster's ability and status. Set value in Inspector View
         //You must set true only one element. If you set true as multiple, it makes error!
@@ -36,7 +35,7 @@ public class Monster : MonoBehaviour
             trackP = true; trackT = false;
             hp = 5f;
             spd = 2f;
-            rangeP = 2f;
+            rangeP = 1.25f;
             reAttackTime = 2f;
             isFlying = false;
             isAttack = true;
@@ -46,7 +45,7 @@ public class Monster : MonoBehaviour
             trackP = true; trackT = false;
             hp = 3f;
             spd = 5f;
-            rangeP = 2f;
+            rangeP = 1.25f;
             reAttackTime = 2f;
             isFlying = false;
             isAttack = true;
@@ -132,13 +131,20 @@ public class Monster : MonoBehaviour
 
         }
 
-
         this.gameObject.layer = 3;
-        anim = GetComponent<Animator>();
-        posy = this.transform.position.y;
         atkTimer = 0f;
         deathTimer = 0f;
         dTime = 1f;
+        activeonce = true;
+        attackable = true;
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        posy = this.transform.position.y;
         //attackable is not same as reAttackTime. This makes monster stop
         attackable = true;
         //pos2 is not same as posy. pos2 is used in Flip
@@ -236,12 +242,14 @@ public class Monster : MonoBehaviour
         }
 
         //Dead
-        if (hp <= 0)
+        if (hp <= 0 && activeonce == true)
         {
             attackable = false;
             this.transform.Find("EHit").gameObject.layer = 7;
             this.gameObject.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1f);
             anim.SetTrigger("Dead");
+            GameObject.Find("Managements").transform.Find("StageManager").GetComponent<StageManager>().nowKillCount++;
+            activeonce = false;
         }
     }
 
@@ -250,6 +258,7 @@ public class Monster : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && atkTimer >= reAttackTime && isAttack == true && trackP == true)
         {
+            Debug.Log("a");
             atkTimer = 0f;
             anim.SetTrigger("Attack");
         }

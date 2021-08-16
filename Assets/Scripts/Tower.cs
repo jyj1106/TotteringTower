@@ -7,13 +7,14 @@ public class Tower : MonoBehaviour
     [SerializeField] GameObject[] MEffects = new GameObject[10];
 
     private Animator anim;
+    private bool collapse;
 
     public float TowerHP = 20f;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.gameObject.layer = 8;
+        //this.gameObject.layer = 8;
         anim = this.GetComponent<Animator>();
     }
 
@@ -25,7 +26,8 @@ public class Tower : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "EAttack")
+        Debug.Log("thit");
+        if (collision.tag == "EAttack" && collapse == false)
         {
             TowerHP--;
             if(!(TowerHP <= 0))
@@ -37,6 +39,7 @@ public class Tower : MonoBehaviour
             }
             else if(TowerHP <= 0)
             {
+                collapse = true;
                 this.gameObject.layer = 7;
                 anim.SetTrigger("isCollapse");
             }

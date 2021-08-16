@@ -21,5 +21,7 @@ public class Shopping : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         shop.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+        GameObject.Find("SoundManager").GetComponent<AudioSource>().volume = 0.25f;
     }
 }

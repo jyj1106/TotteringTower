@@ -116,7 +116,7 @@ public class HeroKnight : MonoBehaviour {
             {
                 PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
             }
-            else if (inputX == 0 && this.transform.rotation.y == -180)
+            else if (inputX == 0 && this.transform.rotation.y == 180)
             {
                 PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
             }
@@ -187,6 +187,11 @@ public class HeroKnight : MonoBehaviour {
                     target = i;
                 }
             }
+        }
+
+        if(PAttack.Length > 0 && Vector2.Distance(this.transform.position, PAttack[target].transform.position) >= 10)
+        {
+            PAttack[target] = null;
         }
 
         //OverlapBoxAll(Attack Monster)

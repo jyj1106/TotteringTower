@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Time.timeScale = 0f;
+            GameObject.Find("SoundManager").GetComponent<AudioSource>().volume = 0.25f;
             Set.gameObject.SetActive(true);
         }
 
@@ -171,11 +173,15 @@ public class GameManager : MonoBehaviour
     public void ShoppingEnd()
     {
         Shopping.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        GameObject.Find("SoundManager").GetComponent<AudioSource>().volume = 1f;
     }
 
     public void SettingEnd()
     {
         Set.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        GameObject.Find("SoundManager").GetComponent<AudioSource>().volume = 1f;
     }
 
     public void SetInsideStart()
@@ -189,6 +195,8 @@ public class GameManager : MonoBehaviour
 
     public void GoTitle()
     {
+        Time.timeScale = 1f;
+        GameObject.Find("SoundManager").GetComponent<AudioSource>().volume = 1f;
         SceneManager.LoadScene("Title");
     }
     

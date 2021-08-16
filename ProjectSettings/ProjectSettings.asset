@@ -261,7 +261,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 985baa1c3d0ae3d42baddf9d7d5c7ded, type: 3}
+      m_Icon: {fileID: 2800000, guid: 391802979f965c94980a7311ec337b10, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
@@ -532,6 +532,7 @@ PlayerSettings:
   ps4videoRecordingFeaturesUsed: 0
   ps4contentSearchFeaturesUsed: 0
   ps4CompatibilityPS5: 0
+  ps4AllowPS5Detection: 0
   ps4GPU800MHz: 1
   ps4attribEyeToEyeDistanceSettingVR: 0
   ps4IncludedModules: []
