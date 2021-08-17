@@ -28,6 +28,8 @@ public class Shop : MonoBehaviour
     public GameObject mbtn3;
     public GameObject mbtn4;
 
+    public GameObject Info1, Info2, Info3, Info4;
+
     public static bool shopBtn_snd = false;
 
     private int upgrade1, upgrade2;
@@ -202,15 +204,16 @@ public class Shop : MonoBehaviour
             }
             if(upgrade2 == 2)
             {
-
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime += 0.5f;
             }
             if(upgrade2 == 3)
             {
-
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime += 1f;
             }
             if(upgrade2 == 4)
             {
-
+                GameObject.Find("GameManager").GetComponent<GameManager>().skillMaxTime += 1f;
+                GameObject.Find("GameManager").GetComponent<GameManager>().maxStack = 10;
             }
             upgrade2--;
         }
@@ -245,4 +248,30 @@ public class Shop : MonoBehaviour
         shop4.text = "마력석\n\n\n타워\n\n\nLV : " + num4;
         EP++;
     }
+
+    public void ShopInfo1()
+    {
+        Info1.SetActive(true);
+    }
+    public void ShopInfo2()
+    {
+        Info2.SetActive(true);
+    }
+    public void ShopInfo3()
+    {
+        Info3.SetActive(true);
+    }
+    public void ShopInfo4()
+    {
+        Info4.SetActive(true);
+    }
+
+    public void ShopInfoOff()
+    {
+        Info1.SetActive(false);
+        Info2.SetActive(false);
+        Info3.SetActive(false);
+        Info4.SetActive(false);
+    }
+
 }

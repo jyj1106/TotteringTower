@@ -9,7 +9,8 @@ public class Tower : MonoBehaviour
     private Animator anim;
     private bool collapse;
 
-    public float TowerHP = 20f;
+    public int TowerHP = 20;
+    public bool TCollapse = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,16 +30,30 @@ public class Tower : MonoBehaviour
         if (collision.tag == "EAttack" && collapse == false)
         {
             TowerHP--;
-            if(!(TowerHP <= 0))
+            if(!(TowerHP <= 0) && TowerHP > 14)
             {
                 GameObject Mefc0 = Instantiate(MEffects[0]);
                 Mefc0.transform.parent = null;
                 Mefc0.transform.position = new Vector2(Random.Range(-1.3f, 1.3f), Random.Range(-3.45f, 2.6f));
-                anim.SetTrigger("isHit");
+                anim.SetTrigger("isHit_100");
+            }
+            else if(!(TowerHP <= 0) && TowerHP <= 14 && TowerHP > 7)
+            {
+                GameObject Mefc0 = Instantiate(MEffects[0]);
+                Mefc0.transform.parent = null;
+                Mefc0.transform.position = new Vector2(Random.Range(-1.3f, 1.3f), Random.Range(-3.45f, 2.6f));
+                anim.SetTrigger("isHit_60");
+            }
+            else if (!(TowerHP <= 0) && TowerHP <= 7 && TowerHP > 0)
+            {
+                GameObject Mefc0 = Instantiate(MEffects[0]);
+                Mefc0.transform.parent = null;
+                Mefc0.transform.position = new Vector2(Random.Range(-1.3f, 1.3f), Random.Range(-3.45f, 2.6f));
+                anim.SetTrigger("isHit_30");
             }
             else if(TowerHP <= 0)
             {
-                GameObject.Find("HeroKnight").GetComponent<HeroKnight>().Inputtable = false;
+                GameObject.Find("HeroKnight").GetComponent<HeroKnight>().enabled = false;
                 collapse = true;
                 this.gameObject.layer = 7;
                 anim.SetTrigger("isCollapse");
@@ -48,6 +63,23 @@ public class Tower : MonoBehaviour
 
     void GoIdle()
     {
-        anim.SetTrigger("isIdle");
+        if (!(TowerHP <= 0) && TowerHP > 14)
+        {
+            anim.SetTrigger("isIdle_100");
+        }
+        else if (!(TowerHP <= 0) && TowerHP <= 14 && TowerHP > 7)
+        {
+            anim.SetTrigger("isIdle_60");
+        }
+        else if (!(TowerHP <= 0) && TowerHP <= 7 && TowerHP > 0)
+        {
+            anim.SetTrigger("isIdle_30");
+        }
+    }
+
+    void TowerDead()
+    {
+        TCollapse = true;
+        GameObject.Find("Managements").transform.Find("StageManager").GetComponent<StageManager>().NowLoading();
     }
 }

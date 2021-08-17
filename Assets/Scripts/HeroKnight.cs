@@ -13,7 +13,7 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] GameObject[] MEffects = new GameObject[10];
 
     public Animator            m_animator;
-    private Rigidbody2D         m_body2d;
+    public Rigidbody2D         m_body2d;
     private Collider2D[]          PAttack;
     private Sensor_HeroKnight   m_groundSensor;
     private Sensor_HeroKnight   m_wallSensorR1;
@@ -424,6 +424,12 @@ public class HeroKnight : MonoBehaviour {
         {
             isHit = false;
         }
+    }
+
+    void HeroDead()
+    {
+        GameObject.Find("Tower").GetComponent<Tower>().TCollapse = true;
+        GameObject.Find("Managements").transform.Find("StageManager").GetComponent<StageManager>().NowLoading();
     }
 
     public void InvincibleOff()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    private AudioSource sndManager;
+    public AudioSource sndManager;
     private AudioSource sndManager2;
 
     public AudioClip[] bgm = new AudioClip[2];
@@ -14,8 +14,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip shop_btn;
     public AudioClip ShieldHit_snd;
     public AudioClip playerHit_snd;
+    public AudioClip battleStart_snd;
 
     public int once = 0;
+    public bool battleSnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -94,6 +96,14 @@ public class SoundManager : MonoBehaviour
                 sndManager.Play();
                 once++;
             }
+        }
+
+        //Battle Start Snd
+        if(battleSnd == true)
+        {
+            battleSnd = false;
+            sndManager.Stop();
+            sndManager.PlayOneShot(battleStart_snd);
         }
     }
 

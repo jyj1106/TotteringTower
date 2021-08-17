@@ -20,14 +20,14 @@ public class GameManager : MonoBehaviour
     public float MaxMp = 5;
     public float skillMaxTime = 1f;
     public static float hp;
-    public static int lvUp = 1;
+    public static int lvUp, stack = 1;
     public static float mana;
     public static bool coinSound, coinUse, coinEnd = false;
 
     public float skillTime, coinTime, nowSkill, hpPer, car, fs;
 
     private bool skillUsable, coolActive, coinAnim1, coinAnim2 = false;
-    private int zero, stack = 0;
+    private int zero = 0;
 
     void Awake()
     {
@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
         //Coin Skill
         if (Input.GetKey(KeyCode.X) && skillUsable == true && mana >= 1 && coolActive == false)
         {
+            Debug.Log(lvUp);
             coinUse = true;
             if (zero == 0)
             {
@@ -110,7 +111,7 @@ public class GameManager : MonoBehaviour
                 {
                     lvUp++;
                     coinEnd = true;
-                    stack = 0;
+                    stack = 1;
                 }
             }
             else if((int)coinTime == 1f * stack && mana < 1)
@@ -121,6 +122,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.X) && coinEnd == false && coolActive == false)
         {
             hp++;
+            mana--;
             if (hp >= MaxHp)
             {
                 hp = MaxHp;
@@ -129,7 +131,7 @@ public class GameManager : MonoBehaviour
             SkillCool();
             coolActive = true;
             zero = 0;
-            stack = 0;
+            stack = 1;
         }
         else if (coinEnd == true && coolActive == false)
         {
@@ -137,7 +139,7 @@ public class GameManager : MonoBehaviour
             SkillCool();
             coolActive = true;
             zero = 0;
-            stack = 0;
+            stack = 1;
         }
 
         //CoolTime

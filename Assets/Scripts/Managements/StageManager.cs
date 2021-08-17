@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
     [SerializeField] GameObject Tower, Player;
-    [SerializeField] GameObject Shop;
+    [SerializeField] GameObject Shop, LoadingText;
 
     [SerializeField] GameObject[] MSpawnLand = new GameObject[2];
     [SerializeField] GameObject[] MSpawnSky = new GameObject[2];
@@ -35,6 +36,7 @@ public class StageManager : MonoBehaviour
     public bool rest = false;
     public int nowKillCount;
     public int stagenum = 0;
+    public int THp;
 
     private GameObject BM0, BM1, BM2, BM3, BM4;
     private GameObject WM0, WM1, WM2, WM3, WM4, WM5, WM6, WM7, WM8, WM9;
@@ -44,15 +46,17 @@ public class StageManager : MonoBehaviour
     private bool[] bBM2 = new bool[10];
     private bool[] wWM7 = new bool[10];
     private bool[] wWM8 = new bool[10];
+    private bool nowLoad, loadEnd, stageEnd = false;
     private int n, ran;
     private float endTime;
+    private float loadColor = 0f;
 
-    int a = 0;
+    int a, tcheck = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
@@ -61,6 +65,7 @@ public class StageManager : MonoBehaviour
         //Counting Time
         stageTime += Time.deltaTime;
         endTime += Time.deltaTime;
+        loadColor += Time.deltaTime;
 
         //Random Spawn
         ran = (int)Random.Range(0f, 1.99999f);
@@ -411,7 +416,13 @@ public class StageManager : MonoBehaviour
         if (Stage[0] == true)
         {
             rest = false;
-
+            if(tcheck == 0)
+            {
+                tcheck++;
+                THp = GameObject.Find("Tower").GetComponent<Tower>().TowerHP;
+                GameManager.lvUp = 1;
+                GameManager.stack = 1;
+            }
             if (stageTime >= 7f * n && stageTime < 36f)
             {
                 n++;
@@ -599,13 +610,20 @@ public class StageManager : MonoBehaviour
                 if(a == 0)
                 {
                     a++;
-                    Invoke("StageClear", 2f);
+                    Time.timeScale = 0.5f;
+                    NowLoading();
+                    Invoke("StageClear", 1f);
                 }
             }
         }
         else if (Stage[1] == true)
         {
             rest = false;
+            if (tcheck == 0)
+            {
+                tcheck++;
+                THp = GameObject.Find("Tower").GetComponent<Tower>().TowerHP;
+            }
 
             if (stageTime >= 7f * n && stageTime < 36f)
             {
@@ -882,27 +900,77 @@ public class StageManager : MonoBehaviour
         if(rest == true)
         {
             Time.timeScale = 1f;
-            if(stagenum % 3 == 0) //morning
+            Shop.transform.position = new Vector3(2.42f, -3.09f, 0f);
+            Shop.gameObject.SetActive(true);
+            if (stagenum % 3 == 0) //morning
             {
                 BG[0].transform.position = new Vector3(0f, 0f, 0f);
                 BG[0].gameObject.SetActive(true);
             }
-            else if(stagenum % 3 == 2) //afternoon
+            else if(stagenum % 3 == 1) //afternoon
             {
                 BG[1].transform.position = new Vector3(0f, 0f, 0f);
                 BG[1].gameObject.SetActive(true);
             }
-            else if(stagenum % 3 == 1) //night
+            else if(stagenum % 3 == 2) //night
             {
                 BG[2].transform.position = new Vector3(0f, 0f, 0f);
                 BG[2].gameObject.SetActive(true);
             }
             if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                Stage[stagenum] = true;
-                rest = false;
-                GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().once = 0;
-                StageSettings();
+                GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().battleSnd = true;
+                NowLoading();
+            }
+        }
+
+        //Loading Effect
+        if (nowLoad == true && loadEnd == false) //NowLoading()
+        {
+            GameObject.Find("HeroKnight").GetComponent<HeroKnight>().Inputtable = false;
+            GameObject.Find("Canvas").transform.Find("Loading_Img").GetComponent<Image>().color = new Color(1f, 1f, 1f, loadColor);
+            if (loadColor >= 1f)
+            {
+                loadColor = 1f;
+                nowLoad = false;
+                LoadingText.SetActive(true);
+            }
+        }
+        if (LoadingText.activeSelf == true && nowLoad == false && loadEnd == false)
+        {
+            loadEnd = true;
+            Invoke("LoadFinish", 1.5f);
+            GameManager.hp = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<GameManager>().MaxHp;
+            GameManager.mana = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<GameManager>().MaxMp;
+
+            if (stageEnd == false)
+            {
+                if(GameObject.Find("Tower").GetComponent<Tower>().TCollapse == true)
+                {
+                    GameObject.Find("Tower").GetComponent<Tower>().TCollapse = false;
+                    GameObject.Find("Tower").GetComponent<Tower>().TowerHP = THp;
+                    Stage[stagenum] = false;
+                }
+                else
+                {
+                    Stage[stagenum] = true;
+                    rest = false;
+                    StageSettings();
+                }
+            }
+            else if(stageEnd == true)
+            {
+                stageEnd = false;
+                GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().sndManager.Stop();
+            }
+        }
+        if (loadEnd == true && nowLoad == false && LoadingText.activeSelf == false)
+        {
+            GameObject.Find("Canvas").transform.Find("Loading_Img").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1 - loadColor);
+            if(loadColor >= 1f)
+            {
+                loadColor = 1f;
+                loadEnd = false;
             }
         }
     }
@@ -1027,20 +1095,41 @@ public class StageManager : MonoBehaviour
 
     void StageClear()
     {
+        stageEnd = true;
         Stage[stagenum] = false;
         if(stagenum % 3 == 0) //morning
         {
             BG[0].gameObject.SetActive(false);
         }
-        else if(stagenum % 3 == 2) //afternoon
+        else if(stagenum % 3 == 1) //afternoon
         {
             BG[1].gameObject.SetActive(false);
         }
-        else if(stagenum % 3 == 1) //night
+        else if(stagenum % 3 == 2) //night
         {
             BG[2].gameObject.SetActive(false);
         }
         stagenum++;
+    }
+
+    public void NowLoading()
+    {
+        Time.timeScale = 1f;
+        loadColor = 0f;
+        nowLoad = true;
+    }
+
+    void LoadFinish()
+    {
+        LoadingText.SetActive(false);
+        loadColor = 0f;
+        ChangeBGM();
+        tcheck = 0;
+        GameObject.Find("HeroKnight").GetComponent<HeroKnight>().Inputtable = true;
+    }
+
+    void ChangeBGM()
+    {
         GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().once = 0;
     }
 }

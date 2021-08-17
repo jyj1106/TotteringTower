@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6408360011411289437}
   - component: {fileID: 2662953529840197663}
   - component: {fileID: 6323719954840587722}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Tower
-  m_TagString: Player
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8302082357993311336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.29, y: -3.61, z: 0}
+  m_LocalPosition: {x: 0, y: -3.61, z: 0}
   m_LocalScale: {x: 3.5, y: 3.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
