@@ -112,6 +112,7 @@ public class SoundManager : MonoBehaviour
         if (HeroKnight.isSlash == true && HeroKnight.isHit == true)
         {
             sndManager.PlayOneShot(slashHit_snd);
+            sndManager2.PlayOneShot(ShieldHit_snd);
         }
         else if (HeroKnight.isSlash == true && HeroKnight.isHit == false)
         {
