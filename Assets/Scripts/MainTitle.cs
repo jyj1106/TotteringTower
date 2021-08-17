@@ -9,8 +9,6 @@ public class MainTitle : MonoBehaviour
     private bool available = false;
 
     public GameObject Title, start, setting, quit;
-    public float spd = 1f;
-    public float plus = 0.003f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,14 +20,14 @@ public class MainTitle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        a += Time.deltaTime * spd;
+        a += Time.deltaTime;
         if(amount > 1f)
         {
             amount = 1f;
         }
-        if (available == true && a < 2f && amount <= 1f)
+        if (available == true && a <= 2f && amount <= 1f)
         {
-            amount += plus;
+            amount += Time.deltaTime * 0.5f;
             Title.GetComponent<Image>().color = new Color(1f, 1f, 1f, amount);
             start.GetComponent<Text>().color = new Color(0.19f, 0.19f, 0.19f, amount);
             setting.GetComponent<Text>().color = new Color(0.19f, 0.19f, 0.19f, amount);

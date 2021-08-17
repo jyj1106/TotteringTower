@@ -6,8 +6,9 @@ public class StageManager : MonoBehaviour
 {
     [SerializeField] GameObject Tower, Player;
     [SerializeField] GameObject Shop;
-    [SerializeField] GameObject MSpawn1, MSpawn2, MSpawn3, MSpawn4;
 
+    [SerializeField] GameObject[] MSpawnLand = new GameObject[2];
+    [SerializeField] GameObject[] MSpawnSky = new GameObject[2];
     [SerializeField] GameObject[] BG = new GameObject[3];
 
     [SerializeField] GameObject[] BMon0 = new GameObject[10];
@@ -31,13 +32,19 @@ public class StageManager : MonoBehaviour
     [SerializeField] float stageTime;
 
     public bool[] Stage = new bool[21];
+    public bool rest = false;
     public int nowKillCount;
+    public int stagenum = 0;
 
     private GameObject BM0, BM1, BM2, BM3, BM4;
     private GameObject WM0, WM1, WM2, WM3, WM4, WM5, WM6, WM7, WM8, WM9;
     private bool activation, stopMake = true;
-    private bool rest = false;
-    private int n;
+    private bool[] bBM0 = new bool[10];
+    private bool[] bBM1 = new bool[10];
+    private bool[] bBM2 = new bool[10];
+    private bool[] wWM7 = new bool[10];
+    private bool[] wWM8 = new bool[10];
+    private int n, ran;
     private float endTime;
 
     int a = 0;
@@ -45,106 +52,7 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Set default values
-        Player.transform.position = new Vector3(0f, -2f, 0f);
-        Tower.transform.position = new Vector3(0f, -0.2091f, 0f);
-        Shop.transform.position = new Vector3(2.42f, -3.09f, 0f);
-        Shop.gameObject.SetActive(true);
-        activation = true;
-        stopMake = false;
-        n = 0;
-
-        //Initializing Game Field
-        if (Stage[0] == true)
-        {
-            //Set clear limit
-            nowKillCount = 0;
-            maxKillCount = 10;
-
-            //Set position
-            BG[0].transform.position = new Vector3(0f, 0f, 0f);
-            BG[0].gameObject.SetActive(true);
-        }
-        else if (Stage[1] == true)
-        {
-
-        }
-        else if (Stage[2] == true)
-        {
-
-        }
-        else if (Stage[3] == true)
-        {
-
-        }
-        else if (Stage[4] == true)
-        {
-
-        }
-        else if (Stage[5] == true)
-        {
-
-        }
-        else if (Stage[6] == true)
-        {
-
-        }
-        else if (Stage[7] == true)
-        {
-
-        }
-        else if (Stage[8] == true)
-        {
-
-        }
-        else if (Stage[9] == true)
-        {
-
-        }
-        else if (Stage[10] == true)
-        {
-
-        }
-        else if (Stage[11] == true)
-        {
-
-        }
-        else if (Stage[12] == true)
-        {
-
-        }
-        else if (Stage[13] == true)
-        {
-
-        }
-        else if (Stage[14] == true)
-        {
-
-        }
-        else if (Stage[15] == true)
-        {
-
-        }
-        else if (Stage[16] == true)
-        {
-
-        }
-        else if (Stage[17] == true)
-        {
-
-        }
-        else if (Stage[18] == true)
-        {
-
-        }
-        else if (Stage[19] == true)
-        {
-
-        }
-        else if (Stage[20] == true)
-        {
-
-        }
+       
     }
 
     // Update is called once per frame
@@ -154,6 +62,10 @@ public class StageManager : MonoBehaviour
         stageTime += Time.deltaTime;
         endTime += Time.deltaTime;
 
+        //Random Spawn
+        ran = (int)Random.Range(0f, 1.99999f);
+
+        /*
         //Set Active
         if (BMon0[0].activeSelf == true)
         {
@@ -492,25 +404,179 @@ public class StageManager : MonoBehaviour
         else
         {
             WM9 = WMon9[0];
-        }
+        }*/
+        
 
         //Stage Settings. This is the Main Setting of Stages.
         if (Stage[0] == true)
         {
-            if(stageTime >= 5f * n && stageTime < 30f)
+            rest = false;
+
+            if (stageTime >= 7f * n && stageTime < 36f)
             {
                 n++;
+                
+                if (bBM0[0] == true)
+                {
+                    if (bBM0[1] == true)
+                    {
+                        if (bBM0[2] == true)
+                        {
+                            if (bBM0[3] == true)
+                            {
+                                if (bBM0[4] == true)
+                                {
+                                    if (bBM0[5] == true)
+                                    {
+                                        if (bBM0[6] == true)
+                                        {
+                                            if (bBM0[7] == true)
+                                            {
+                                                if (bBM0[8] == true)
+                                                {
+                                                    BM0 = BMon0[9];
+                                                    bBM0[9] = true;
+                                                }
+                                                else
+                                                {
+                                                    BM0 = BMon0[8];
+                                                    bBM0[8] = true;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                BM0 = BMon0[7];
+                                                bBM0[7] = true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            BM0 = BMon0[6];
+                                            bBM0[6] = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        BM0 = BMon0[5];
+                                        bBM0[5] = true;
+                                    }
+                                }
+                                else
+                                {
+                                    BM0 = BMon0[4];
+                                    bBM0[4] = true;
+                                }
+                            }
+                            else
+                            {
+                                BM0 = BMon0[3];
+                                bBM0[3] = true;
+                            }
+                        }
+                        else
+                        {
+                            BM0 = BMon0[2];
+                            bBM0[2] = true;
+                        }
+                    }
+                    else
+                    {
+                        BM0 = BMon0[1];
+                        bBM0[1] = true;
+                    }
+                }
+                else
+                {
+                    BM0 = BMon0[0];
+                    bBM0[0] = true;
+                }
+                
                 BM0.transform.parent = null;
-                BM0.transform.position = MSpawn1.transform.position;
+                BM0.transform.position = MSpawnLand[ran].transform.position;
                 BM0.gameObject.SetActive(true);
             }
-            else if(stageTime >= 5f * n && stageTime > 40f && !(nowKillCount >= maxKillCount))
+            else if(stageTime >= 7f * n && stageTime > 48f && !(nowKillCount >= maxKillCount))
             {
                 n++;
-                if(!stopMake == true)
+                if(stopMake == false)
                 {
+                    if (bBM1[0] == true)
+                    {
+                        if (bBM1[1] == true)
+                        {
+                            if (bBM1[2] == true)
+                            {
+                                if (bBM1[3] == true)
+                                {
+                                    if (bBM1[4] == true)
+                                    {
+                                        if (bBM1[5] == true)
+                                        {
+                                            if (bBM1[6] == true)
+                                            {
+                                                if (bBM1[7] == true)
+                                                {
+                                                    if (bBM1[8] == true)
+                                                    {
+                                                        BM1 = BMon1[9];
+                                                        bBM1[9] = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        BM1 = BMon1[8];
+                                                        bBM1[8] = true;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    BM1 = BMon1[7];
+                                                    bBM1[7] = true;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                BM1 = BMon1[6];
+                                                bBM1[6] = true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            BM1 = BMon1[5];
+                                            bBM1[5] = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        BM1 = BMon1[4];
+                                        bBM1[4] = true;
+                                    }
+                                }
+                                else
+                                {
+                                    BM1 = BMon1[3];
+                                    bBM1[3] = true;
+                                }
+                            }
+                            else
+                            {
+                                BM1 = BMon1[2];
+                                bBM1[2] = true;
+                            }
+                        }
+                        else
+                        {
+                            BM1 = BMon1[1];
+                            bBM1[1] = true;
+                        }
+                    }
+                    else
+                    {
+                        BM1 = BMon1[0];
+                        bBM1[0] = true;
+                    }
+
                     BM1.transform.parent = null;
-                    BM1.transform.position = MSpawn1.transform.position;
+                    BM1.transform.position = MSpawnLand[ran].transform.position;
                     BM1.gameObject.SetActive(true);
                 }
                 else
@@ -524,25 +590,213 @@ public class StageManager : MonoBehaviour
                     }
                 }
 
+                BM1.transform.parent = null;
+                BM1.transform.position = MSpawnLand[ran].transform.position;
+                BM1.gameObject.SetActive(true);
             }
             else if(nowKillCount >= maxKillCount)
             {
-
                 if(a == 0)
                 {
                     a++;
-                    endTime = 0f;
-                }
-                Time.timeScale = 1 - endTime;
-                if(Time.timeScale <= 0)
-                {
-                    Stage[0] = false;
+                    Invoke("StageClear", 2f);
                 }
             }
         }
         else if (Stage[1] == true)
         {
+            rest = false;
 
+            if (stageTime >= 7f * n && stageTime < 36f)
+            {
+                n++;
+
+                if (bBM0[0] == true)
+                {
+                    if (bBM0[1] == true)
+                    {
+                        if (bBM0[2] == true)
+                        {
+                            if (bBM0[3] == true)
+                            {
+                                if (bBM0[4] == true)
+                                {
+                                    if (bBM0[5] == true)
+                                    {
+                                        if (bBM0[6] == true)
+                                        {
+                                            if (bBM0[7] == true)
+                                            {
+                                                if (bBM0[8] == true)
+                                                {
+                                                    BM0 = BMon0[9];
+                                                    bBM0[9] = true;
+                                                }
+                                                else
+                                                {
+                                                    BM0 = BMon0[8];
+                                                    bBM0[8] = true;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                BM0 = BMon0[7];
+                                                bBM0[7] = true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            BM0 = BMon0[6];
+                                            bBM0[6] = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        BM0 = BMon0[5];
+                                        bBM0[5] = true;
+                                    }
+                                }
+                                else
+                                {
+                                    BM0 = BMon0[4];
+                                    bBM0[4] = true;
+                                }
+                            }
+                            else
+                            {
+                                BM0 = BMon0[3];
+                                bBM0[3] = true;
+                            }
+                        }
+                        else
+                        {
+                            BM0 = BMon0[2];
+                            bBM0[2] = true;
+                        }
+                    }
+                    else
+                    {
+                        BM0 = BMon0[1];
+                        bBM0[1] = true;
+                    }
+                }
+                else
+                {
+                    BM0 = BMon0[0];
+                    bBM0[0] = true;
+                }
+
+                BM0.transform.parent = null;
+                BM0.transform.position = MSpawnLand[ran].transform.position;
+                BM0.gameObject.SetActive(true);
+            }
+            else if (stageTime >= 7f * n && stageTime > 48f && !(nowKillCount >= maxKillCount))
+            {
+                n++;
+                if (stopMake == false)
+                {
+                    if (bBM1[0] == true)
+                    {
+                        if (bBM1[1] == true)
+                        {
+                            if (bBM1[2] == true)
+                            {
+                                if (bBM1[3] == true)
+                                {
+                                    if (bBM1[4] == true)
+                                    {
+                                        if (bBM1[5] == true)
+                                        {
+                                            if (bBM1[6] == true)
+                                            {
+                                                if (bBM1[7] == true)
+                                                {
+                                                    if (bBM1[8] == true)
+                                                    {
+                                                        BM1 = BMon1[9];
+                                                        bBM1[9] = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        BM1 = BMon1[8];
+                                                        bBM1[8] = true;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    BM1 = BMon1[7];
+                                                    bBM1[7] = true;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                BM1 = BMon1[6];
+                                                bBM1[6] = true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            BM1 = BMon1[5];
+                                            bBM1[5] = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        BM1 = BMon1[4];
+                                        bBM1[4] = true;
+                                    }
+                                }
+                                else
+                                {
+                                    BM1 = BMon1[3];
+                                    bBM1[3] = true;
+                                }
+                            }
+                            else
+                            {
+                                BM1 = BMon1[2];
+                                bBM1[2] = true;
+                            }
+                        }
+                        else
+                        {
+                            BM1 = BMon1[1];
+                            bBM1[1] = true;
+                        }
+                    }
+                    else
+                    {
+                        BM1 = BMon1[0];
+                        bBM1[0] = true;
+                    }
+
+                    BM1.transform.parent = null;
+                    BM1.transform.position = MSpawnLand[ran].transform.position;
+                    BM1.gameObject.SetActive(true);
+                }
+                else
+                {
+                    for (int i = 0; i < BMon1.Length; i++)
+                    {
+                        if (BMon1[i].activeSelf == false)
+                        {
+                            stopMake = false;
+                        }
+                    }
+                }
+
+                BM1.transform.parent = null;
+                BM1.transform.position = MSpawnLand[ran].transform.position;
+                BM1.gameObject.SetActive(true);
+            }
+            else if (nowKillCount >= maxKillCount)
+            {
+                if (a == 0)
+                {
+                    a++;
+                    Invoke("StageClear", 2f);
+                }
+            }
         }
         else if (Stage[2] == true)
         {
@@ -627,7 +881,166 @@ public class StageManager : MonoBehaviour
         
         if(rest == true)
         {
-            rest = false;
+            Time.timeScale = 1f;
+            if(stagenum % 3 == 0) //morning
+            {
+                BG[0].transform.position = new Vector3(0f, 0f, 0f);
+                BG[0].gameObject.SetActive(true);
+            }
+            else if(stagenum % 3 == 2) //afternoon
+            {
+                BG[1].transform.position = new Vector3(0f, 0f, 0f);
+                BG[1].gameObject.SetActive(true);
+            }
+            else if(stagenum % 3 == 1) //night
+            {
+                BG[2].transform.position = new Vector3(0f, 0f, 0f);
+                BG[2].gameObject.SetActive(true);
+            }
+            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                Stage[stagenum] = true;
+                rest = false;
+                GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().once = 0;
+                StageSettings();
+            }
         }
+    }
+
+    void StageSettings()
+    {
+        //Set default values
+        Player.transform.position = new Vector3(0f, -2f, 0f);
+        Tower.transform.position = new Vector3(0f, -0.2091f, 0f);
+        Shop.transform.position = new Vector3(2.42f, -3.09f, 0f);
+        Shop.gameObject.SetActive(true);
+        activation = true;
+        stopMake = false;
+        n = 0;
+        ran = 0;
+
+        //Initializing Game Field
+        if (Stage[0] == true)
+        {
+            //Set clear limit
+            nowKillCount = 0;
+            maxKillCount = 10;
+
+            //Set position
+            BG[0].transform.position = new Vector3(0f, 0f, 0f);
+            BG[0].gameObject.SetActive(true);
+        }
+        else if (Stage[1] == true)
+        {
+            //Set clear limit
+            nowKillCount = 0;
+            maxKillCount = 10;
+
+            //Set position
+            BG[1].transform.position = new Vector3(0f, 0f, 0f);
+            BG[1].gameObject.SetActive(true);
+        }
+        else if (Stage[2] == true)
+        {
+
+        }
+        else if (Stage[3] == true)
+        {
+
+        }
+        else if (Stage[4] == true)
+        {
+
+        }
+        else if (Stage[5] == true)
+        {
+
+        }
+        else if (Stage[6] == true)
+        {
+
+        }
+        else if (Stage[7] == true)
+        {
+
+        }
+        else if (Stage[8] == true)
+        {
+
+        }
+        else if (Stage[9] == true)
+        {
+
+        }
+        else if (Stage[10] == true)
+        {
+
+        }
+        else if (Stage[11] == true)
+        {
+
+        }
+        else if (Stage[12] == true)
+        {
+
+        }
+        else if (Stage[13] == true)
+        {
+
+        }
+        else if (Stage[14] == true)
+        {
+
+        }
+        else if (Stage[15] == true)
+        {
+
+        }
+        else if (Stage[16] == true)
+        {
+
+        }
+        else if (Stage[17] == true)
+        {
+
+        }
+        else if (Stage[18] == true)
+        {
+
+        }
+        else if (Stage[19] == true)
+        {
+
+        }
+        else if (Stage[20] == true)
+        {
+
+        }
+
+        BM0 = BMon0[0];
+        bBM0[0] = true;
+        BM1 = BMon1[0];
+        bBM1[0] = true;
+
+        stageTime = 0f; 
+    }
+
+    void StageClear()
+    {
+        Stage[stagenum] = false;
+        if(stagenum % 3 == 0) //morning
+        {
+            BG[0].gameObject.SetActive(false);
+        }
+        else if(stagenum % 3 == 2) //afternoon
+        {
+            BG[1].gameObject.SetActive(false);
+        }
+        else if(stagenum % 3 == 1) //night
+        {
+            BG[2].gameObject.SetActive(false);
+        }
+        stagenum++;
+        GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().once = 0;
     }
 }

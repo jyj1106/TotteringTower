@@ -26,7 +26,6 @@ public class Tower : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("thit");
         if (collision.tag == "EAttack" && collapse == false)
         {
             TowerHP--;
@@ -39,6 +38,7 @@ public class Tower : MonoBehaviour
             }
             else if(TowerHP <= 0)
             {
+                GameObject.Find("HeroKnight").GetComponent<HeroKnight>().Inputtable = false;
                 collapse = true;
                 this.gameObject.layer = 7;
                 anim.SetTrigger("isCollapse");

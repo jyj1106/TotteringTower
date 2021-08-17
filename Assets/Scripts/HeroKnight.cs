@@ -92,34 +92,15 @@ public class HeroKnight : MonoBehaviour {
         {
             if (inputX > 0 && !(m_positionX <= m_mlimitX))
             {
-                this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                this.GetComponent<SpriteRenderer>().flipX = false;
                 m_facingDirection = 1;
             }
             else if (inputX < 0 && !(m_positionX >= m_plimitX))
             {
-                this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                this.GetComponent<SpriteRenderer>().flipX = true;
                 m_facingDirection = -1;
             }
         }
-
-        //Setting PAttack
-
-            if (inputX > 0)
-            {
-                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
-            }
-            else if (inputX < 0)
-            {
-                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
-            }
-            else if (inputX == 0 && this.transform.rotation.y == 0)
-            {
-                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
-            }
-            else if (inputX == 0 && this.transform.rotation.y == 180)
-            {
-                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
-            }
 
         // Move
         if (!m_rolling && !m_blockOn && m_timeSinceBlock >= 0.75f && Inputtable == true && !m_dead)
@@ -168,36 +149,41 @@ public class HeroKnight : MonoBehaviour {
 
             // Reset timer
             m_timeSinceAttack = 0.0f;
-        }
-        
 
-        //Checking Target
-        if(PAttack.Length > 0)
-        {
-            float[] dis = new float[PAttack.Length];
-            for (int i = 0; i < PAttack.Length; i++)
+            //Setting PAttack
+            if (this.GetComponent<SpriteRenderer>().flipX == false)
             {
-                dis[i] = Vector2.Distance(this.transform.position, PAttack[i].transform.position);
+                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
             }
-            for (int i = 0; i < PAttack.Length; i++)
+            else if (this.GetComponent<SpriteRenderer>().flipX == true)
             {
-                if (min > dis[i])
+                PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x - 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
+            }
+
+            //Checking Target
+            if (PAttack.Length > 0)
+            {
+                float[] dis = new float[PAttack.Length];
+                for (int i = 0; i < PAttack.Length; i++)
                 {
-                    min = dis[i];
-                    target = i;
+                    dis[i] = Vector2.Distance(this.transform.position, PAttack[i].transform.position);
+                }
+                for (int i = 0; i < PAttack.Length; i++)
+                {
+                    if (min > dis[i])
+                    {
+                        min = dis[i];
+                        target = i;
+                    }
                 }
             }
-        }
-
-        if(PAttack.Length > 0 && Vector2.Distance(this.transform.position, PAttack[target].transform.position) >= 10)
-        {
-            PAttack[target] = null;
         }
 
         //OverlapBoxAll(Attack Monster)
         if(!m_rolling && m_attack && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
         {
-            if(GameManager.lvUp == 1)
+            //Checking Multiple Targets or not
+            if (GameManager.lvUp == 1)
             {
                 PAttack[target].transform.parent.GetComponent<Monster>().hp--;
                 PAttack[target].transform.parent.GetComponent<Monster>().colorChange = true;
@@ -447,12 +433,12 @@ public class HeroKnight : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        if(inputX > 0)
+        if(this.GetComponent<SpriteRenderer>().flipX == false)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(new Vector2(transform.position.x + 0.75f, transform.position.y + 0.75f), PAttackSize);
         }
-        else if (inputX < 0)
+        else if (this.GetComponent<SpriteRenderer>().flipX == true)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(new Vector2(transform.position.x - 0.75f, transform.position.y + 0.75f), PAttackSize);
