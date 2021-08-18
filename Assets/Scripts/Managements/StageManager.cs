@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StageManager : MonoBehaviour
 {
     [SerializeField] GameObject Tower, Player;
-    [SerializeField] GameObject Shop, LoadingText;
+    [SerializeField] GameObject Shop, LoadingText, LoadingImage;
 
     [SerializeField] GameObject[] MSpawnLand = new GameObject[2];
     [SerializeField] GameObject[] MSpawnSky = new GameObject[2];
@@ -46,9 +46,9 @@ public class StageManager : MonoBehaviour
     private bool[] bBM2 = new bool[10];
     private bool[] wWM7 = new bool[10];
     private bool[] wWM8 = new bool[10];
-    private bool nowLoad, loadEnd, stageEnd = false;
-    private int n, ran;
-    private float endTime;
+    private bool nowLoad, loadEnd, stageEnd, sceneStart, loadStart = false;
+    private int n, n0, ran;
+    private float startTime;
     private float loadColor, monAllDead = 0f;
 
     int a, tcheck = 0;
@@ -56,7 +56,8 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+        sceneStart = true;
     }
 
     // Update is called once per frame
@@ -64,8 +65,8 @@ public class StageManager : MonoBehaviour
     {
         //Counting Time
         stageTime += Time.deltaTime;
-        endTime += Time.deltaTime;
         loadColor += Time.deltaTime;
+        startTime += Time.deltaTime * 0.5f;
 
         //Random Spawn
         ran = (int)Random.Range(0f, 1.99999f);
@@ -601,18 +602,19 @@ public class StageManager : MonoBehaviour
                 tcheck++;
                 THp = Tower.GetComponent<Tower>().TowerHP;
             }
-            if (stageTime >= 5f * n && !(nowKillCount >= maxKillCount))
+            if (stageTime >= 5f * n && !(nowKillCount >= maxKillCount) && a == 0)
             {
+                n++;
                 WM8.transform.parent = null;
                 WM8.transform.position = MSpawnLand[ran].transform.position;
                 WM8.gameObject.SetActive(true);
             }
-            if (stageTime >= 10 * n && !(nowKillCount >= maxKillCount))
+            if (stageTime >= 12.5f * n0 && !(nowKillCount >= maxKillCount) && a == 0)
             {
+                n0++;
                 WM7.transform.parent = null;
                 WM7.transform.position = MSpawnLand[ran].transform.position;
                 WM7.gameObject.SetActive(true);
-                n++;
             }
             else if (nowKillCount >= maxKillCount && a == 0)
             {
@@ -741,8 +743,9 @@ public class StageManager : MonoBehaviour
                 BG[2].transform.position = new Vector3(0f, 0f, 0f);
                 BG[2].gameObject.SetActive(true);
             }
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.Space) && loadStart == false)
             {
+                loadStart = true;
                 GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().battleSnd = true;
                 NowLoading();
             }
@@ -752,7 +755,7 @@ public class StageManager : MonoBehaviour
         if (nowLoad == true && loadEnd == false) //NowLoading()
         {
             Player.GetComponent<HeroKnight>().Inputtable = false;
-            GameObject.Find("Canvas").transform.Find("Loading_Img").GetComponent<Image>().color = new Color(1f, 1f, 1f, loadColor);
+            LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, loadColor);
             if (loadColor >= 1f)
             {
                 loadColor = 1f;
@@ -816,13 +819,25 @@ public class StageManager : MonoBehaviour
         }
         if (loadEnd == true && nowLoad == false && LoadingText.activeSelf == false)
         {
-            GameObject.Find("Canvas").transform.Find("Loading_Img").GetComponent<Image>().color = new Color(1f, 1f, 1f, 1 - loadColor);
+            LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1 - loadColor);
             if(loadColor >= 1f)
             {
                 loadColor = 1f;
                 loadEnd = false;
             }
         }
+
+        if(sceneStart == true)
+        {
+            LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, (1 - startTime));
+            if(startTime >= 1f)
+            {
+                LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                sceneStart = false;
+            }
+        }
+
+        Debug.Log(stageTime);
     }
 
     void StageSettings()
@@ -833,6 +848,7 @@ public class StageManager : MonoBehaviour
         Shop.transform.position = new Vector3(2.42f, -3.09f, 0f);
         Shop.gameObject.SetActive(true);
         n = 0;
+        n0 = 0;
         ran = 0;
         GameManager.lvUp = 1;
         GameManager.stack = 1;
@@ -970,6 +986,7 @@ public class StageManager : MonoBehaviour
         loadColor = 0f;
         ChangeBGM();
         tcheck = 0;
+        loadStart = false;
         Player.GetComponent<HeroKnight>().Inputtable = true;
     }
 

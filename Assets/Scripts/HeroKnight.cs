@@ -310,7 +310,7 @@ public class HeroKnight : MonoBehaviour {
                 m_blocking = false;
                 collision.gameObject.transform.parent.GetComponent<Monster>().hp--;
                 collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
-                collision.transform.parent.GetComponent<Monster>().colorChange = true;
+                //collision.transform.parent.GetComponent<Monster>().colorChange = true;
                 GameObject effect1 = Instantiate(Slash[1]);
                 effect1.transform.parent = null;
                 effect1.transform.position = collision.transform.parent.position;
