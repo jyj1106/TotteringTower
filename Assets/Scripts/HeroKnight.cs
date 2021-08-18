@@ -205,6 +205,7 @@ public class HeroKnight : MonoBehaviour {
                 }
             }
             isAttack = false;
+            System.Array.Clear(PAttack, 0, PAttack.Length);
         }
 
         // Block

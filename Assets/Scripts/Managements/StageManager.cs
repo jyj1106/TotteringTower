@@ -14,7 +14,7 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] GameObject[] BMon0 = new GameObject[10];
     [SerializeField] GameObject[] BMon1 = new GameObject[10];
-    [SerializeField] GameObject[] BMon2 = new GameObject[3];
+    [SerializeField] GameObject[] BMon2 = new GameObject[10];
     [SerializeField] GameObject[] BMon3 = new GameObject[3];
     [SerializeField] GameObject[] BMon4 = new GameObject[3];
 
@@ -25,8 +25,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] GameObject[] WMon4 = new GameObject[3];
     [SerializeField] GameObject[] WMon5 = new GameObject[3];
     [SerializeField] GameObject[] WMon6 = new GameObject[3];
-    [SerializeField] GameObject[] WMon7 = new GameObject[3];
-    [SerializeField] GameObject[] WMon8 = new GameObject[3];
+    [SerializeField] GameObject[] WMon7 = new GameObject[10];
+    [SerializeField] GameObject[] WMon8 = new GameObject[10];
     [SerializeField] GameObject[] WMon9 = new GameObject[3];
 
     [SerializeField] int maxKillCount;
@@ -40,7 +40,7 @@ public class StageManager : MonoBehaviour
 
     private GameObject BM0, BM1, BM2, BM3, BM4;
     private GameObject WM0, WM1, WM2, WM3, WM4, WM5, WM6, WM7, WM8, WM9;
-    private bool activation, stopMake = true;
+
     private bool[] bBM0 = new bool[10];
     private bool[] bBM1 = new bool[10];
     private bool[] bBM2 = new bool[10];
@@ -49,7 +49,7 @@ public class StageManager : MonoBehaviour
     private bool nowLoad, loadEnd, stageEnd = false;
     private int n, ran;
     private float endTime;
-    private float loadColor = 0f;
+    private float loadColor, monAllDead = 0f;
 
     int a, tcheck = 0;
 
@@ -70,7 +70,6 @@ public class StageManager : MonoBehaviour
         //Random Spawn
         ran = (int)Random.Range(0f, 1.99999f);
 
-        /*
         //Set Active
         if (BMon0[0].activeSelf == true)
         {
@@ -90,14 +89,6 @@ public class StageManager : MonoBehaviour
                                     {
                                         if (BMon0[8].activeSelf == true)
                                         {
-                                            if (BMon0[9].activeSelf == true)
-                                            {
-                                                stopMake = true;
-                                            }
-                                            else
-                                            {
-                                                BM0 = BMon0[9];
-                                            }
                                             BM0 = BMon0[9];
                                         }
                                         else
@@ -162,14 +153,7 @@ public class StageManager : MonoBehaviour
                                     {
                                         if (BMon1[8].activeSelf == true)
                                         {
-                                            if (BMon1[9].activeSelf == true)
-                                            {
-                                                stopMake = true;
-                                            }
-                                            else
-                                            {
-                                                BM1 = BMon1[8];
-                                            }
+                                            BM1 = BMon1[9];
                                         }
                                         else
                                         {
@@ -219,7 +203,56 @@ public class StageManager : MonoBehaviour
         {
             if (BMon2[1].activeSelf == true)
             {
-                BM2 = BMon2[2];
+                if (BMon2[2].activeSelf == true)
+                {
+                    if (BMon2[3].activeSelf == true)
+                    {
+                        if (BMon2[4].activeSelf == true)
+                        {
+                            if (BMon2[5].activeSelf == true)
+                            {
+                                if (BMon2[6].activeSelf == true)
+                                {
+                                    if (BMon2[7].activeSelf == true)
+                                    {
+                                        if (BMon2[8].activeSelf == true)
+                                        {
+                                            BM2 = BMon2[9];
+                                        }
+                                        else
+                                        {
+                                            BM2 = BMon2[8];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        BM2 = BMon2[7];
+                                    }
+                                }
+                                else
+                                {
+                                    BM2 = BMon2[6];
+                                }
+                            }
+                            else
+                            {
+                                BM2 = BMon2[5];
+                            }
+                        }
+                        else
+                        {
+                            BM2 = BMon2[4];
+                        }
+                    }
+                    else
+                    {
+                        BM2 = BMon2[3];
+                    }
+                }
+                else
+                {
+                    BM2 = BMon2[2];
+                }
             }
             else
             {
@@ -369,7 +402,56 @@ public class StageManager : MonoBehaviour
         {
             if (WMon7[1].activeSelf == true)
             {
-                WM7 = WMon7[2];
+                if (WMon7[2].activeSelf == true)
+                {
+                    if (WMon7[3].activeSelf == true)
+                    {
+                        if (WMon7[4].activeSelf == true)
+                        {
+                            if (WMon7[5].activeSelf == true)
+                            {
+                                if (WMon7[6].activeSelf == true)
+                                {
+                                    if (WMon7[7].activeSelf == true)
+                                    {
+                                        if (WMon7[8].activeSelf == true)
+                                        {
+                                            WM7 = WMon7[9];
+                                        }
+                                        else
+                                        {
+                                            WM7 = WMon7[8];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        WM7 = WMon7[7];
+                                    }
+                                }
+                                else
+                                {
+                                    WM7 = WMon7[6];
+                                }
+                            }
+                            else
+                            {
+                                WM7 = WMon7[5];
+                            }
+                        }
+                        else
+                        {
+                            WM7 = WMon7[4];
+                        }
+                    }
+                    else
+                    {
+                        WM7 = WMon7[3];
+                    }
+                }
+                else
+                {
+                    WM7 = WMon7[2];
+                }
             }
             else
             {
@@ -384,7 +466,56 @@ public class StageManager : MonoBehaviour
         {
             if (WMon8[1].activeSelf == true)
             {
-                WM8 = WMon8[2];
+                if (WMon8[2].activeSelf == true)
+                {
+                    if (WMon8[3].activeSelf == true)
+                    {
+                        if (WMon8[4].activeSelf == true)
+                        {
+                            if (WMon8[5].activeSelf == true)
+                            {
+                                if (WMon8[6].activeSelf == true)
+                                {
+                                    if (WMon8[7].activeSelf == true)
+                                    {
+                                        if (WMon8[8].activeSelf == true)
+                                        {
+                                            WM8 = WMon8[9];
+                                        }
+                                        else
+                                        {
+                                            WM8 = WMon8[8];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        WM8 = WMon8[7];
+                                    }
+                                }
+                                else
+                                {
+                                    WM8 = WMon8[6];
+                                }
+                            }
+                            else
+                            {
+                                WM8 = WMon8[5];
+                            }
+                        }
+                        else
+                        {
+                            WM8 = WMon8[4];
+                        }
+                    }
+                    else
+                    {
+                        WM8 = WMon8[3];
+                    }
+                }
+                else
+                {
+                    WM8 = WMon8[2];
+                }
             }
             else
             {
@@ -409,7 +540,7 @@ public class StageManager : MonoBehaviour
         else
         {
             WM9 = WMon9[0];
-        }*/
+        }
         
 
         //Stage Settings. This is the Main Setting of Stages.
@@ -418,90 +549,13 @@ public class StageManager : MonoBehaviour
             rest = false;
             if(tcheck == 0)
             {
+                a = 0;
                 tcheck++;
-                THp = GameObject.Find("Tower").GetComponent<Tower>().TowerHP;
-                GameManager.lvUp = 1;
-                GameManager.stack = 1;
+                THp = Tower.GetComponent<Tower>().TowerHP;
             }
             if (stageTime >= 7f * n && stageTime < 36f)
             {
-                n++;
-                
-                if (bBM0[0] == true)
-                {
-                    if (bBM0[1] == true)
-                    {
-                        if (bBM0[2] == true)
-                        {
-                            if (bBM0[3] == true)
-                            {
-                                if (bBM0[4] == true)
-                                {
-                                    if (bBM0[5] == true)
-                                    {
-                                        if (bBM0[6] == true)
-                                        {
-                                            if (bBM0[7] == true)
-                                            {
-                                                if (bBM0[8] == true)
-                                                {
-                                                    BM0 = BMon0[9];
-                                                    bBM0[9] = true;
-                                                }
-                                                else
-                                                {
-                                                    BM0 = BMon0[8];
-                                                    bBM0[8] = true;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                BM0 = BMon0[7];
-                                                bBM0[7] = true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            BM0 = BMon0[6];
-                                            bBM0[6] = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        BM0 = BMon0[5];
-                                        bBM0[5] = true;
-                                    }
-                                }
-                                else
-                                {
-                                    BM0 = BMon0[4];
-                                    bBM0[4] = true;
-                                }
-                            }
-                            else
-                            {
-                                BM0 = BMon0[3];
-                                bBM0[3] = true;
-                            }
-                        }
-                        else
-                        {
-                            BM0 = BMon0[2];
-                            bBM0[2] = true;
-                        }
-                    }
-                    else
-                    {
-                        BM0 = BMon0[1];
-                        bBM0[1] = true;
-                    }
-                }
-                else
-                {
-                    BM0 = BMon0[0];
-                    bBM0[0] = true;
-                }
-                
+                n++;                
                 BM0.transform.parent = null;
                 BM0.transform.position = MSpawnLand[ran].transform.position;
                 BM0.gameObject.SetActive(true);
@@ -509,110 +563,32 @@ public class StageManager : MonoBehaviour
             else if(stageTime >= 7f * n && stageTime > 48f && !(nowKillCount >= maxKillCount))
             {
                 n++;
-                if(stopMake == false)
-                {
-                    if (bBM1[0] == true)
-                    {
-                        if (bBM1[1] == true)
-                        {
-                            if (bBM1[2] == true)
-                            {
-                                if (bBM1[3] == true)
-                                {
-                                    if (bBM1[4] == true)
-                                    {
-                                        if (bBM1[5] == true)
-                                        {
-                                            if (bBM1[6] == true)
-                                            {
-                                                if (bBM1[7] == true)
-                                                {
-                                                    if (bBM1[8] == true)
-                                                    {
-                                                        BM1 = BMon1[9];
-                                                        bBM1[9] = true;
-                                                    }
-                                                    else
-                                                    {
-                                                        BM1 = BMon1[8];
-                                                        bBM1[8] = true;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    BM1 = BMon1[7];
-                                                    bBM1[7] = true;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                BM1 = BMon1[6];
-                                                bBM1[6] = true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            BM1 = BMon1[5];
-                                            bBM1[5] = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        BM1 = BMon1[4];
-                                        bBM1[4] = true;
-                                    }
-                                }
-                                else
-                                {
-                                    BM1 = BMon1[3];
-                                    bBM1[3] = true;
-                                }
-                            }
-                            else
-                            {
-                                BM1 = BMon1[2];
-                                bBM1[2] = true;
-                            }
-                        }
-                        else
-                        {
-                            BM1 = BMon1[1];
-                            bBM1[1] = true;
-                        }
-                    }
-                    else
-                    {
-                        BM1 = BMon1[0];
-                        bBM1[0] = true;
-                    }
-
-                    BM1.transform.parent = null;
-                    BM1.transform.position = MSpawnLand[ran].transform.position;
-                    BM1.gameObject.SetActive(true);
-                }
-                else
-                {
-                    for(int i = 0; i < BMon1.Length; i++)
-                    {
-                        if(BMon1[i].activeSelf == false)
-                        {
-                            stopMake = false;
-                        }
-                    }
-                }
-
                 BM1.transform.parent = null;
                 BM1.transform.position = MSpawnLand[ran].transform.position;
                 BM1.gameObject.SetActive(true);
             }
-            else if(nowKillCount >= maxKillCount)
+            else if(nowKillCount >= maxKillCount && a == 0)
             {
-                if(a == 0)
+                monAllDead = 0;
+                for(int i = 0; i < BMon0.Length; i++)
                 {
-                    a++;
-                    Time.timeScale = 0.5f;
-                    NowLoading();
-                    Invoke("StageClear", 1f);
+                    if(BMon0[i].activeSelf == true)
+                    {
+                        monAllDead++;
+                    }
+                    if (BMon1[i].activeSelf == true)
+                    {
+                        monAllDead++;
+                    }
+                }
+                if(monAllDead == 0)
+                {
+                    if (a == 0)
+                    {
+                        a++;
+                        NowLoading();
+                        Invoke("StageClear", 1f);
+                    }
                 }
             }
         }
@@ -621,198 +597,45 @@ public class StageManager : MonoBehaviour
             rest = false;
             if (tcheck == 0)
             {
+                a = 0;
                 tcheck++;
-                THp = GameObject.Find("Tower").GetComponent<Tower>().TowerHP;
+                THp = Tower.GetComponent<Tower>().TowerHP;
             }
-
-            if (stageTime >= 7f * n && stageTime < 36f)
+            if (stageTime >= 5f * n && !(nowKillCount >= maxKillCount))
             {
+                WM8.transform.parent = null;
+                WM8.transform.position = MSpawnLand[ran].transform.position;
+                WM8.gameObject.SetActive(true);
+            }
+            if (stageTime >= 10 * n && !(nowKillCount >= maxKillCount))
+            {
+                WM7.transform.parent = null;
+                WM7.transform.position = MSpawnLand[ran].transform.position;
+                WM7.gameObject.SetActive(true);
                 n++;
-
-                if (bBM0[0] == true)
-                {
-                    if (bBM0[1] == true)
-                    {
-                        if (bBM0[2] == true)
-                        {
-                            if (bBM0[3] == true)
-                            {
-                                if (bBM0[4] == true)
-                                {
-                                    if (bBM0[5] == true)
-                                    {
-                                        if (bBM0[6] == true)
-                                        {
-                                            if (bBM0[7] == true)
-                                            {
-                                                if (bBM0[8] == true)
-                                                {
-                                                    BM0 = BMon0[9];
-                                                    bBM0[9] = true;
-                                                }
-                                                else
-                                                {
-                                                    BM0 = BMon0[8];
-                                                    bBM0[8] = true;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                BM0 = BMon0[7];
-                                                bBM0[7] = true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            BM0 = BMon0[6];
-                                            bBM0[6] = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        BM0 = BMon0[5];
-                                        bBM0[5] = true;
-                                    }
-                                }
-                                else
-                                {
-                                    BM0 = BMon0[4];
-                                    bBM0[4] = true;
-                                }
-                            }
-                            else
-                            {
-                                BM0 = BMon0[3];
-                                bBM0[3] = true;
-                            }
-                        }
-                        else
-                        {
-                            BM0 = BMon0[2];
-                            bBM0[2] = true;
-                        }
-                    }
-                    else
-                    {
-                        BM0 = BMon0[1];
-                        bBM0[1] = true;
-                    }
-                }
-                else
-                {
-                    BM0 = BMon0[0];
-                    bBM0[0] = true;
-                }
-
-                BM0.transform.parent = null;
-                BM0.transform.position = MSpawnLand[ran].transform.position;
-                BM0.gameObject.SetActive(true);
             }
-            else if (stageTime >= 7f * n && stageTime > 48f && !(nowKillCount >= maxKillCount))
+            else if (nowKillCount >= maxKillCount && a == 0)
             {
-                n++;
-                if (stopMake == false)
+                monAllDead = 0;
+                for (int i = 0; i < WMon8.Length; i++)
                 {
-                    if (bBM1[0] == true)
+                    if (WMon7[i].activeSelf == true)
                     {
-                        if (bBM1[1] == true)
-                        {
-                            if (bBM1[2] == true)
-                            {
-                                if (bBM1[3] == true)
-                                {
-                                    if (bBM1[4] == true)
-                                    {
-                                        if (bBM1[5] == true)
-                                        {
-                                            if (bBM1[6] == true)
-                                            {
-                                                if (bBM1[7] == true)
-                                                {
-                                                    if (bBM1[8] == true)
-                                                    {
-                                                        BM1 = BMon1[9];
-                                                        bBM1[9] = true;
-                                                    }
-                                                    else
-                                                    {
-                                                        BM1 = BMon1[8];
-                                                        bBM1[8] = true;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    BM1 = BMon1[7];
-                                                    bBM1[7] = true;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                BM1 = BMon1[6];
-                                                bBM1[6] = true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            BM1 = BMon1[5];
-                                            bBM1[5] = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        BM1 = BMon1[4];
-                                        bBM1[4] = true;
-                                    }
-                                }
-                                else
-                                {
-                                    BM1 = BMon1[3];
-                                    bBM1[3] = true;
-                                }
-                            }
-                            else
-                            {
-                                BM1 = BMon1[2];
-                                bBM1[2] = true;
-                            }
-                        }
-                        else
-                        {
-                            BM1 = BMon1[1];
-                            bBM1[1] = true;
-                        }
+                        monAllDead++;
                     }
-                    else
+                    if (WMon8[i].activeSelf == true)
                     {
-                        BM1 = BMon1[0];
-                        bBM1[0] = true;
-                    }
-
-                    BM1.transform.parent = null;
-                    BM1.transform.position = MSpawnLand[ran].transform.position;
-                    BM1.gameObject.SetActive(true);
-                }
-                else
-                {
-                    for (int i = 0; i < BMon1.Length; i++)
-                    {
-                        if (BMon1[i].activeSelf == false)
-                        {
-                            stopMake = false;
-                        }
+                        monAllDead++;
                     }
                 }
-
-                BM1.transform.parent = null;
-                BM1.transform.position = MSpawnLand[ran].transform.position;
-                BM1.gameObject.SetActive(true);
-            }
-            else if (nowKillCount >= maxKillCount)
-            {
-                if (a == 0)
+                if (monAllDead == 0)
                 {
-                    a++;
-                    Invoke("StageClear", 2f);
+                    if (a == 0)
+                    {
+                        a++;
+                        NowLoading();
+                        Invoke("StageClear", 1f);
+                    }
                 }
             }
         }
@@ -897,6 +720,7 @@ public class StageManager : MonoBehaviour
             rest = true;
         }
         
+        //Rest
         if(rest == true)
         {
             Time.timeScale = 1f;
@@ -917,7 +741,7 @@ public class StageManager : MonoBehaviour
                 BG[2].transform.position = new Vector3(0f, 0f, 0f);
                 BG[2].gameObject.SetActive(true);
             }
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            if(Input.GetKeyDown(KeyCode.Space))
             {
                 GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().battleSnd = true;
                 NowLoading();
@@ -927,7 +751,7 @@ public class StageManager : MonoBehaviour
         //Loading Effect
         if (nowLoad == true && loadEnd == false) //NowLoading()
         {
-            GameObject.Find("HeroKnight").GetComponent<HeroKnight>().Inputtable = false;
+            Player.GetComponent<HeroKnight>().Inputtable = false;
             GameObject.Find("Canvas").transform.Find("Loading_Img").GetComponent<Image>().color = new Color(1f, 1f, 1f, loadColor);
             if (loadColor >= 1f)
             {
@@ -945,10 +769,36 @@ public class StageManager : MonoBehaviour
 
             if (stageEnd == false)
             {
-                if(GameObject.Find("Tower").GetComponent<Tower>().TCollapse == true)
+                if(Tower.GetComponent<Tower>().TCollapse == true)
                 {
-                    GameObject.Find("Tower").GetComponent<Tower>().TCollapse = false;
-                    GameObject.Find("Tower").GetComponent<Tower>().TowerHP = THp;
+                    Tower.GetComponent<Tower>().TCollapse = false;
+                    Tower.GetComponent<Tower>().TowerHP = THp;
+                    Tower.transform.position = new Vector3(0f, -0.2091f, 0f);
+                    if (!(THp <= 0) && THp > 14)
+                    {
+                        Tower.GetComponent<Animator>().SetTrigger("isIdle_100");
+                    }
+                    else if (!(THp <= 0) && THp <= 14 && THp > 7)
+                    {
+                        Tower.GetComponent<Animator>().SetTrigger("isIdle_60");
+                    }
+                    else if (!(THp <= 0) && THp <= 7 && THp > 0)
+                    {
+                        Tower.GetComponent<Animator>().SetTrigger("isIdle_30");
+                    }
+
+                    Player.GetComponent<HeroKnight>().m_dead = false;
+                    Player.transform.position = new Vector3(0f, -2f, 0f);
+
+                    for (int i = 0; i < BMon0.Length; i++)
+                    {
+                        BMon0[i].SetActive(false);
+                        BMon1[i].SetActive(false);
+                        BMon2[i].SetActive(false);
+                        WMon7[i].SetActive(false);
+                        WMon8[i].SetActive(false);
+                    }
+
                     Stage[stagenum] = false;
                 }
                 else
@@ -982,10 +832,10 @@ public class StageManager : MonoBehaviour
         Tower.transform.position = new Vector3(0f, -0.2091f, 0f);
         Shop.transform.position = new Vector3(2.42f, -3.09f, 0f);
         Shop.gameObject.SetActive(true);
-        activation = true;
-        stopMake = false;
         n = 0;
         ran = 0;
+        GameManager.lvUp = 1;
+        GameManager.stack = 1;
 
         //Initializing Game Field
         if (Stage[0] == true)
@@ -1002,7 +852,7 @@ public class StageManager : MonoBehaviour
         {
             //Set clear limit
             nowKillCount = 0;
-            maxKillCount = 10;
+            maxKillCount = 20;
 
             //Set position
             BG[1].transform.position = new Vector3(0f, 0f, 0f);
@@ -1085,11 +935,6 @@ public class StageManager : MonoBehaviour
 
         }
 
-        BM0 = BMon0[0];
-        bBM0[0] = true;
-        BM1 = BMon1[0];
-        bBM1[0] = true;
-
         stageTime = 0f; 
     }
 
@@ -1125,7 +970,7 @@ public class StageManager : MonoBehaviour
         loadColor = 0f;
         ChangeBGM();
         tcheck = 0;
-        GameObject.Find("HeroKnight").GetComponent<HeroKnight>().Inputtable = true;
+        Player.GetComponent<HeroKnight>().Inputtable = true;
     }
 
     void ChangeBGM()

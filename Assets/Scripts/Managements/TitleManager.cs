@@ -9,7 +9,7 @@ public class TitleManager : MonoBehaviour
     public GameObject set;
     public GameObject Load;
 
-    private AudioSource audio;
+    private AudioSource titleAudio;
     private float loadTime;
     private bool loadStart;
 
@@ -18,7 +18,7 @@ public class TitleManager : MonoBehaviour
     {
         loadStart = false;
         Load.SetActive(false);
-        audio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        titleAudio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class TitleManager : MonoBehaviour
                 loadTime = 1f;
             }
             Load.GetComponent<Image>().color = new Color(1f, 1f, 1f, loadTime);
-            audio.volume = 1 - loadTime;
+            titleAudio.volume = 1 - loadTime;
         }
     }
 

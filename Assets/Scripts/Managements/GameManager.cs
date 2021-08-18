@@ -94,7 +94,6 @@ public class GameManager : MonoBehaviour
         //Coin Skill
         if (Input.GetKey(KeyCode.X) && skillUsable == true && mana >= 1 && coolActive == false)
         {
-            Debug.Log(lvUp);
             coinUse = true;
             if (zero == 0)
             {

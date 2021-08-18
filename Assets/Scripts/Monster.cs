@@ -107,7 +107,7 @@ public class Monster : MonoBehaviour
         else if (W_Mon[7] == true)
         {
             //Dabe
-            trackP = true; trackT = false;
+            trackP = false; trackT = true;
             hp = 10f;
             spd = 2f;
             rangeP = 2f;
@@ -119,7 +119,7 @@ public class Monster : MonoBehaviour
         {
             //WhiteFire
             trackP = false; trackT = true;
-            hp = 3f;
+            hp = 5f;
             spd = 1f;
             rangeP = 1.5f;
             reAttackTime = 2f;
@@ -131,7 +131,12 @@ public class Monster : MonoBehaviour
 
         }
 
-        this.gameObject.layer = 3;
+        if(isAttack == true)
+        {
+            EAttack.SetActive(false);
+        }
+
+        this.transform.Find("EHit").gameObject.layer = 10;
         atkTimer = 0f;
         deathTimer = 0f;
         dTime = 1f;
@@ -238,6 +243,8 @@ public class Monster : MonoBehaviour
         //ColorChange(Transparent)
         if(colorChange == true)
         {
+            this.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
+            colorChange = false;
             Invoke("ColorSet", 0.1f);
         }
 

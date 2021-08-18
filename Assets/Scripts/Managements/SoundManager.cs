@@ -8,12 +8,11 @@ public class SoundManager : MonoBehaviour
     private AudioSource sndManager2;
 
     public AudioClip[] bgm = new AudioClip[2];
-    public AudioClip slash_snd, slashHit_snd;
-    public AudioClip block1_snd, block2_snd, block3_snd, block4_snd;
+    public AudioClip slash_snd, slashHit1_snd, slashHit2_snd;
+    public AudioClip block0_snd, block1_snd, block2_snd, block3_snd, block4_snd;
     public AudioClip coin_snd;
     public AudioClip shop_btn;
-    public AudioClip ShieldHit_snd;
-    public AudioClip playerHit_snd;
+    public AudioClip monsterHit_snd, playerHit_snd, towerHit_snd;
     public AudioClip battleStart_snd;
 
     public int once = 0;
@@ -39,7 +38,11 @@ public class SoundManager : MonoBehaviour
         //HeroKnight Block Sound
         if(HeroKnight.isblock == true)
         {
-            if(Shop.num3 >= 5 && Shop.num3 < 10)
+            if(Shop.num3 < 5)
+            {
+                sndManager.PlayOneShot(block0_snd);
+            }
+            else if(Shop.num3 >= 5 && Shop.num3 < 10)
             {
                 sndManager.PlayOneShot(block1_snd);
             }
@@ -55,7 +58,7 @@ public class SoundManager : MonoBehaviour
             {
                 sndManager.PlayOneShot(block4_snd);
             }
-            sndManager2.PlayOneShot(ShieldHit_snd);
+            sndManager2.PlayOneShot(monsterHit_snd);
             HeroKnight.isblock = false;            
         }
 
@@ -71,6 +74,13 @@ public class SoundManager : MonoBehaviour
         {
             GameObject.Find("HeroKnight").GetComponent<HeroKnight>().hurt_snd = false;
             sndManager.PlayOneShot(playerHit_snd);
+        }
+
+        //Tower Hit Sound
+        if(GameObject.Find("Tower").GetComponent<Tower>().towerSound == true)
+        {
+            GameObject.Find("Tower").GetComponent<Tower>().towerSound = false;
+            sndManager.PlayOneShot(towerHit_snd);
         }
 
         //Setting BGM
@@ -111,8 +121,15 @@ public class SoundManager : MonoBehaviour
     {
         if (HeroKnight.isSlash == true && HeroKnight.isHit == true)
         {
-            sndManager.PlayOneShot(slashHit_snd);
-            sndManager2.PlayOneShot(ShieldHit_snd);
+            if(GameManager.lvUp == 1)
+            {
+                sndManager.PlayOneShot(slashHit1_snd);
+            }
+            else if(GameManager.lvUp == 2)
+            {
+                sndManager2.PlayOneShot(slashHit2_snd);
+            }
+            sndManager.PlayOneShot(monsterHit_snd);
         }
         else if (HeroKnight.isSlash == true && HeroKnight.isHit == false)
         {

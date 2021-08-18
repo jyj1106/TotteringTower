@@ -10,7 +10,7 @@ public class Tower : MonoBehaviour
     private bool collapse;
 
     public int TowerHP = 20;
-    public bool TCollapse = false;
+    public bool TCollapse, towerSound = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +30,7 @@ public class Tower : MonoBehaviour
         if (collision.tag == "EAttack" && collapse == false)
         {
             TowerHP--;
+            towerSound = true;
             if(!(TowerHP <= 0) && TowerHP > 14)
             {
                 GameObject Mefc0 = Instantiate(MEffects[0]);
