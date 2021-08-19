@@ -25,6 +25,7 @@ public class EHit : MonoBehaviour
             if(GameManager.hp == 0)
             {
                 GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_dead = true;
+                GameObject.Find("HeroKnight").GetComponent<HeroKnight>().dead_snd = true;
                 GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_animator.SetTrigger("Death");
                 GameObject.Find("HeroKnight").layer = 7;
             }
@@ -37,6 +38,7 @@ public class EHit : MonoBehaviour
                     && !GameObject.Find("HeroKnight").GetComponent<HeroKnight>().isAttack)
                 {
                     GameObject.Find("HeroKnight").GetComponent<HeroKnight>().m_animator.SetTrigger("Hurt");
+                    GameObject.Find("HeroKnight").GetComponent<HeroKnight>().hurt_snd = true;
                 }
             }
             isHit = false;

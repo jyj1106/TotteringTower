@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
-    public int EP = 5;
+    public int EP = 0;
 
     public static int num1 = 0;
     public static int num2 = 0;

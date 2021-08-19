@@ -5,13 +5,15 @@ using UnityEngine;
 public class Shopping : MonoBehaviour
 {
     public GameObject shop;
-
+    public bool shopOpen;
+    
     private bool shoppable = false;
 
     // Start is called before the first frame update
     void Start()
     {
         shoppable = false;
+        shopOpen = false;
     }
 
     // Update is called once per frame
@@ -22,6 +24,7 @@ public class Shopping : MonoBehaviour
             shop.gameObject.SetActive(true);
             Time.timeScale = 0.25f;
             GameObject.Find("SoundManager").GetComponent<AudioSource>().volume = 0.25f;
+            shopOpen = true;
         }
     }
 

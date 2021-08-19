@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject Set;
     public GameObject SetInside;
     public GameObject health;
+    public GameObject Guide;
+    public GameObject Weapon;
 
     public Slider healthBar;
     public Slider manaBar;
@@ -48,6 +50,16 @@ public class GameManager : MonoBehaviour
     {
         skillTime += Time.deltaTime;
         coinTime += Time.deltaTime;
+
+        //WeaponUI
+        if(lvUp <= 1)
+        {
+            Weapon.SetActive(false);
+        }
+        else if(lvUp == 2)
+        {
+            Weapon.SetActive(true);
+        }
         
         //Slider(Health/Mana Bar / SkillCool)
         manaBar.value = mana / MaxMp;
@@ -192,6 +204,11 @@ public class GameManager : MonoBehaviour
     public void SetInsideEnd()
     {
         SetInside.gameObject.SetActive(false);
+    }
+
+    public void GuideOff()
+    {
+        Guide.gameObject.SetActive(false);
     }
 
     public void GoTitle()

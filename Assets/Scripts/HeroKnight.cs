@@ -9,11 +9,12 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_plimitX, m_mlimitX;
     [SerializeField] LayerMask Mon_layer;
     [SerializeField] GameObject m_slideDust;
+    [SerializeField] GameObject jumpEffect;
     [SerializeField] GameObject[] Slash = new GameObject[10];
     [SerializeField] GameObject[] MEffects = new GameObject[10];
 
-    public Animator            m_animator;
-    public Rigidbody2D         m_body2d;
+
+    private Rigidbody2D         m_body2d;
     private Collider2D[]          PAttack, PBlock;
     private Sensor_HeroKnight   m_groundSensor;
     private Sensor_HeroKnight   m_wallSensorR1;
@@ -21,13 +22,8 @@ public class HeroKnight : MonoBehaviour {
     private Sensor_HeroKnight   m_wallSensorL1;
     private Sensor_HeroKnight   m_wallSensorL2;
     private bool                m_grounded = false;
-    public bool                m_attack, isAttack = false;
-    public bool                m_rolling = false;
-    public bool                m_blocking, m_blockOn = false;
-    public bool                hurt_snd = false;
+
     private bool                m_doublejump, m_triplejump = true;
-    public bool                attackable = true;
-    public bool                m_dead, monHitSound;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
     private float               m_timeSinceAttack = 0.0f;
@@ -35,10 +31,18 @@ public class HeroKnight : MonoBehaviour {
     private float               m_timeSinceBlock = 2.0f;
     private float               m_delayToIdle = 0.0f;
     private float               m_positionX, inputX, min;
-    private int                 target;
+    private int                 target, effectnum;
 
+    public Animator m_animator;
     public Vector2 PAttackSize, PBlockSizeLv5, PBlockSizeLv15, PBlockSizeLv20;
+    public bool m_attack, isAttack = false;
+    public bool m_rolling = false;
+    public bool m_blocking, m_blockOn = false;
+    public bool hurt_snd, dead_snd = false;
     public bool Inputtable = true;
+    public bool attackable = true;
+    public bool m_dead;
+    public bool monHitSound, jumpSound, rollSound, walkSound1, walkSound2;
     public float AegisCool = 30f;
 
     public static bool isSlash, isHit, isblock= false;
@@ -183,7 +187,7 @@ public class HeroKnight : MonoBehaviour {
         //OverlapBoxAll(Attack Monster)
         if(!m_rolling && m_attack && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
         {
-            GameObject.Find("Main Camera").GetComponent<CamMove>().Shake(0.025f, 0.05f);
+            //GameObject.Find("Main Camera").GetComponent<CamMove>().Shake(0.01f, 0.05f);
             //Checking Multiple Targets or not
             if (GameManager.lvUp == 1)
             {
@@ -201,7 +205,7 @@ public class HeroKnight : MonoBehaviour {
                     PAttack[i].transform.parent.GetComponent<Monster>().hp--;
                     PAttack[i].transform.parent.GetComponent<Monster>().colorChange = true;
                     PAttack[i].GetComponent<EHit>().isHit = true;
-                    GameObject effect0 = Instantiate(Slash[0]);
+                    GameObject effect0 = Instantiate(Slash[3]);
                     effect0.transform.parent = null;
                     effect0.transform.position = PAttack[i].transform.position;
                 }
@@ -225,12 +229,13 @@ public class HeroKnight : MonoBehaviour {
         // Roll
         else if (Input.GetKeyDown(KeyCode.LeftShift) && m_timeSinceAttack > 0.25f && !m_rolling && GameManager.mana > 1 && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead)
         {
-                Inputtable = true;
-                m_rolling = true;
-                m_animator.SetTrigger("Roll");
-                m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
-                GameManager.mana--;
-                this.transform.Find("PHit").gameObject.layer = 7;
+            Inputtable = true;
+            m_rolling = true;
+            m_animator.SetTrigger("Roll");
+            m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
+            GameManager.mana--;
+            this.transform.Find("PHit").gameObject.layer = 7;
+            rollSound = true;
         }
             
 
@@ -243,6 +248,10 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetBool("Grounded", m_grounded);
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             m_groundSensor.Disable(0.2f);
+            jumpSound = true;
+            GameObject jump = Instantiate(jumpEffect);
+            jump.transform.position = new Vector2(this.transform.position.x, transform.position.y + 0.5f);
+            jump.transform.parent = null;
         }
 
         //Double Jump
@@ -252,6 +261,10 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetTrigger("DoubleJump");
             m_doublejump = false;
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+            jumpSound = true;
+            GameObject jump = Instantiate(jumpEffect);
+            jump.transform.position = new Vector2(this.transform.position.x, transform.position.y + 0.5f);
+            jump.transform.parent = null;
         }
 
         //Triple Jump
@@ -264,6 +277,10 @@ public class HeroKnight : MonoBehaviour {
             GameManager.coinEnd = true;
             GameManager.coinUse = false;
             GameManager.mana--;
+            jumpSound = true;
+            GameObject jump = Instantiate(jumpEffect);
+            jump.transform.position = new Vector2(this.transform.position.x, transform.position.y + 0.5f);
+            jump.transform.parent = null;
         }
 
         else if (Input.GetKeyDown(KeyCode.Backspace) && m_dead)
@@ -377,6 +394,7 @@ public class HeroKnight : MonoBehaviour {
                     m_animator.SetTrigger("Death");
                     m_dead = true;
                     this.transform.Find("PHit").gameObject.layer = 7;
+                    dead_snd = true;
                 }
             }
         }
@@ -480,28 +498,26 @@ public class HeroKnight : MonoBehaviour {
     {
         for (int i = 0; i < PBlock.Length; i++)
         {
-            GameObject effect1 = Instantiate(Slash[1]);
-            GameObject effect2 = Instantiate(Slash[1]);
-            GameObject effect3 = Instantiate(Slash[1]);
+            GameObject effects = Instantiate(Slash[1]);
 
             PBlock[i].transform.parent.GetComponent<Monster>().hp--;
             PBlock[i].transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
             PBlock[i].transform.parent.GetComponent<Monster>().colorChange = true;
             if (Shop.num3 >= 5 && Shop.num3 < 10)
             {
-                effect1.transform.position = PBlock[i].transform.parent.position;
+                effects.transform.position = PBlock[i].transform.parent.position;
             }
             else if (Shop.num3 >= 10 && Shop.num3 < 15)
             {
-                effect1.transform.position = PBlock[i].transform.parent.position;
+                effects.transform.position = PBlock[i].transform.parent.position;
             }
             else if (Shop.num3 >= 15 && Shop.num3 < 20)
             {
-                effect1.transform.position = PBlock[i].transform.parent.position;
+                effects.transform.position = PBlock[i].transform.parent.position;
             }
             else if (Shop.num3 == 20)
             {
-                effect1.transform.position = PBlock[i].transform.parent.position;
+                effects.transform.position = PBlock[i].transform.parent.position;
             }
             monHitSound = true;
         }

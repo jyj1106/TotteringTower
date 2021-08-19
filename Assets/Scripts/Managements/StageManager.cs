@@ -6,11 +6,15 @@ using UnityEngine.UI;
 public class StageManager : MonoBehaviour
 {
     [SerializeField] GameObject Tower, Player;
-    [SerializeField] GameObject Shop, LoadingText, LoadingImage;
+    [SerializeField] GameObject Shopset, LoadingText, LoadingImage;
 
     [SerializeField] GameObject[] MSpawnLand = new GameObject[2];
     [SerializeField] GameObject[] MSpawnSky = new GameObject[2];
     [SerializeField] GameObject[] BG = new GameObject[3];
+    [SerializeField] Text PlayDayText;
+    [SerializeField] Text StageMainText;
+    [SerializeField] Text StageSubText;
+    [SerializeField] Text EnhanceText;
 
     [SerializeField] GameObject[] BMon0 = new GameObject[10];
     [SerializeField] GameObject[] BMon1 = new GameObject[10];
@@ -29,6 +33,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] GameObject[] WMon8 = new GameObject[10];
     [SerializeField] GameObject[] WMon9 = new GameObject[3];
 
+    [SerializeField] GameObject guide;
+
     [SerializeField] int maxKillCount;
     [SerializeField] float stageTime;
 
@@ -36,28 +42,41 @@ public class StageManager : MonoBehaviour
     public bool rest = false;
     public int nowKillCount;
     public int stagenum = 0;
-    public int THp;
+    public int THp, ep, number1, number2, number3, number4;
 
     private GameObject BM0, BM1, BM2, BM3, BM4;
     private GameObject WM0, WM1, WM2, WM3, WM4, WM5, WM6, WM7, WM8, WM9;
 
-    private bool[] bBM0 = new bool[10];
-    private bool[] bBM1 = new bool[10];
-    private bool[] bBM2 = new bool[10];
-    private bool[] wWM7 = new bool[10];
-    private bool[] wWM8 = new bool[10];
-    private bool nowLoad, loadEnd, stageEnd, sceneStart, loadStart = false;
-    private int n, n0, ran;
-    private float startTime;
+    private bool nowLoad, loadEnd, stageEnd, sceneStart, loadStart, stageTextActive, startTextActive, textEnd = false;
+    private int n, n0, n1, ran;
+    private float startTime, stageTextTime, textColor;
     private float loadColor, monAllDead = 0f;
+    private string[] mainText = new string[21];
+    private string[] subText = new string[21];
 
-    int a, tcheck = 0;
+    int a, tcheck, day = 0;
+    string dayTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+        n = 0;
+        n0 = 0;
+        n1 = 1;
         sceneStart = true;
+        startTextActive = false;
+        stageTextActive = false;
+        LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+        guide.transform.parent = null;
+        guide.transform.position = new Vector2(-3f, -3f);
+        guide.SetActive(true);
+
+        mainText[0] = "\"공격적인 검은 마물\"";
+        subText[0] = "난폭한 검은 마물들은\n눈 앞의 적을 먼저 공격한다.";
+        mainText[1] = "\"조용한 하얀 마물\"";
+        subText[1] = "꾀 많은 하얀 마물들은\n제 1의 목표만 공격한다.";
+        mainText[2] = "\"협동 공격\"";
+        subText[2] = "기회를 노리는 마물들은\n힘을 합쳐 공격해온다.";
     }
 
     // Update is called once per frame
@@ -70,6 +89,25 @@ public class StageManager : MonoBehaviour
 
         //Random Spawn
         ran = (int)Random.Range(0f, 1.99999f);
+
+        //PlayDayText
+        day = (stagenum / 3) + 1;
+        if (stagenum % 3 == 0)
+        {
+            dayTime = "낮";
+        }
+        else if (stagenum % 3 == 1)
+        {
+            dayTime = "저녁";
+        }
+        else if (stagenum % 3 == 0)
+        {
+            dayTime = "밤";
+        }
+        PlayDayText.text = day + "일차 " + dayTime + "\n" + mainText[stagenum];
+        StageMainText.text = day + "일차 " + dayTime + "\n" + mainText[stagenum];
+        StageSubText.text = subText[stagenum];
+        EnhanceText.text = "강화포인트: " + GameObject.Find("Managements").transform.Find("GameManager").GetComponent<Shop>().EP;
 
         //Set Active
         if (BMon0[0].activeSelf == true)
@@ -553,6 +591,11 @@ public class StageManager : MonoBehaviour
                 a = 0;
                 tcheck++;
                 THp = Tower.GetComponent<Tower>().TowerHP;
+                ep = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<Shop>().EP;
+                number1 = Shop.num1;
+                number2 = Shop.num2;
+                number3 = Shop.num3;
+                number4 = Shop.num4;
             }
             if (stageTime >= 7f * n && stageTime < 36f)
             {
@@ -601,6 +644,11 @@ public class StageManager : MonoBehaviour
                 a = 0;
                 tcheck++;
                 THp = Tower.GetComponent<Tower>().TowerHP;
+                ep = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<Shop>().EP;
+                number1 = Shop.num1;
+                number2 = Shop.num2;
+                number3 = Shop.num3;
+                number4 = Shop.num4;
             }
             if (stageTime >= 5f * n && !(nowKillCount >= maxKillCount) && a == 0)
             {
@@ -643,7 +691,18 @@ public class StageManager : MonoBehaviour
         }
         else if (Stage[2] == true)
         {
-
+            rest = false;
+            if (tcheck == 0)
+            {
+                a = 0;
+                tcheck++;
+                THp = Tower.GetComponent<Tower>().TowerHP;
+                ep = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<Shop>().EP;
+                number1 = Shop.num1;
+                number2 = Shop.num2;
+                number3 = Shop.num3;
+                number4 = Shop.num4;
+            }
         }
         else if (Stage[3] == true)
         {
@@ -725,9 +784,10 @@ public class StageManager : MonoBehaviour
         //Rest
         if(rest == true)
         {
+            stageTextActive = false;
             Time.timeScale = 1f;
-            Shop.transform.position = new Vector3(2.42f, -3.09f, 0f);
-            Shop.gameObject.SetActive(true);
+            Shopset.transform.position = new Vector3(2.42f, -3.09f, 0f);
+            Shopset.gameObject.SetActive(true);
             if (stagenum % 3 == 0) //morning
             {
                 BG[0].transform.position = new Vector3(0f, 0f, 0f);
@@ -748,7 +808,16 @@ public class StageManager : MonoBehaviour
                 loadStart = true;
                 GameObject.Find("Managements").transform.Find("SoundManager").GetComponent<SoundManager>().battleSnd = true;
                 NowLoading();
+                startTextActive = true;
+                textEnd = true;
             }
+        }
+
+        //EP Get
+        if(nowKillCount >= 2 * n1)
+        {
+            n1++;
+            GameObject.Find("Managements").transform.Find("GameManager").GetComponent<Shop>().EP++;
         }
 
         //Loading Effect
@@ -765,6 +834,7 @@ public class StageManager : MonoBehaviour
         }
         if (LoadingText.activeSelf == true && nowLoad == false && loadEnd == false)
         {
+            guide.gameObject.SetActive(false);
             loadEnd = true;
             Invoke("LoadFinish", 1.5f);
             GameManager.hp = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<GameManager>().MaxHp;
@@ -777,17 +847,22 @@ public class StageManager : MonoBehaviour
                     Tower.GetComponent<Tower>().TCollapse = false;
                     Tower.GetComponent<Tower>().TowerHP = THp;
                     Tower.transform.position = new Vector3(0f, -0.2091f, 0f);
+                    GameObject.Find("Managements").transform.Find("GameManager").GetComponent<Shop>().EP = ep;
+                    Shop.num1 = number1;
+                    Shop.num2 = number2;
+                    Shop.num3 = number3;
+                    Shop.num4 = number4;
                     if (!(THp <= 0) && THp > 14)
                     {
-                        Tower.GetComponent<Animator>().SetTrigger("isIdle_100");
+                        Tower.GetComponent<Animator>().Play("isIdle_100");
                     }
                     else if (!(THp <= 0) && THp <= 14 && THp > 7)
                     {
-                        Tower.GetComponent<Animator>().SetTrigger("isIdle_60");
+                        Tower.GetComponent<Animator>().Play("isIdle_60");
                     }
                     else if (!(THp <= 0) && THp <= 7 && THp > 0)
                     {
-                        Tower.GetComponent<Animator>().SetTrigger("isIdle_30");
+                        Tower.GetComponent<Animator>().Play("isIdle_30");
                     }
 
                     Player.GetComponent<HeroKnight>().m_dead = false;
@@ -827,6 +902,42 @@ public class StageManager : MonoBehaviour
             }
         }
 
+        //Text Effect
+        if(stageTextActive == true && startTextActive == true)
+        {
+            stageTextTime -= Time.deltaTime;
+            textColor += Time.deltaTime;
+
+            if(stageTextTime > 0f && textEnd == true)
+            {
+                if (textColor >= 1f)
+                {
+                    textColor = 1f;
+                }
+                StageMainText.color = new Color(1f, 1f, 1f, textColor);
+                StageSubText.color = new Color(1f, 1f, 1f, textColor);
+            }
+            else if(stageTextTime < 0 && textEnd == true)
+            {
+                textEnd = false;
+                stageTextTime = 1f;
+                textColor = 0f;
+            }
+            else if(stageTextTime > 0f && textEnd == false)
+            {
+                StageMainText.color = new Color(1f, 1f, 1f, 1 - textColor);
+                StageSubText.color = new Color(1f, 1f, 1f, 1 - textColor);
+            }
+            else if(stageTextTime < 0f && textEnd == false)
+            {
+                stageTextActive = false;
+                startTextActive = false;
+                StageMainText.color = new Color(1f, 1f, 1f, 0f);
+                StageSubText.color = new Color(1f, 1f, 1f, 0f);
+            }
+        }
+
+        //GameStart Effect. Only Run at Game start
         if(sceneStart == true)
         {
             LoadingImage.GetComponent<Image>().color = new Color(1f, 1f, 1f, (1 - startTime));
@@ -836,8 +947,6 @@ public class StageManager : MonoBehaviour
                 sceneStart = false;
             }
         }
-
-        Debug.Log(stageTime);
     }
 
     void StageSettings()
@@ -845,10 +954,11 @@ public class StageManager : MonoBehaviour
         //Set default values
         Player.transform.position = new Vector3(0f, -2f, 0f);
         Tower.transform.position = new Vector3(0f, -0.2091f, 0f);
-        Shop.transform.position = new Vector3(2.42f, -3.09f, 0f);
-        Shop.gameObject.SetActive(true);
+        Shopset.transform.position = new Vector3(2.42f, -3.09f, 0f);
+        Shopset.gameObject.SetActive(true);
         n = 0;
         n0 = 0;
+        n1 = 1;
         ran = 0;
         GameManager.lvUp = 1;
         GameManager.stack = 1;
@@ -954,6 +1064,13 @@ public class StageManager : MonoBehaviour
         stageTime = 0f; 
     }
 
+    public void NowLoading()
+    {
+        Time.timeScale = 1f;
+        loadColor = 0f;
+        nowLoad = true;
+    }
+
     void StageClear()
     {
         stageEnd = true;
@@ -973,13 +1090,6 @@ public class StageManager : MonoBehaviour
         stagenum++;
     }
 
-    public void NowLoading()
-    {
-        Time.timeScale = 1f;
-        loadColor = 0f;
-        nowLoad = true;
-    }
-
     void LoadFinish()
     {
         LoadingText.SetActive(false);
@@ -988,6 +1098,10 @@ public class StageManager : MonoBehaviour
         tcheck = 0;
         loadStart = false;
         Player.GetComponent<HeroKnight>().Inputtable = true;
+        Player.transform.Find("PHit").gameObject.layer = 11;
+        stageTextActive = true;
+        stageTextTime = 2f;
+        textColor = 0f;
     }
 
     void ChangeBGM()
