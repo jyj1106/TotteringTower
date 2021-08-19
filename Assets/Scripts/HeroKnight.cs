@@ -14,7 +14,7 @@ public class HeroKnight : MonoBehaviour {
 
     public Animator            m_animator;
     public Rigidbody2D         m_body2d;
-    private Collider2D[]          PAttack;
+    private Collider2D[]          PAttack, PBlock;
     private Sensor_HeroKnight   m_groundSensor;
     private Sensor_HeroKnight   m_wallSensorR1;
     private Sensor_HeroKnight   m_wallSensorR2;
@@ -27,7 +27,7 @@ public class HeroKnight : MonoBehaviour {
     public bool                hurt_snd = false;
     private bool                m_doublejump, m_triplejump = true;
     public bool                attackable = true;
-    public bool                m_dead;
+    public bool                m_dead, monHitSound;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
     private float               m_timeSinceAttack = 0.0f;
@@ -37,8 +37,9 @@ public class HeroKnight : MonoBehaviour {
     private float               m_positionX, inputX, min;
     private int                 target;
 
-    public Vector2 PAttackSize;
+    public Vector2 PAttackSize, PBlockSizeLv5, PBlockSizeLv15, PBlockSizeLv20;
     public bool Inputtable = true;
+    public float AegisCool = 30f;
 
     public static bool isSlash, isHit, isblock= false;
 
@@ -54,7 +55,6 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
-        PAttack = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x + 0.75f, this.transform.position.y + 0.75f), PAttackSize, 0, Mon_layer);
     }
 
     // Update is called once per frame
@@ -64,6 +64,7 @@ public class HeroKnight : MonoBehaviour {
         m_timeSinceAttack += Time.deltaTime;
         m_timeSinceBlock += Time.deltaTime;
         m_blockingCool += Time.deltaTime;
+        AegisCool += Time.deltaTime;
 
         //Check character's position for limit it's movable distance
         m_positionX = this.gameObject.transform.position.x;
@@ -182,6 +183,7 @@ public class HeroKnight : MonoBehaviour {
         //OverlapBoxAll(Attack Monster)
         if(!m_rolling && m_attack && !m_blocking && !m_blockOn && m_timeSinceBlock >= 0.75f && !m_dead && m_blockingCool >= 1f && PAttack.Length > 0 && isAttack == true)
         {
+            GameObject.Find("Main Camera").GetComponent<CamMove>().Shake(0.025f, 0.05f);
             //Checking Multiple Targets or not
             if (GameManager.lvUp == 1)
             {
@@ -206,6 +208,7 @@ public class HeroKnight : MonoBehaviour {
             }
             isAttack = false;
             System.Array.Clear(PAttack, 0, PAttack.Length);
+            monHitSound = true;
         }
 
         // Block
@@ -305,19 +308,59 @@ public class HeroKnight : MonoBehaviour {
 
             if (m_blocking == true)
             {
-                m_animator.SetTrigger("BlockingOn");
+                m_animator.Play("BlockingOn");
                 this.transform.Find("PHit").gameObject.layer = 7;
                 m_blocking = false;
+                GameObject effect = Instantiate(Slash[1]);
+                effect.transform.parent = null;
                 collision.gameObject.transform.parent.GetComponent<Monster>().hp--;
                 collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
-                //collision.transform.parent.GetComponent<Monster>().colorChange = true;
-                GameObject effect1 = Instantiate(Slash[1]);
-                effect1.transform.parent = null;
-                effect1.transform.position = collision.transform.parent.position;
+                collision.transform.parent.GetComponent<Monster>().colorChange = true;
+                effect.transform.position = collision.transform.parent.position;
+
+                if (Shop.num3 >= 5 && Shop.num3 < 10)
+                {
+                    PBlock = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x, this.transform.position.y + 0.75f), PBlockSizeLv5, 0, Mon_layer);
+                    MultipleAttack();
+                }
+                else if (Shop.num3 >= 10 && Shop.num3 < 15)
+                {
+                    PBlock = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x, this.transform.position.y + 0.75f), PBlockSizeLv5, 0, Mon_layer);
+                    MultipleAttack();
+                    Invoke("MultipleAttack", 0.1f);
+                    Invoke("MultipleAttack", 0.2f);
+                }
+                else if (Shop.num3 >= 15 && Shop.num3 < 20)
+                {
+                    PBlock = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x, this.transform.position.y + 0.75f), PBlockSizeLv15, 0, Mon_layer);
+                    MultipleAttack();
+                    Invoke("MultipleAttack", 0.1f);
+                    Invoke("MultipleAttack", 0.2f);
+                }
+                else if (Shop.num3 == 20)
+                {
+                    if(AegisCool >= 30f)
+                    {
+                        PBlock = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x, this.transform.position.y + 0.75f), PBlockSizeLv20, 0, Mon_layer);
+                        for(float i = 0f; i < 0.15; i += 0.1f)
+                        {
+                            Invoke("MultipleAttack", i);
+                        }
+                        AegisCool = 0f;
+                    }
+                    else
+                    {
+                        PBlock = Physics2D.OverlapBoxAll(new Vector2(this.transform.position.x, this.transform.position.y + 0.75f), PBlockSizeLv15, 0, Mon_layer);
+                        MultipleAttack();
+                        Invoke("MultipleAttack", 0.1f);
+                        Invoke("MultipleAttack", 0.2f);
+                    }
+                }
             }
             else
             {
                 GameManager.hp--;
+                GameObject.Find("Main Camera").GetComponent<CamMove>().Shake(0.05f, 0.05f);
                 if (!(GameManager.hp <= 0) && !m_rolling && !m_blockOn)
                 {
                     m_animator.SetTrigger("Hurt");
@@ -401,6 +444,7 @@ public class HeroKnight : MonoBehaviour {
         m_blocking = false;
         isblock = true;
         m_body2d.velocity = new Vector2(0f, 0f);
+        GameObject.Find("Main Camera").GetComponent<CamMove>().Shake(0.05f, 0.05f);
     }
     void BlockOn_End()
     {
@@ -426,11 +470,41 @@ public class HeroKnight : MonoBehaviour {
             isHit = false;
         }
     }
-
     void HeroDead()
     {
         GameObject.Find("Tower").GetComponent<Tower>().TCollapse = true;
         GameObject.Find("Managements").transform.Find("StageManager").GetComponent<StageManager>().NowLoading();
+    }
+
+    void MultipleAttack()
+    {
+        for (int i = 0; i < PBlock.Length; i++)
+        {
+            GameObject effect1 = Instantiate(Slash[1]);
+            GameObject effect2 = Instantiate(Slash[1]);
+            GameObject effect3 = Instantiate(Slash[1]);
+
+            PBlock[i].transform.parent.GetComponent<Monster>().hp--;
+            PBlock[i].transform.parent.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 0.3f);
+            PBlock[i].transform.parent.GetComponent<Monster>().colorChange = true;
+            if (Shop.num3 >= 5 && Shop.num3 < 10)
+            {
+                effect1.transform.position = PBlock[i].transform.parent.position;
+            }
+            else if (Shop.num3 >= 10 && Shop.num3 < 15)
+            {
+                effect1.transform.position = PBlock[i].transform.parent.position;
+            }
+            else if (Shop.num3 >= 15 && Shop.num3 < 20)
+            {
+                effect1.transform.position = PBlock[i].transform.parent.position;
+            }
+            else if (Shop.num3 == 20)
+            {
+                effect1.transform.position = PBlock[i].transform.parent.position;
+            }
+            monHitSound = true;
+        }
     }
 
     public void InvincibleOff()
@@ -449,6 +523,30 @@ public class HeroKnight : MonoBehaviour {
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(new Vector2(transform.position.x - 0.75f, transform.position.y + 0.75f), PAttackSize);
+        }
+
+        if (Shop.num3 >= 5 && Shop.num3 < 15)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 0.75f), PBlockSizeLv5);
+        }
+        else if (Shop.num3 >= 15 && Shop.num3 < 20)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 0.75f), PBlockSizeLv15);
+        }
+        else if (Shop.num3 == 20)
+        {
+            if (AegisCool >= 30f)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 0.75f), PBlockSizeLv20);
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 0.75f), PBlockSizeLv15);
+            }
         }
     }
 }

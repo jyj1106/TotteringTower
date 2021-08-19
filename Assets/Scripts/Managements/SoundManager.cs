@@ -6,10 +6,11 @@ public class SoundManager : MonoBehaviour
 {
     public AudioSource sndManager;
     private AudioSource sndManager2;
+    private AudioSource sndManager3;
 
     public AudioClip[] bgm = new AudioClip[2];
     public AudioClip slash_snd, slashHit1_snd, slashHit2_snd;
-    public AudioClip block0_snd, block1_snd, block2_snd, block3_snd, block4_snd;
+    public AudioClip block0_snd, block1_snd, block2_snd, block3_snd, block4_snd, blockEffect_snd;
     public AudioClip coin_snd;
     public AudioClip shop_btn;
     public AudioClip monsterHit_snd, playerHit_snd, towerHit_snd;
@@ -56,10 +57,10 @@ public class SoundManager : MonoBehaviour
             }
             else if(Shop.num3 == 20)
             {
-                sndManager.PlayOneShot(block4_snd);
+                sndManager2.PlayOneShot(block4_snd);
             }
-            sndManager2.PlayOneShot(monsterHit_snd);
-            HeroKnight.isblock = false;            
+            sndManager.PlayOneShot(monsterHit_snd);
+            HeroKnight.isblock = false;
         }
 
         //GameManager Coin Use Sound
@@ -81,6 +82,14 @@ public class SoundManager : MonoBehaviour
         {
             GameObject.Find("Tower").GetComponent<Tower>().towerSound = false;
             sndManager.PlayOneShot(towerHit_snd);
+        }
+
+        //Monster Hit by Shield Blocking Sound
+        if(GameObject.Find("HeroKnight").GetComponent<HeroKnight>().monHitSound == true)
+        {
+            GameObject.Find("HeroKnight").GetComponent<HeroKnight>().monHitSound = false;
+            sndManager.PlayOneShot(monsterHit_snd);
+            sndManager3.PlayOneShot(blockEffect_snd);
         }
 
         //Setting BGM
@@ -127,7 +136,7 @@ public class SoundManager : MonoBehaviour
             }
             else if(GameManager.lvUp == 2)
             {
-                sndManager2.PlayOneShot(slashHit2_snd);
+                sndManager.PlayOneShot(slashHit2_snd);
             }
             sndManager.PlayOneShot(monsterHit_snd);
         }

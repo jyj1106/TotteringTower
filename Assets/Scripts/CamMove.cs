@@ -6,8 +6,10 @@ public class CamMove : MonoBehaviour
 {
     public Transform playerPos;
     public float pLimitX, pLimitY, mLimitX, mLimitY;
+    public float shakeAmount;
 
     private float posx, posy, Pposx, Pposy;
+    private float shakeTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -44,5 +46,20 @@ public class CamMove : MonoBehaviour
             py = mLimitY;
         }
         this.transform.position = new Vector3(px, py, -10f);
+
+        if(shakeTimer >= 0)
+        {
+            shakeTimer -= Time.deltaTime;
+
+            Vector2 shakePos = Random.insideUnitCircle * shakeAmount;
+
+            this.transform.position = this.transform.position + new Vector3(shakePos.x, shakePos.y, -10);
+        }
+    }
+
+    public void Shake(float shakePower, float shakeDuration)
+    {
+        shakeAmount = shakePower;
+        shakeTimer = shakeDuration;
     }
 }
