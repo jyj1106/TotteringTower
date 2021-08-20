@@ -54,6 +54,7 @@ public class Tower : MonoBehaviour
             }
             else if(TowerHP <= 0)
             {
+                GameObject.Find("HeroKnight").transform.Find("PHit").gameObject.layer = 7;
                 GameObject.Find("HeroKnight").GetComponent<HeroKnight>().enabled = false;
                 collapse = true;
                 this.gameObject.layer = 7;

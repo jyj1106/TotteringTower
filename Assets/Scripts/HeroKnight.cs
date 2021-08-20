@@ -491,6 +491,7 @@ public class HeroKnight : MonoBehaviour {
     void HeroDead()
     {
         GameObject.Find("Tower").GetComponent<Tower>().TCollapse = true;
+        GameObject.Find("Tower").gameObject.layer = 7;
         GameObject.Find("Managements").transform.Find("StageManager").GetComponent<StageManager>().NowLoading();
     }
 

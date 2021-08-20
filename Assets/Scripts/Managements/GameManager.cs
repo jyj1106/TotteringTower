@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject health;
     public GameObject Guide;
     public GameObject Weapon;
+    public GameObject Warning;
 
     public Slider healthBar;
     public Slider manaBar;
@@ -59,6 +60,16 @@ public class GameManager : MonoBehaviour
         else if(lvUp == 2)
         {
             Weapon.SetActive(true);
+        }
+
+        //HP MP Set
+        if(hp >= MaxHp)
+        {
+            hp = MaxHp;
+        }
+        if(mana >= MaxMp)
+        {
+            mana = MaxMp;
         }
         
         //Slider(Health/Mana Bar / SkillCool)
@@ -125,10 +136,10 @@ public class GameManager : MonoBehaviour
                     stack = 1;
                 }
             }
-            else if((int)coinTime == 1f * stack && mana < 1)
-            {
-                coinEnd = true;
-            }
+        }
+        else if (mana <= 1)
+        {
+            coinEnd = true;
         }
         if (Input.GetKeyUp(KeyCode.X) && coinEnd == false && coolActive == false)
         {
@@ -209,6 +220,11 @@ public class GameManager : MonoBehaviour
     public void GuideOff()
     {
         Guide.gameObject.SetActive(false);
+    }
+
+    public void WarningOff()
+    {
+        Warning.gameObject.SetActive(false);
     }
 
     public void GoTitle()

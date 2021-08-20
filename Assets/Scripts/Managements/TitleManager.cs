@@ -58,4 +58,9 @@ public class TitleManager : MonoBehaviour
     {
         set.gameObject.SetActive(false);
     }
+
+    public void GameOff()
+    {
+        Application.Quit();
+    }
 }

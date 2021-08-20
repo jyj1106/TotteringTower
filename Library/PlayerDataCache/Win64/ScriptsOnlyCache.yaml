@@ -7,6 +7,7 @@ ScriptsOnlyBuild:
     - EHit
     - EffectManager
     - GameManager
+    - GuideScreen
     - HeroKnight
     - MainTitle
     - Monster
@@ -72,10 +73,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -153,37 +152,39 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4642}
     - Class: 114
-      Script: {instanceID: 4888}
+      Script: {instanceID: 4650}
     - Class: 114
-      Script: {instanceID: 4946}
+      Script: {instanceID: 4890}
     - Class: 114
-      Script: {instanceID: 4966}
+      Script: {instanceID: 4948}
     - Class: 114
-      Script: {instanceID: 4982}
+      Script: {instanceID: 4968}
     - Class: 114
-      Script: {instanceID: 5176}
+      Script: {instanceID: 4984}
     - Class: 114
-      Script: {instanceID: 5400}
+      Script: {instanceID: 5178}
     - Class: 114
-      Script: {instanceID: 5544}
+      Script: {instanceID: 5402}
     - Class: 114
-      Script: {instanceID: 5574}
+      Script: {instanceID: 5546}
     - Class: 114
-      Script: {instanceID: 5658}
+      Script: {instanceID: 5576}
     - Class: 114
-      Script: {instanceID: 5992}
+      Script: {instanceID: 5660}
     - Class: 114
-      Script: {instanceID: 6118}
+      Script: {instanceID: 5994}
     - Class: 114
-      Script: {instanceID: 6336}
+      Script: {instanceID: 6120}
     - Class: 114
-      Script: {instanceID: 7182}
+      Script: {instanceID: 6338}
     - Class: 114
-      Script: {instanceID: 7474}
+      Script: {instanceID: 7184}
     - Class: 114
-      Script: {instanceID: 7674}
+      Script: {instanceID: 7476}
     - Class: 114
-      Script: {instanceID: 7796}
+      Script: {instanceID: 7676}
+    - Class: 114
+      Script: {instanceID: 7798}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -215,9 +216,13 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
+    - Class: 50
+      Script: {instanceID: 0}
     - Class: 60
       Script: {instanceID: 0}
     - Class: 61
+      Script: {instanceID: 0}
+    - Class: 62
       Script: {instanceID: 0}
     - Class: 74
       Script: {instanceID: 0}
@@ -274,59 +279,61 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4200}
     - Class: 114
-      Script: {instanceID: 4946}
+      Script: {instanceID: 4890}
     - Class: 114
-      Script: {instanceID: 4992}
+      Script: {instanceID: 4948}
     - Class: 114
-      Script: {instanceID: 5006}
+      Script: {instanceID: 4994}
     - Class: 114
-      Script: {instanceID: 5066}
+      Script: {instanceID: 5008}
     - Class: 114
-      Script: {instanceID: 5176}
+      Script: {instanceID: 5068}
     - Class: 114
-      Script: {instanceID: 5256}
+      Script: {instanceID: 5178}
     - Class: 114
       Script: {instanceID: 5258}
     - Class: 114
-      Script: {instanceID: 5280}
+      Script: {instanceID: 5260}
     - Class: 114
-      Script: {instanceID: 5538}
+      Script: {instanceID: 5282}
     - Class: 114
-      Script: {instanceID: 5658}
+      Script: {instanceID: 5540}
     - Class: 114
-      Script: {instanceID: 5762}
+      Script: {instanceID: 5660}
     - Class: 114
-      Script: {instanceID: 5798}
+      Script: {instanceID: 5764}
     - Class: 114
-      Script: {instanceID: 5866}
+      Script: {instanceID: 5800}
     - Class: 114
-      Script: {instanceID: 5872}
+      Script: {instanceID: 5868}
     - Class: 114
-      Script: {instanceID: 5972}
+      Script: {instanceID: 5874}
     - Class: 114
-      Script: {instanceID: 5992}
+      Script: {instanceID: 5974}
     - Class: 114
-      Script: {instanceID: 6008}
+      Script: {instanceID: 5994}
     - Class: 114
-      Script: {instanceID: 6052}
+      Script: {instanceID: 6010}
     - Class: 114
-      Script: {instanceID: 6118}
+      Script: {instanceID: 6054}
     - Class: 114
-      Script: {instanceID: 6126}
+      Script: {instanceID: 6120}
     - Class: 114
-      Script: {instanceID: 6224}
+      Script: {instanceID: 6128}
     - Class: 114
-      Script: {instanceID: 6360}
+      Script: {instanceID: 6226}
     - Class: 114
-      Script: {instanceID: 6472}
+      Script: {instanceID: 6362}
     - Class: 114
-      Script: {instanceID: 6526}
+      Script: {instanceID: 6474}
     - Class: 114
-      Script: {instanceID: 7114}
+      Script: {instanceID: 6528}
     - Class: 114
-      Script: {instanceID: 7424}
+      Script: {instanceID: 7116}
     - Class: 114
-      Script: {instanceID: 7648}
+      Script: {instanceID: 7426}
+    - Class: 114
+      Script: {instanceID: 7650}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -678,7 +685,7 @@ ScriptsOnlyBuild:
     className: SpriteShapeGeometryCache
   - hash:
       serializedVersion: 2
-      Hash: ca559dd4878322429c04f7cb5a520db5
+      Hash: abf7dbecfd5a256d5fc15b8e85d7663f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: HeroKnight
@@ -750,7 +757,7 @@ ScriptsOnlyBuild:
     className: Bloom
   - hash:
       serializedVersion: 2
-      Hash: 80cf4b98218ed37c91764014ac92dbdd
+      Hash: d4b39531562fe98c19167c655b530178
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TitleManager
@@ -816,7 +823,7 @@ ScriptsOnlyBuild:
     className: BufferManager
   - hash:
       serializedVersion: 2
-      Hash: 6928d2ade1cb51ae1676c67d23f52a7d
+      Hash: 01f648b62f71229503e4effd513f1614
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -826,6 +833,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ActivationPlayableAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 6f731ddcd00bda31ffa30383c4c7eac5
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GuideScreen
   - hash:
       serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
@@ -894,7 +907,7 @@ ScriptsOnlyBuild:
     className: Light2D
   - hash:
       serializedVersion: 2
-      Hash: 49fd81fd20d25b590f27b215e06dee1a
+      Hash: 6c84619b180d11c7e5d6537099950e04
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Shopping
@@ -996,7 +1009,7 @@ ScriptsOnlyBuild:
     className: UIFoldout
   - hash:
       serializedVersion: 2
-      Hash: 399f47e989fe2dbb656c369a071c7727
+      Hash: f458cf769dd2b07684dddcf249d68ed9
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SoundManager
@@ -1020,7 +1033,7 @@ ScriptsOnlyBuild:
     className: AspectRatioFitter
   - hash:
       serializedVersion: 2
-      Hash: b1356202442ad0724039fc0d1ebc288f
+      Hash: f5130ec5c6973374757644be9f83267c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainTitle
@@ -1062,7 +1075,7 @@ ScriptsOnlyBuild:
     className: DebugUIHandlerVector4
   - hash:
       serializedVersion: 2
-      Hash: 0116169b7d48ad6d1456a22f161c490f
+      Hash: cac372665b1ae0f103fbd9214fe73fdb
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Tower
@@ -1140,7 +1153,7 @@ ScriptsOnlyBuild:
     className: TextContainer
   - hash:
       serializedVersion: 2
-      Hash: cefedaa6eb1cd5aa082c0e497073d191
+      Hash: 88fdc9a24bd88bc44915a2698161c7b0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Shop
@@ -1278,7 +1291,7 @@ ScriptsOnlyBuild:
     className: ScrollRect
   - hash:
       serializedVersion: 2
-      Hash: 889ec5551e3d86ff0f779a327826ac16
+      Hash: 1b85dbc746e76f23870b44a092f9ecc4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: StageManager
@@ -1362,7 +1375,7 @@ ScriptsOnlyBuild:
     className: SignalEmitter
   - hash:
       serializedVersion: 2
-      Hash: 9b344e271d36e7ce154c56c96350b6d6
+      Hash: b57134545933312b1cca502dd0335c67
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CamMove
@@ -1388,4 +1401,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/Title.unity
   - Assets/Scenes/Play.unity
-  playerPath: "C:/Users/jungy/Desktop/\uC0C8 \uD3F4\uB354/Tottering Tower.exe"
+  playerPath: C:/Users/user/Desktop/Tottering Tower/Tottering Tower.exe

@@ -33,7 +33,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] GameObject[] WMon8 = new GameObject[10];
     [SerializeField] GameObject[] WMon9 = new GameObject[3];
 
-    [SerializeField] GameObject guide;
+    [SerializeField] GameObject guide, warn;
 
     [SerializeField] int maxKillCount;
     [SerializeField] float stageTime;
@@ -54,7 +54,7 @@ public class StageManager : MonoBehaviour
     private string[] mainText = new string[21];
     private string[] subText = new string[21];
 
-    int a, tcheck, day = 0;
+    int a, tcheck, day, x = 0;
     string dayTime;
 
     // Start is called before the first frame update
@@ -77,6 +77,8 @@ public class StageManager : MonoBehaviour
         subText[1] = "꾀 많은 하얀 마물들은\n제 1의 목표만 공격한다.";
         mainText[2] = "\"협동 공격\"";
         subText[2] = "기회를 노리는 마물들은\n힘을 합쳐 공격해온다.";
+        mainText[3] = "미구현";
+        subText[3] = "개발중입니다.";
     }
 
     // Update is called once per frame
@@ -100,7 +102,7 @@ public class StageManager : MonoBehaviour
         {
             dayTime = "저녁";
         }
-        else if (stagenum % 3 == 0)
+        else if (stagenum % 3 == 2)
         {
             dayTime = "밤";
         }
@@ -702,6 +704,91 @@ public class StageManager : MonoBehaviour
                 number2 = Shop.num2;
                 number3 = Shop.num3;
                 number4 = Shop.num4;
+
+                n0 = 2;
+            }
+            //Start
+            if(stageTime >= 5 * n && stageTime < 25f && !(nowKillCount >= maxKillCount))
+            {
+                if(n % 2 == 1)
+                {
+                    WM8.transform.parent = null;
+                    WM8.transform.position = MSpawnLand[ran].transform.position;
+                    WM8.gameObject.SetActive(true);
+                }
+                else if(n % 2 == 0)
+                {
+                    BM0.transform.parent = null;
+                    BM0.transform.position = MSpawnLand[ran].transform.position;
+                    BM0.gameObject.SetActive(true);
+                }
+                n++;
+            }
+            else if(stageTime >= 5 * n && stageTime >= 25f && !(nowKillCount >= maxKillCount))
+            {
+                WM8.transform.parent = null;
+                WM8.transform.position = MSpawnLand[ran].transform.position;
+                WM8.gameObject.SetActive(true);
+                if(ran == 0)
+                {
+                    BM2.transform.parent = null;
+                    BM2.transform.position = MSpawnLand[1].transform.position;
+                    BM2.gameObject.SetActive(true);
+                }
+                else if(ran == 1)
+                {
+                    BM2.transform.parent = null;
+                    BM2.transform.position = MSpawnLand[0].transform.position;
+                    BM2.gameObject.SetActive(true);
+                }
+
+                n++;
+            }
+            if(stageTime >= 10 * n0 && !(nowKillCount >= maxKillCount))
+            {
+                BM1.transform.parent = null;
+                BM1.transform.position = MSpawnLand[ran].transform.position;
+                BM1.gameObject.SetActive(true);
+                WM7.transform.parent = null;
+                WM7.transform.position = MSpawnLand[ran].transform.position;
+                WM7.gameObject.SetActive(true);
+                n0++;
+            }
+            if(nowKillCount >= maxKillCount && a == 0)
+            {
+                monAllDead = 0;
+                for (int i = 0; i < WMon8.Length; i++)
+                {
+                    if (BMon0[i].activeSelf == true)
+                    {
+                        monAllDead++;
+                    }
+                    if (BMon1[i].activeSelf == true)
+                    {
+                        monAllDead++;
+                    }
+                    if (BMon2[i].activeSelf == true)
+                    {
+                        monAllDead++;
+                    }
+                    if (WMon7[i].activeSelf == true)
+                    {
+                        monAllDead++;
+                    }
+                    if (WMon8[i].activeSelf == true)
+                    {
+                        monAllDead++;
+                    }
+                }
+                if (monAllDead == 0)
+                {
+                    if (a == 0)
+                    {
+                        a++;
+                        NowLoading();
+                        Invoke("StageClear", 1f);
+                    }
+                }
             }
         }
         else if (Stage[3] == true)
@@ -784,6 +871,16 @@ public class StageManager : MonoBehaviour
         //Rest
         if(rest == true)
         {
+            if(stagenum == 1)
+            {
+                if(x == 0)
+                {
+                    x++;
+                    warn.transform.parent = null;
+                    warn.gameObject.transform.position = new Vector2(-3f, -3f);
+                    warn.gameObject.SetActive(true);
+                }
+            }
             stageTextActive = false;
             Time.timeScale = 1f;
             Shopset.transform.position = new Vector3(2.42f, -3.09f, 0f);
@@ -810,6 +907,9 @@ public class StageManager : MonoBehaviour
                 NowLoading();
                 startTextActive = true;
                 textEnd = true;
+                warn.gameObject.SetActive(false);
+                Player.transform.Find("PHit").gameObject.layer = 11;
+                Tower.gameObject.layer = 8;
             }
         }
 
@@ -839,6 +939,7 @@ public class StageManager : MonoBehaviour
             Invoke("LoadFinish", 1.5f);
             GameManager.hp = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<GameManager>().MaxHp;
             GameManager.mana = GameObject.Find("Managements").transform.Find("GameManager").GetComponent<GameManager>().MaxMp;
+            GameObject.Find("HeroKnight").GetComponent<HeroKnight>().enabled = true;
 
             if (stageEnd == false)
             {
@@ -852,17 +953,17 @@ public class StageManager : MonoBehaviour
                     Shop.num2 = number2;
                     Shop.num3 = number3;
                     Shop.num4 = number4;
-                    if (!(THp <= 0) && THp > 14)
+                    if (THp > 14)
                     {
-                        Tower.GetComponent<Animator>().Play("isIdle_100");
+                        Tower.GetComponent<Animator>().SetTrigger("isIdle_100");
                     }
-                    else if (!(THp <= 0) && THp <= 14 && THp > 7)
+                    else if (THp <= 14 && THp > 7)
                     {
-                        Tower.GetComponent<Animator>().Play("isIdle_60");
+                        Tower.GetComponent<Animator>().SetTrigger("isIdle_60");
                     }
-                    else if (!(THp <= 0) && THp <= 7 && THp > 0)
+                    else if (THp <= 7 && THp > 0)
                     {
-                        Tower.GetComponent<Animator>().Play("isIdle_30");
+                        Tower.GetComponent<Animator>().SetTrigger("isIdle_30");
                     }
 
                     Player.GetComponent<HeroKnight>().m_dead = false;
@@ -978,7 +1079,7 @@ public class StageManager : MonoBehaviour
         {
             //Set clear limit
             nowKillCount = 0;
-            maxKillCount = 20;
+            maxKillCount = 15;
 
             //Set position
             BG[1].transform.position = new Vector3(0f, 0f, 0f);
@@ -986,7 +1087,13 @@ public class StageManager : MonoBehaviour
         }
         else if (Stage[2] == true)
         {
+            //Set clear limit
+            nowKillCount = 0;
+            maxKillCount = 30;
 
+            //Set position
+            BG[2].transform.position = new Vector3(0f, 0f, 0f);
+            BG[2].gameObject.SetActive(true);
         }
         else if (Stage[3] == true)
         {
@@ -1098,7 +1205,6 @@ public class StageManager : MonoBehaviour
         tcheck = 0;
         loadStart = false;
         Player.GetComponent<HeroKnight>().Inputtable = true;
-        Player.transform.Find("PHit").gameObject.layer = 11;
         stageTextActive = true;
         stageTextTime = 2f;
         textColor = 0f;
